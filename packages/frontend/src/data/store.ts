@@ -1,0 +1,12 @@
+import { defineStore } from "pinia"
+
+export const useDataStore = defineStore('data', {
+    state: () => ({
+        meals: []
+    }),
+    getters: {
+    },
+    actions: {
+
+    },
+})
