@@ -17,67 +17,54 @@ app.post(`/user`, async (req, res) => {
         })
     )
 })
-app.post(`/post`, async (req, res) => {
-    const { title, content, authorEmail } = req.body
-    const result = await prisma.post.create({
+app.get('/allmeals', async (req, res) => {
+    res.json(
+        await prisma.meal.findMany())
+})
+
+app.post(`/meal/new`, async (req, res) => {
+    const { mealName, description } = req.body
+    const result = await prisma.meal.create({
         data: {
-            title,
-            content,
-            published: false,
-            author: { connect: { email: authorEmail } }
+            mealName,
+            description,
         }
     })
     res.json(result)
 })
-app.put('/publish/:id', async (req, res) => {
+app.delete(`/meal/:id`, async (req, res) => {
     res.json(
-        await prisma.post.update({
-            where: { id: Number(req.params.id) },
-            data: { published: true }
-        })
-    )
-})
-app.delete(`/post/:id`, async (req, res) => {
-    res.json(
-        await prisma.post.delete({
+        await prisma.meal.delete({
             where: {
                 id: Number(req.params.id)
             }
         })
     )
 })
-app.get(`/post/:id`, async (req, res) => {
+app.get(`/meal/:id`, async (req, res) => {
     res.json(
-        await prisma.post.findOne({
+        await prisma.meal.findFirst({
             where: {
                 id: Number(req.params)
             }
         })
     )
 })
-app.get('/feed', async (_, res) => {
-    res.json(
-        await prisma.post.findMany({
-            where: { published: true },
-            include: { author: true }
-        })
-    )
-})
-app.get('/filterPosts', async (req, res) => {
+app.get('/filtermeals', async (req, res) => {
     const { searchString } = req.query
 
     res.json(
-        await prisma.post.findMany({
+        await prisma.meal.findMany({
             where: {
                 OR: [
                     {
-                        title: {
-                            contains: searchString
+                        mealName: {
+                            contains: searchString as string
                         }
                     },
                     {
-                        content: {
-                            contains: searchString
+                        description: {
+                            contains: searchString as string
                         }
                     }
                 ]
@@ -86,4 +73,4 @@ app.get('/filterPosts', async (req, res) => {
     )
 })
 
-app.listen(3000, () => console.log('Server ready at: http://localhost:3000'))
+app.listen(3200, () => console.log('Server ready at: http://localhost:3200'))

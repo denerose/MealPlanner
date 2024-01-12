@@ -13,8 +13,9 @@ datasource db {
 model Meal {
   id          Int                  @id @default(autoincrement())
   mealName    String               @unique
-  description String
+  description String?
   ingredients IngredientsInMeals[]
+  MealPlan    MealPlan[]
 }
 
 model Ingredient {
@@ -30,4 +31,17 @@ model IngredientsInMeals {
   ingredientId Int // relation scalar field (used in the `@relation` attribute above)
 
   @@id([mealId, ingredientId])
+}
+
+model User {
+  id    Int     @id @default(autoincrement())
+  email String  @unique
+  name  String?
+}
+
+model MealPlan {
+  date   DateTime @unique
+  day    String
+  dinner Meal     @relation(fields: [mealId], references: [id])
+  mealId Int
 }
