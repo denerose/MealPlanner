@@ -36,6 +36,20 @@ app.post(`/meal/new`, async (req, res) => {
     })
     res.json(result)
 })
+
+app.post(`/meal/update/:id`, async (req, res) => {
+    const updatedData = req.body as Meal
+    const result = await prisma.meal.update({
+        where: { id: Number(req.params.id) },
+        data: {
+            mealName: updatedData.mealName,
+            description: updatedData.description,
+        },
+        include: {ingredients: true}
+    })
+    res.json(result)
+})
+
 app.delete(`/meal/delete/:id`, async (req, res) => {
     res.json(
         await prisma.meal.delete({
