@@ -1,6 +1,9 @@
 import { defineStore } from "pinia"
 import { Meal, MealPlan } from "./types"
-import { mealPlansMock, mealsMock } from "./mockData"
+import { mealPlansMock } from "./mockData"
+import { deleteMealFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealToServer } from "./helpers"
+
+const LOG = (msg: any) => { console.log(msg) }
 
 export const useDataStore = defineStore('data', {
     state: () => ({
@@ -47,11 +50,10 @@ export const useDataStore = defineStore('data', {
     actions: {
         async fetchMealList() {
             try {
-                const newData = await mealsMock()
+                const newData = await getMealsFromServer()
                 this.meals = newData
-                return true
             } catch (error) {
-                console.log(error)
+                LOG(String(error))
             }
         },
 
@@ -60,10 +62,38 @@ export const useDataStore = defineStore('data', {
                 const newData = await mealPlansMock()
                 this.mealPlan = newData
             } catch (error) {
-                console.log(error)
+                LOG(String(error))
             }
 
-        }
+        },
+
+        async pushNewMeal(newMeal: Meal) {
+            try {
+                const confirmedMeal = await postNewMealToServer(newMeal)
+                if (confirmedMeal === undefined) throw Error('new meal returned undefined')
+                this.meals.push(confirmedMeal)
+            } catch (error) {
+                LOG(error)
+            }
+        },
+
+        async pushUpdatedMeal(updatedMeal: Meal) {
+            try {
+                const confirmedMeal = await postUpdateMealToServer(updatedMeal)
+                if (confirmedMeal === undefined) throw Error('new meal returned undefined')
+                this.meals.push(confirmedMeal)
+            } catch (error) {
+                LOG(error)
+            }
+        },
+
+        async pushDeleteMeal(idToRemove: number) {
+            try {
+                deleteMealFromServer(idToRemove)
+            } catch (error) {
+                LOG(error)
+            }
+        },
 
     },
 })

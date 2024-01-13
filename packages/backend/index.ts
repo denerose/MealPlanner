@@ -1,9 +1,10 @@
 import { App } from '@tinyhttp/app'
+import { cors } from '@tinyhttp/cors'
 import Prisma from '@prisma/client'
 import * as bodyParser from 'milliparsec'
 
 const prisma = new Prisma.PrismaClient()
-const app = new App()
+const app = new App().use(cors({ origin: '*' })).options('*', cors()).use(json())
 
 app.use(bodyParser.json())
 
@@ -17,9 +18,12 @@ app.post(`/user`, async (req, res) => {
         })
     )
 })
-app.get('/allmeals', async (req, res) => {
+
+// Meals CRUD
+app.get('/meal/all', async (req, res) => {
     res.json(
-        await prisma.meal.findMany())
+        await prisma.meal.findMany(
+            { include: { ingredients: true } }))
 })
 
 app.post(`/meal/new`, async (req, res) => {
@@ -32,7 +36,7 @@ app.post(`/meal/new`, async (req, res) => {
     })
     res.json(result)
 })
-app.delete(`/meal/:id`, async (req, res) => {
+app.delete(`/meal/delete/:id`, async (req, res) => {
     res.json(
         await prisma.meal.delete({
             where: {
@@ -46,7 +50,8 @@ app.get(`/meal/:id`, async (req, res) => {
         await prisma.meal.findFirst({
             where: {
                 id: Number(req.params)
-            }
+            },
+            include: { ingredients: true }
         })
     )
 })
@@ -68,9 +73,12 @@ app.get('/filtermeals', async (req, res) => {
                         }
                     }
                 ]
-            }
+            },
+            include: { ingredients: true }
         })
     )
 })
+
+// Meal Plans CRUD
 
 app.listen(3200, () => console.log('Server ready at: http://localhost:3200'))

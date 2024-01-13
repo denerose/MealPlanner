@@ -25,4 +25,3 @@ await store.fetchMealPlans()
 </template>
 
 <style scoped></style>
-fetchMealPlans

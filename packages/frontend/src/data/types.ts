@@ -2,7 +2,7 @@
 export interface Meal {
     id?: number,
     mealName: string,
-    description?: Text,
+    description?: string,
     ingredients: Ingredient[]
 }
 
