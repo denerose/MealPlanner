@@ -35,7 +35,7 @@ const submitHandler = () => {
     <h3>Meals List for Testing</h3>
     <ul>
         <li v-for="meal in store.meals">
-            <div class="itemdiv">
+            <div class="item-div">
                 <span class="item">{{ meal.mealName }}</span>
                 <PencilSquareIcon @click="openModal(meal)" class="edit"></PencilSquareIcon>
                 <XMarkIcon @click="store.pushDeleteMeal(Number(meal.id))" class="del">
@@ -56,16 +56,15 @@ const submitHandler = () => {
 </template>
 
 <style scoped>
-.itemdiv {
+.item-div {
     display: flex;
     min-width: 200px;
     max-width: 40%;
-    justify-content: space-between;
 }
 
-.itme {
-    flex: 4 0;
+.item {
     min-width: 100px;
+    flex-grow: 2;
 }
 
 .edit {

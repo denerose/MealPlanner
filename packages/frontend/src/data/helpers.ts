@@ -5,7 +5,7 @@ const LOG = (msg: any) => { console.log(msg) }
 
 // Meal options/list - function to get and send meal options to/from server
 export async function postNewMealToServer(newMeal: Meal): Promise<Meal> {
-    const response = await fetch(`${SOURCE}/meal/new`,
+    try {const response = await fetch(`${SOURCE}/meal/new`,
         {
             method: "POST",
             headers: {
@@ -13,9 +13,12 @@ export async function postNewMealToServer(newMeal: Meal): Promise<Meal> {
             },
             body: JSON.stringify(newMeal),
         })
-    const data = await response.json() as Meal
-    LOG(`New meal: ${data}`)
-    return data
+    const result = await response.json() as Meal
+    LOG(`New meal: ${result}`)
+    return result }
+    catch (error) {
+        LOG(error)
+    }
 }
 
 export async function getMealsFromServer(): Promise<Meal[]> {

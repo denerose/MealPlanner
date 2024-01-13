@@ -1,12 +1,10 @@
 import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
-import Prisma from '@prisma/client'
+import Prisma, { Meal } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
 
 const prisma = new Prisma.PrismaClient()
 const app = new App().use(cors({ origin: '*' })).options('*', cors()).use(bodyParser.json())
-
-app.use(bodyParser.json())
 
 app.post(`/user`, async (req, res) => {
     res.json(
@@ -27,13 +25,14 @@ app.get('/meal/all', async (req, res) => {
 })
 
 app.post(`/meal/new`, async (req, res) => {
-    const { mealName, description } = req.body
+    const data: Meal = req.body
     const result = await prisma.meal.create({
         data: {
-            mealName,
-            description,
-        }
+            mealName: data.mealName,
+            description: data.description,
+        },
     })
+    console.log(result)
     res.json(result)
 })
 
@@ -45,7 +44,7 @@ app.post(`/meal/update/:id`, async (req, res) => {
             mealName: updatedData.mealName,
             description: updatedData.description,
         },
-        include: {ingredients: true}
+        include: { ingredients: true }
     })
     res.json(result)
 })

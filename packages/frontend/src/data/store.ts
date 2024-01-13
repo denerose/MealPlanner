@@ -81,7 +81,8 @@ export const useDataStore = defineStore('data', {
             try {
                 const confirmedMeal = await postUpdateMealToServer(updatedMeal)
                 if (confirmedMeal === undefined) throw Error('update meal returned undefined')
-                this.meals.push(confirmedMeal)
+                const index = this.meals.indexOf(updatedMeal)
+                this.meals.splice(index, 1, confirmedMeal)
             } catch (error) {
                 LOG(error)
             }
@@ -89,7 +90,9 @@ export const useDataStore = defineStore('data', {
 
         async pushDeleteMeal(idToRemove: number) {
             try {
-                deleteMealFromServer(idToRemove)
+                await deleteMealFromServer(idToRemove)
+                const newArray = this.meals.filter((meal) => meal.id !== idToRemove)
+                this.$patch({ meals: newArray })
             } catch (error) {
                 LOG(error)
             }
