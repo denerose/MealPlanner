@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "tsm index.ts",
-    "tsm": "tsm"
+    "tsm": "tsm",
+    "dev": "npx onchange -i -k '**/*.ts' -- npm run start"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,8 @@
     "prisma": "^5.8.0",
     "ts-node": "^10.9.2",
     "tsm": "^2.3.0",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "onchange": "^7.1.0"
   },
   "dependencies": {
     "@prisma/client": "^5.8.0",
