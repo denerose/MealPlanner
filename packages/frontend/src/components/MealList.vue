@@ -3,14 +3,20 @@ import { ref } from "vue";
 import { useDataStore } from '../data/store';
 import { XMarkIcon, PencilSquareIcon } from '@heroicons/vue/24/solid';
 import ModalComp from "./ModalComp.vue"
-import MealForm from "./MealForm.vue";
-import { Meal } from "../data/types";
+import MealFormEdit from "./MealFormEdit.vue";
+import { Ingredient, Meal } from "../data/types";
 
 const store = useDataStore()
 store.fetchMealList()
 
 // modal controls
 const isModalOpened = ref(false);
+const modalProps = ref<Meal>({
+    id: undefined,
+    mealName: 'default',
+    description: '',
+    ingredients: [] as Ingredient[],
+})
 
 const openModal = (passedProps: Meal) => {
     modalProps.value = passedProps
@@ -23,13 +29,6 @@ const closeModal = () => {
 const submitHandler = () => {
     closeModal()
 }
-
-const modalProps = ref<Meal>({
-    mealName: 'default',
-    description: '',
-    ingredients: [],
-    id: undefined,
-})
 </script>
 
 <template>
@@ -50,7 +49,7 @@ const modalProps = ref<Meal>({
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
         <template #header>Custom header</template>
         <template #content>
-            <MealForm v-bind="modalProps" :is-edit-mode="true"></MealForm>
+            <MealFormEdit v-bind="modalProps"></MealFormEdit>
         </template>
         <template #footer></template>
     </ModalComp>

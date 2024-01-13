@@ -3,16 +3,14 @@ import { ref } from 'vue';
 import { Ingredient, Meal } from '../data/types';
 import { useDataStore } from '../data/store';
 
-const props = defineProps(['isEditMode', 'initialMeal']);
+const props = defineProps<Meal>();
 const store = useDataStore()
 
-const isEditMode: boolean = props.isEditMode
-
 const mealData = ref<Meal>({
-    mealName: '',
-    description: '',
-    ingredients: [] as Ingredient[],
-    id: undefined
+    id: props.id,
+    mealName: props.mealName,
+    description: props.description,
+    ingredients: props.ingredients as Ingredient[],
 });
 
 const addIngredient = () => {
@@ -24,19 +22,14 @@ const removeIngredient = (index: number) => {
 };
 
 const submitForm = async () => {
-    if (isEditMode) {
-        console.log('Updated meal:', mealData.value);
-        await store.pushNewMeal(mealData.value)
-    } else {
-        console.log('New meal:', mealData.value);
-        await store.pushNewMeal(mealData.value)
-    }
+    console.log('Updated meal:', mealData.value);
+    await store.pushUpdatedMeal(mealData.value)
 };
 </script>
 
 <template>
     <div>
-        <h2>{{ isEditMode ? 'Edit Meal' : 'Create Meal' }}</h2>
+        <h2>Edit Meal</h2>
         <form @submit.prevent="submitForm">
             <div>
                 <label for="mealName">Meal Name:</label>
@@ -57,7 +50,7 @@ const submitForm = async () => {
                 <button @click="addIngredient">Add Ingredient</button>
             </div>
 
-            <button type="submit">{{ isEditMode ? 'Update Meal' : 'Create Meal' }}</button>
+            <button type="submit">Update Meal</button>
         </form>
     </div>
 </template>
