@@ -4,7 +4,7 @@ import Prisma from '@prisma/client'
 import * as bodyParser from 'milliparsec'
 
 const prisma = new Prisma.PrismaClient()
-const app = new App().use(cors({ origin: '*' })).options('*', cors()).use(json())
+const app = new App().use(cors({ origin: '*' })).options('*', cors()).use(bodyParser.json())
 
 app.use(bodyParser.json())
 

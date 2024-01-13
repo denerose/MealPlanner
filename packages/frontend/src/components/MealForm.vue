@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Meal } from '../data/types';
+import { Ingredient, Meal } from '../data/types';
 import { useDataStore } from '../data/store';
 
 const props = defineProps(['isEditMode', 'initialMeal']);
@@ -11,8 +11,16 @@ const isEditMode: boolean = props.isEditMode
 const mealData = ref<Meal>({
     mealName: '',
     description: '',
-    ingredients: [{ ingredientName: '' }],
+    ingredients: [] as Ingredient[],
+    id: undefined
 });
+
+if (props.initialMeal) {
+    mealData.value.mealName = props.initialMeal.mealName
+    mealData.value.description = props.initialMeal.description
+    mealData.value.ingredients = props.initialMeal.ingredients
+    mealData.value.id = props.initialMeal.id
+}
 
 const addIngredient = () => {
     mealData.value.ingredients.push({ ingredientName: '' });

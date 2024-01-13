@@ -80,7 +80,7 @@ export const useDataStore = defineStore('data', {
         async pushUpdatedMeal(updatedMeal: Meal) {
             try {
                 const confirmedMeal = await postUpdateMealToServer(updatedMeal)
-                if (confirmedMeal === undefined) throw Error('new meal returned undefined')
+                if (confirmedMeal === undefined) throw Error('update meal returned undefined')
                 this.meals.push(confirmedMeal)
             } catch (error) {
                 LOG(error)
