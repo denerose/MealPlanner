@@ -11,27 +11,27 @@ datasource db {
 }
 
 model Meal {
-  id          Int                  @id @default(autoincrement())
-  mealName    String               @unique
+  id          Int          @id @default(autoincrement())
+  mealName    String       @unique
   description String?
-  ingredients IngredientsInMeals[]
+  ingredients Ingredient[]
   MealPlan    MealPlan[]
 }
 
 model Ingredient {
-  id             Int                  @id @default(autoincrement())
-  ingredientName String               @unique
-  relatedMeals   IngredientsInMeals[]
+  id             Int    @id @default(autoincrement())
+  ingredientName String @unique
+  relatedMeals   Meal[]
 }
 
-model IngredientsInMeals {
-  meal         Meal       @relation(fields: [mealId], references: [id])
-  mealId       Int // relation scalar field (used in the `@relation` attribute above)
-  ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
-  ingredientId Int // relation scalar field (used in the `@relation` attribute above)
+// model IngredientsInMeals {
+//   meal         Meal       @relation(fields: [mealId], references: [id])
+//   mealId       Int // relation scalar field (used in the `@relation` attribute above)
+//   ingredient   Ingredient @relation(fields: [ingredientId], references: [id])
+//   ingredientId Int // relation scalar field (used in the `@relation` attribute above)
 
-  @@id([mealId, ingredientId])
-}
+//   @@id([mealId, ingredientId])
+// }
 
 model User {
   id    Int     @id @default(autoincrement())

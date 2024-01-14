@@ -14,11 +14,11 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^20.11.0",
+    "onchange": "^7.1.0",
     "prisma": "^5.8.0",
     "ts-node": "^10.9.2",
     "tsm": "^2.3.0",
-    "typescript": "^5.3.3",
-    "onchange": "^7.1.0"
+    "typescript": "^5.3.3"
   },
   "dependencies": {
     "@prisma/client": "^5.8.0",

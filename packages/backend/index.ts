@@ -1,6 +1,6 @@
 import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
-import Prisma, { Meal } from '@prisma/client'
+import Prisma, { Ingredient, Meal } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
 
 const prisma = new Prisma.PrismaClient()
@@ -25,24 +25,40 @@ app.get('/meal/all', async (req, res) => {
 })
 
 app.post(`/meal/new`, async (req, res) => {
-    const data: Meal = req.body
+    const { mealName, description, ingredients } = req.body
     const result = await prisma.meal.create({
         data: {
-            mealName: data.mealName,
-            description: data.description,
+            mealName,
+            description,
+            ingredients: {
+                connectOrCreate: ingredients.map((i: Ingredient) => {
+                    return {
+                        where: { ingredientName: i.ingredientName },
+                        create: { ingredientName: i.ingredientName }
+                    }
+                })
+            }
         },
     })
-    console.log(result)
+    console.log(`New meal: ${result}`)
     res.json(result)
 })
 
 app.post(`/meal/update/:id`, async (req, res) => {
-    const updatedData = req.body as Meal
+    const { mealName, description, ingredients } = req.body
     const result = await prisma.meal.update({
         where: { id: Number(req.params.id) },
         data: {
-            mealName: updatedData.mealName,
-            description: updatedData.description,
+            mealName: mealName,
+            description: description,
+            ingredients: {
+                connectOrCreate: ingredients.map((i: Ingredient) => {
+                    return {
+                        where: { id: i.id },
+                        create: { id: i.id, ingredientName: i.ingredientName }
+                    };
+                }),
+            }
         },
         include: { ingredients: true }
     })
