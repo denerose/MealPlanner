@@ -69,6 +69,10 @@ export const useDataStore = defineStore('data', {
 
         async pushNewMeal(newMeal: Meal) {
             try {
+                if (newMeal.ingredients.length < 1 || newMeal.ingredients === undefined) {
+                    newMeal.ingredients = []
+                }
+                else { newMeal.ingredients = newMeal.ingredients.filter(ing => ing.ingredientName !== '') }
                 const confirmedMeal = await postNewMealToServer(newMeal)
                 if (confirmedMeal === undefined) throw Error('new meal returned undefined')
                 this.meals.push(confirmedMeal)
@@ -81,8 +85,8 @@ export const useDataStore = defineStore('data', {
             try {
                 const confirmedMeal = await postUpdateMealToServer(updatedMeal)
                 if (confirmedMeal === undefined) throw Error('update meal returned undefined')
-                const index = this.meals.indexOf(updatedMeal)
-                this.meals.splice(index, 1, confirmedMeal)
+                const oldIndex = this.meals.findIndex(meal => meal.id === updatedMeal.id)
+                this.meals.splice(oldIndex, 1, confirmedMeal)
             } catch (error) {
                 LOG(error)
             }
@@ -91,7 +95,7 @@ export const useDataStore = defineStore('data', {
         async pushDeleteMeal(idToRemove: number) {
             try {
                 await deleteMealFromServer(idToRemove)
-                const newArray = this.meals.filter((meal) => meal.id !== idToRemove)
+                const newArray = this.meals.filter(meal => meal.id !== idToRemove)
                 this.$patch({ meals: newArray })
             } catch (error) {
                 LOG(error)
