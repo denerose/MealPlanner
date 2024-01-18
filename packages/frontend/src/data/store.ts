@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
-import { Meal, MealPlan } from "./types"
+import { Ingredient, Meal, MealPlan } from "./types"
 import { mealPlansMock } from "./mockData"
-import { deleteMealFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealToServer } from "./helpers"
+import { deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealToServer } from "./helpers"
 
 const LOG = (msg: any) => { console.log(msg) }
 
@@ -40,7 +40,9 @@ export const useDataStore = defineStore('data', {
                 day: 'Saturday',
             },
 
-        ] as MealPlan[]
+        ] as MealPlan[],
+
+        allIngredients: [{ id: 0, ingredientName: 'test' }] as Ingredient[]
     }),
     getters: {
         getMealList(state) {
@@ -66,7 +68,14 @@ export const useDataStore = defineStore('data', {
             }
 
         },
-
+        async fetchIngredients() {
+            try {
+                const newData = await getIngredientsFromServer()
+                this.allIngredients = newData
+            } catch (error) {
+                LOG(String(error))
+            }
+        },
         async pushNewMeal(newMeal: Meal) {
             try {
                 if (newMeal.ingredients.length < 1 || newMeal.ingredients === undefined) {
@@ -101,6 +110,21 @@ export const useDataStore = defineStore('data', {
                 LOG(error)
             }
         },
+
+        async removeIngredient(ingToRemove: Ingredient, meal: Meal) {
+            try {
+                if (meal.id === undefined) throw Error(`no meal id`)
+                await disconnectIngredientFromMeal(ingToRemove, Number(meal.id))
+                const newIngArray = meal.ingredients.filter(ing => ing !== ingToRemove)
+                meal.ingredients = newIngArray
+                const oldIndex = this.meals.indexOf(meal)
+                if (oldIndex === undefined) throw Error(`meal ${meal.mealName} missing from store`)
+                this.meals.splice(oldIndex, 1, meal)
+            } catch (error) {
+                LOG(error)
+            }
+
+        }
 
     },
 })

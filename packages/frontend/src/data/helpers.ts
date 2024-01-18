@@ -1,21 +1,24 @@
-import { Meal } from "./types";
+import { Ingredient, Meal } from "./types";
 
 const SOURCE = 'http://localhost:3200'
 const LOG = (msg: any) => { console.log(msg) }
 
 // Meal options/list - function to get and send meal options to/from server
-export async function postNewMealToServer(newMeal: Meal): Promise<Meal> {
-    try {const response = await fetch(`${SOURCE}/meal/new`,
-        {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newMeal),
-        })
-    const result = await response.json() as Meal
-    LOG(`New meal: ${result}`)
-    return result }
+export async function postNewMealToServer(newMeal: Meal): Promise<Meal | undefined> {
+    try {
+        const response = await fetch(`${SOURCE}/meal/new`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newMeal),
+            })
+        const result = await response.json() as Meal
+        if (result === undefined) throw Error('new meal not returned')
+        LOG(`New meal: ${result.mealName}`)
+        return result
+    }
     catch (error) {
         LOG(error)
     }
@@ -24,7 +27,7 @@ export async function postNewMealToServer(newMeal: Meal): Promise<Meal> {
 export async function getMealsFromServer(): Promise<Meal[]> {
     const response = await fetch(`${SOURCE}/meal/all`)
     const data = await response.json()
-    LOG(`All meals: ${data}`)
+    LOG(`All meals: ${data.length}`)
     return data as Meal[]
 }
 
@@ -56,9 +59,32 @@ export async function deleteMealFromServer(idToDelete: number): Promise<void> {
     LOG(`Deleted: ${response.json()}`)
 }
 
+// Ingredients - functions to delete or read ingredients
+export async function disconnectIngredientFromMeal(ingToRemove: Ingredient, mealID: number): Promise<void> {
+    if (!ingToRemove.id) { throw Error(`no ingredient id`) }
+    console.log(`ing to try: ${ingToRemove.id} ${ingToRemove.ingredientName}`)
+    const response = await fetch(`${SOURCE}/meal/remove/${mealID}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(ingToRemove),
+        })
+    LOG(response)
+}
+export async function getIngredientsFromServer(): Promise<Ingredient[]> {
+    const response = await fetch(`${SOURCE}/ing/all`)
+    const data = await response.json()
+    LOG(`All meals: ${data}`)
+    return data as Ingredient[]
+}
 
+export async function deleteIngredientFromServer(idToDelete: number): Promise<void> {
+    const response = await fetch(`${SOURCE}/ing/delete/${String(idToDelete)}`,
+        { method: "DELETE" })
+    LOG(`Deleted: ${response.json()}`)
+}
 
 // Meal plans - functions to fetch and send meal plan associations to/from server
-export async function getMealPlanFromServer() {
-
-}
+// export async function getMealPlanFromServer() {}

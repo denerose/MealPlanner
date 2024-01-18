@@ -42,7 +42,13 @@ const submitHandler = () => {
                 </XMarkIcon>
             </div>
             <ul>
-                <li v-for="ingredient in meal.ingredients">{{ ingredient.ingredientName }}</li>
+                <li v-for="ingredient in meal.ingredients">
+                    <div class="item-div"><span class="item">{{ ingredient.ingredientName
+                    }}</span>
+                        <XMarkIcon @click="store.removeIngredient(ingredient, meal)" class="del">
+                        </XMarkIcon>
+                    </div>
+                </li>
             </ul>
         </li>
     </ul>
@@ -68,7 +74,7 @@ const submitHandler = () => {
 }
 
 .edit {
-    color: indigo;
+    color: rgb(95, 52, 213);
     max-width: 1.5rem;
 }
 

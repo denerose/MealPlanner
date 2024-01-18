@@ -17,6 +17,36 @@ app.post(`/user`, async (req, res) => {
     )
 })
 
+// Ingredients CRUD
+
+app.get('/ing/all', async (req, res) => {
+    res.json(
+        await prisma.ingredient.findMany())
+})
+
+app.delete(`/meal/ing/:id`, async (req, res) => {
+    res.json(
+        await prisma.ingredient.delete({
+            where: {
+                id: Number(req.params.id)
+            }
+        })
+    )
+})
+
+app.post(`/meal/remove/:id`, async (req, res) => {
+    const data = req.body
+    const result = await prisma.meal.update({
+        where: { id: Number(req.params.id) },
+        data: {
+            ingredients: {
+                disconnect: { ingredientName: data.ingredientName }
+            }
+        }
+    })
+    res.json(result)
+})
+
 // Meals CRUD
 app.get('/meal/all', async (req, res) => {
     res.json(
