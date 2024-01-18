@@ -93,12 +93,12 @@ export const useDataStore = defineStore('data', {
 
         async pushUpdatedMeal(updatedMeal: Meal) {
             try {
-                const confirmedMeal = await postUpdateMealToServer(updatedMeal)
-                if (confirmedMeal === undefined) throw Error('update meal returned undefined')
                 const oldIndex = this.meals.findIndex(meal => meal.id === updatedMeal.id)
                 const ingsToRemove = this.oldIngredientsToRemove(this.meals[oldIndex].ingredients, updatedMeal.ingredients)
-                if (ingsToRemove.length > 0) { ingsToRemove.map(async (item) => await disconnectIngredientFromMeal(item, Number(updatedMeal.id))) }
+                const confirmedMeal = await postUpdateMealToServer(updatedMeal)
+                if (confirmedMeal === undefined) throw Error('update meal returned undefined')
                 this.meals.splice(oldIndex, 1, confirmedMeal)
+                if (ingsToRemove.length > 0) { ingsToRemove.map(async (item) => await disconnectIngredientFromMeal(item, Number(updatedMeal.id))) }
             } catch (error) {
                 LOG(error)
             }

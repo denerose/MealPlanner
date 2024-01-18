@@ -25,6 +25,8 @@ store.fetchIngredients()
 const ingredientNamesArray = store.allIngredients.map(ing => ing.ingredientName)
 const autocompleteItems = ingredientNamesArray
 const tags = ref<string[]>(props.ingredients.map(ing => ing.ingredientName))
+const customDelimiter = [",", " "]
+
 function addTags() {
     const newArray = tags.value.map((tag) => store.findIngIdByName(tag))
     mealData.value.ingredients = newArray
@@ -45,10 +47,10 @@ function addTags() {
                 <textarea v-model="mealData.description" id="description"></textarea>
             </div>
 
-            <div>
+            <div class="tag-input">
                 <label>Ingredients:</label>
                 <tag-input :autocomplete-items="autocompleteItems" v-model="tags" :validator="/\w/"
-                    validation-message="must be a word" tagBgColor="#4f396c" />
+                    validation-message="must be a word" :customDelimiter="customDelimiter" tagBgColor="#4f396c" />
             </div>
 
             <button type="submit">Update Meal</button>
@@ -57,4 +59,9 @@ function addTags() {
 </template>
   
 
-<style scoped></style>
+<style scoped>
+.tag-input {
+    margin: 5px;
+    padding: 3px;
+}
+</style>
