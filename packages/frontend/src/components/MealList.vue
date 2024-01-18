@@ -74,7 +74,7 @@ const submitHandler = () => {
 }
 
 .edit {
-    color: rgb(95, 52, 213);
+    color: rgb(79, 57, 108);
     max-width: 1.5rem;
 }
 

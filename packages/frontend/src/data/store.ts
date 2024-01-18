@@ -6,6 +6,7 @@ import { deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromS
 const LOG = (msg: any) => { console.log(msg) }
 
 export const useDataStore = defineStore('data', {
+
     state: () => ({
         meals: [{
             mealName: 'pasta',
@@ -42,13 +43,13 @@ export const useDataStore = defineStore('data', {
 
         ] as MealPlan[],
 
-        allIngredients: [{ id: 0, ingredientName: 'test' }] as Ingredient[]
+        allIngredients: [] as Ingredient[]
     }),
+
     getters: {
-        getMealList(state) {
-            return state.meals
-        }
+
     },
+
     actions: {
         async fetchMealList() {
             try {
@@ -95,10 +96,18 @@ export const useDataStore = defineStore('data', {
                 const confirmedMeal = await postUpdateMealToServer(updatedMeal)
                 if (confirmedMeal === undefined) throw Error('update meal returned undefined')
                 const oldIndex = this.meals.findIndex(meal => meal.id === updatedMeal.id)
+                const ingsToRemove = this.oldIngredientsToRemove(this.meals[oldIndex].ingredients, updatedMeal.ingredients)
+                if (ingsToRemove.length > 0) { ingsToRemove.map(async (item) => await disconnectIngredientFromMeal(item, Number(updatedMeal.id))) }
                 this.meals.splice(oldIndex, 1, confirmedMeal)
             } catch (error) {
                 LOG(error)
             }
+        },
+
+        oldIngredientsToRemove(oldIngs: Ingredient[], newIngs: Ingredient[]): Ingredient[] {
+            const idsToRemove = oldIngs.map((item) => { if (!newIngs.includes(item)) return item })
+            if (idsToRemove === undefined) return []
+            else return idsToRemove as Ingredient[]
         },
 
         async pushDeleteMeal(idToRemove: number) {
@@ -124,6 +133,11 @@ export const useDataStore = defineStore('data', {
                 LOG(error)
             }
 
+        },
+
+        findIngIdByName(ingName: string): Ingredient {
+            const result = this.allIngredients.find((ing) => ing.ingredientName === ingName)
+            return result === undefined ? { ingredientName: ingName } : result
         }
 
     },

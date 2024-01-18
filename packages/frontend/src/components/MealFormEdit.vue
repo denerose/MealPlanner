@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { Ingredient, Meal } from '../data/types';
 import { useDataStore } from '../data/store';
+import TagInput from "@mayank1513/vue-tag-input";
 
 const props = defineProps<Meal>();
 const store = useDataStore()
@@ -13,18 +14,21 @@ const mealData = ref<Meal>({
     ingredients: props.ingredients as Ingredient[],
 });
 
-const addIngredient = () => {
-    mealData.value.ingredients.push({ ingredientName: '' });
-};
-
-const removeIngredient = (index: number) => {
-    mealData.value.ingredients.splice(index, 1);
-};
-
 const submitForm = async () => {
+    addTags()
     console.log('Updated meal:', mealData.value);
     await store.pushUpdatedMeal(mealData.value)
 };
+
+// tag input options
+store.fetchIngredients()
+const ingredientNamesArray = store.allIngredients.map(ing => ing.ingredientName)
+const autocompleteItems = ingredientNamesArray
+const tags = ref<string[]>(props.ingredients.map(ing => ing.ingredientName))
+function addTags() {
+    const newArray = tags.value.map((tag) => store.findIngIdByName(tag))
+    mealData.value.ingredients = newArray
+}
 </script>
 
 <template>
@@ -43,11 +47,8 @@ const submitForm = async () => {
 
             <div>
                 <label>Ingredients:</label>
-                <div v-for="(ingredient, index) in mealData.ingredients" :key="index">
-                    <input v-model="ingredient.ingredientName" type="text" />
-                    <button @click="removeIngredient(index)">Remove</button>
-                </div>
-                <button @click="addIngredient">Add Ingredient</button>
+                <tag-input :autocomplete-items="autocompleteItems" v-model="tags" :validator="/\w/"
+                    validation-message="must be a word" tagBgColor="#4f396c" />
             </div>
 
             <button type="submit">Update Meal</button>
