@@ -93,7 +93,6 @@ export const useDataStore = defineStore('data', {
 
         async pushUpdatedMeal(updatedMeal: Meal) {
             try {
-                console.log('incoming ings', updatedMeal.ingredients)
                 const oldIndex = this.meals.findIndex(meal => meal.id === updatedMeal.id)
                 const ingsToRemove = this.oldIngredientsToRemove(this.meals[oldIndex].ingredients, updatedMeal.ingredients)
                 const confirmedMeal = await postUpdateMealToServer(updatedMeal)
@@ -101,7 +100,10 @@ export const useDataStore = defineStore('data', {
                 if (ingsToRemove.length > 0) {
                     ingsToRemove.map(async (item) => await disconnectIngredientFromMeal(item, Number(updatedMeal.id)))
                 }
-                this.meals.splice(oldIndex, 1, confirmedMeal)
+                this.$patch((state) => {
+                    this.meals.splice(oldIndex, 1, confirmedMeal)
+                    this.meals[oldIndex].ingredients = updatedMeal.ingredients
+                })
             } catch (error) {
                 LOG(error)
             }
