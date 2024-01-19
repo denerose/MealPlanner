@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useDataStore } from '../data/store';
-import { XMarkIcon, PencilSquareIcon } from '@heroicons/vue/24/solid';
+import { XMarkIcon, PencilSquareIcon, MinusCircleIcon } from '@heroicons/vue/24/outline';
 import ModalComp from "./ModalComp.vue"
 import MealFormEdit from "./MealFormEdit.vue";
 import { Ingredient, Meal } from "../data/types";
@@ -46,8 +46,8 @@ const submitHandler = () => {
                     <li v-for="ingredient in meal.ingredients">
                         <div class="item-div"><span class="item">{{ ingredient.ingredientName
                         }}</span>
-                            <XMarkIcon @click="store.removeIngredient(ingredient, meal)" class="del">
-                            </XMarkIcon>
+                            <MinusCircleIcon @click="store.removeIngredient(ingredient, meal)" class="del">
+                            </MinusCircleIcon>
                         </div>
                     </li>
                 </ul>

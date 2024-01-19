@@ -93,21 +93,28 @@ export const useDataStore = defineStore('data', {
 
         async pushUpdatedMeal(updatedMeal: Meal) {
             try {
+                console.log('incoming ings', updatedMeal.ingredients)
                 const oldIndex = this.meals.findIndex(meal => meal.id === updatedMeal.id)
                 const ingsToRemove = this.oldIngredientsToRemove(this.meals[oldIndex].ingredients, updatedMeal.ingredients)
                 const confirmedMeal = await postUpdateMealToServer(updatedMeal)
                 if (confirmedMeal === undefined) throw Error('update meal returned undefined')
+                if (ingsToRemove.length > 0) {
+                    ingsToRemove.map(async (item) => await disconnectIngredientFromMeal(item, Number(updatedMeal.id)))
+                }
                 this.meals.splice(oldIndex, 1, confirmedMeal)
-                if (ingsToRemove.length > 0) { ingsToRemove.map(async (item) => await disconnectIngredientFromMeal(item, Number(updatedMeal.id))) }
             } catch (error) {
                 LOG(error)
             }
         },
 
         oldIngredientsToRemove(oldIngs: Ingredient[], newIngs: Ingredient[]): Ingredient[] {
-            const idsToRemove = oldIngs.map((item) => { if (!newIngs.includes(item)) return item })
-            if (idsToRemove === undefined) return []
-            else return idsToRemove as Ingredient[]
+            const idsToRemove: Ingredient[] = []
+            oldIngs.map((oldItem): void => {
+                if (newIngs.some(newItem => newItem.ingredientName === oldItem.ingredientName)) {
+                    return
+                } else { idsToRemove.push(oldItem) }
+            })
+            return idsToRemove as Ingredient[]
         },
 
         async pushDeleteMeal(idToRemove: number) {

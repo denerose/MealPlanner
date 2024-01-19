@@ -16,7 +16,7 @@ const mealData = ref<Meal>({
 
 const submitForm = async () => {
     addTags()
-    console.log('Updated meal:', mealData.value);
+    console.log('Updated meal:', mealData.value.mealName);
     await store.pushUpdatedMeal(mealData.value)
 };
 

@@ -49,7 +49,7 @@ export async function postUpdateMealToServer(updatedMeal: Meal): Promise<Meal> {
             body: JSON.stringify(updatedMeal),
         })
     const data = await response.json() as Meal
-    LOG(`Updated meal: ${data}`)
+    console.log(data)
     return data
 }
 
@@ -62,7 +62,7 @@ export async function deleteMealFromServer(idToDelete: number): Promise<void> {
 // Ingredients - functions to delete or read ingredients
 export async function disconnectIngredientFromMeal(ingToRemove: Ingredient, mealID: number): Promise<void> {
     if (!ingToRemove.id) { throw Error(`no ingredient id`) }
-    console.log(`ing to try: ${ingToRemove.id} ${ingToRemove.ingredientName}`)
+    console.log(`ing to rmv: ${ingToRemove.id} ${ingToRemove.ingredientName} from meal: #${mealID}`)
     const response = await fetch(`${SOURCE}/meal/remove/${mealID}`,
         {
             method: "POST",
@@ -76,7 +76,7 @@ export async function disconnectIngredientFromMeal(ingToRemove: Ingredient, meal
 export async function getIngredientsFromServer(): Promise<Ingredient[]> {
     const response = await fetch(`${SOURCE}/ing/all`)
     const data = await response.json()
-    LOG(`All meals: ${data}`)
+    LOG(`All ingredients: ${data.length}`)
     return data as Ingredient[]
 }
 

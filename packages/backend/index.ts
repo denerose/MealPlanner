@@ -84,8 +84,8 @@ app.post(`/meal/update/:id`, async (req, res) => {
             ingredients: {
                 connectOrCreate: ingredients.map((i: Ingredient) => {
                     return {
-                        where: { id: i.id },
-                        create: { id: i.id, ingredientName: i.ingredientName }
+                        where: { ingredientName: i.ingredientName },
+                        create: { ingredientName: i.ingredientName }
                     };
                 }),
             }
