@@ -27,4 +27,8 @@ await store.fetchMealPlans()
     </table>
 </template>
 
-<style scoped></style>
+<style scoped>
+tr {
+    min-width: 120px;
+}
+</style>

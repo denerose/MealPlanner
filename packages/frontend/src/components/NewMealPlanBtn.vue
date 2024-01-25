@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import ModalComp from './ModalComp.vue';
 import { MealPlan } from '../data/types';
 import MealPlanForm from './MealPlanForm.vue';
+import { PlusCircleIcon } from '@heroicons/vue/24/outline';
 
 const props = defineProps<{
     plan: MealPlan
@@ -23,7 +24,7 @@ const submitHandler = () => {
 }
 </script>
 <template>
-    <button @click="openModal">Add Meal</button>
+    <PlusCircleIcon @click="openModal" class="addEditMeal"></PlusCircleIcon>
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
         <template #header>Meal Allocation - {{ props.plan.day }}</template>
         <template #content>
@@ -32,4 +33,10 @@ const submitHandler = () => {
         <template #footer></template>
     </ModalComp>
 </template>
-<style scoped></style>
+
+<style scoped>
+.addEditMeal {
+    color: rgb(95, 52, 213);
+    max-width: 1.5rem;
+}
+</style>

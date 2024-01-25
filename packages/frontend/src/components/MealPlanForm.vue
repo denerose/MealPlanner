@@ -3,10 +3,8 @@ import { ref } from 'vue';
 import { MealPlan } from '../data/types';
 import { useDataStore } from '../data/store';
 
-
 const props = defineProps<MealPlan>()
 const store = useDataStore()
-
 
 const planData = ref<MealPlan>({
     id: props.id,
