@@ -1,4 +1,4 @@
-import { Ingredient, Meal } from "./types";
+import { Ingredient, Meal, MealPlan } from "./types";
 
 const SOURCE = 'http://localhost:3200'
 const LOG = (msg: any) => { console.log(msg) }
@@ -86,4 +86,62 @@ export async function deleteIngredientFromServer(idToDelete: number): Promise<vo
 }
 
 // Meal plans - functions to fetch and send meal plan associations to/from server
+
+export async function getMealPlansFromServer(): Promise<MealPlan[]> {
+    const response = await fetch(`${SOURCE}/plan/all`)
+    const data = await response.json() as MealPlan[]
+    LOG(`All meal plans: ${data.length}`)
+    data.map((plan) => { if (plan.date !== undefined) { plan.date = cleanISODate(plan.date) } })
+    return data
+}
+
+export async function postUpdateMealPlanToServer(updatedPlan: MealPlan): Promise<MealPlan> {
+    if (!updatedPlan.id) throw Error("no id on plan")
+    const response = await fetch(`${SOURCE}/plan/update/${updatedPlan.id}`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(updatedPlan),
+        })
+    const data = await response.json() as MealPlan
+    if (data.date !== undefined) {
+        const newDate = cleanISODate(data.date)
+        console.log(newDate)
+    }
+    return data
+}
+
+export async function postNewPlanToServer(newPlan: MealPlan): Promise<MealPlan | undefined> {
+    try {
+        const response = await fetch(`${SOURCE}/plan/new`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newPlan),
+            })
+        const result = await response.json() as MealPlan
+        if (result === undefined) throw Error('new meal plan not returned')
+        LOG(`New plan: ${result.date}`)
+        return result
+    }
+    catch (error) {
+        LOG(error)
+    }
+}
+
 // export async function getMealPlanFromServer() {}
+
+// generic helpers
+
+function cleanISODate(isoDate: string | Date): Date | string {
+    const date = new Date(isoDate)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+
+    return `${year}-${month}-${day}`
+}

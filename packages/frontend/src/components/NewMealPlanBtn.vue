@@ -2,9 +2,10 @@
 import { ref } from 'vue';
 import ModalComp from './ModalComp.vue';
 import { MealPlan } from '../data/types';
+import MealPlanForm from './MealPlanForm.vue';
 
 const props = defineProps<{
-    plan?: MealPlan
+    plan: MealPlan
 }>()
 
 // modal controls
@@ -24,8 +25,9 @@ const submitHandler = () => {
 <template>
     <button @click="openModal">Add Meal</button>
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
-        <template #header>Meal Allocation</template>
+        <template #header>Meal Allocation - {{ props.plan.day }}</template>
         <template #content>
+            <MealPlanForm v-bind="props.plan"></MealPlanForm>
         </template>
         <template #footer></template>
     </ModalComp>

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { Ingredient, Meal, MealPlan } from "./types"
-import { mealPlansMock } from "./mockData"
-import { deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealToServer } from "./helpers"
+// import { mealPlansMock } from "./mockData"
+import { deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
 
 const LOG = (msg: any) => { console.log(msg) }
 
@@ -18,30 +18,7 @@ export const useDataStore = defineStore('data', {
         }
         ] as Meal[],
 
-        mealPlan: [
-            {
-                day: 'Sunday',
-            },
-            {
-                day: 'Monday',
-            },
-            {
-                day: 'Tuesday',
-            },
-            {
-                day: 'Wednesday',
-            },
-            {
-                day: 'Thursday',
-            },
-            {
-                day: 'Friday',
-            },
-            {
-                day: 'Saturday',
-            },
-
-        ] as MealPlan[],
+        mealPlan: [] as MealPlan[],
 
         allIngredients: [] as Ingredient[]
     }),
@@ -62,7 +39,8 @@ export const useDataStore = defineStore('data', {
 
         async fetchMealPlans() {
             try {
-                const newData = await mealPlansMock()
+                // const newData = await mealPlansMock()
+                const newData = await getMealPlansFromServer()
                 this.mealPlan = newData
             } catch (error) {
                 LOG(String(error))
@@ -107,6 +85,13 @@ export const useDataStore = defineStore('data', {
             } catch (error) {
                 LOG(error)
             }
+        },
+
+        async pushUpdatedMealPlan(updatedPlan: MealPlan) {
+            const oldIndex = this.mealPlan.findIndex(plan => plan.id === updatedPlan.id)
+            const confirmedPlan = await postUpdateMealPlanToServer(updatedPlan)
+            if (confirmedPlan === undefined) throw Error('updated plan returned undefined')
+            this.mealPlan.splice(oldIndex, 1, confirmedPlan)
         },
 
         oldIngredientsToRemove(oldIngs: Ingredient[], newIngs: Ingredient[]): Ingredient[] {

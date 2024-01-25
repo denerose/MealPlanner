@@ -114,7 +114,7 @@ app.get(`/meal/:id`, async (req, res) => {
         })
     )
 })
-app.get('/filtermeals', async (req, res) => {
+app.get('/meal/filter', async (req, res) => {
     const { searchString } = req.query
 
     res.json(
@@ -142,16 +142,20 @@ app.get('/filtermeals', async (req, res) => {
 
 app.get('/plan/all', async (_, res) => {
     res.json(
-        await prisma.mealPlan.findMany({
-            include: { dinner: true }
-        }))
+        await prisma.mealPlan.findMany(
+            {
+                where: {},
+                include: { dinner: true }
+            }
+        ))
 })
 
 app.post(`/plan/new`, async (req, res) => {
     const { date, day, dinner } = req.body
+    const isoDate = new Date(date).toISOString()
     const result = await prisma.mealPlan.create({
         data: {
-            date,
+            date: isoDate,
             day,
             dinner: {
                 connect: {
@@ -164,16 +168,17 @@ app.post(`/plan/new`, async (req, res) => {
     res.json(result)
 })
 
-app.post(`/plan/update/:date`, async (req, res) => {
+app.post(`/plan/update/:id`, async (req, res) => {
     const { date, day, dinner } = req.body
+    const isoDate = new Date(date).toISOString()
     const result = await prisma.mealPlan.update({
-        where: { date: (req.params.id) },
+        where: { id: Number(req.params.id) },
         data: {
-            date,
+            date: isoDate,
             day,
             dinner: {
                 connect: {
-                    mealName: dinner.mealName
+                    mealName: dinner
                 },
             },
         },

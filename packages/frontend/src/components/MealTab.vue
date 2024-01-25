@@ -12,7 +12,8 @@ const props = defineProps<{
 <template>
     <div class="meal-item">
         <div><span v-if="props.plan.dinner">{{ props.plan.dinner.mealName }}</span>
-            <NewMealPlanBtn v-else :plan="plan"></NewMealPlanBtn>
+            <span v-else>No Meal</span>
+            <NewMealPlanBtn :plan="plan"></NewMealPlanBtn>
         </div>
     </div>
 </template>

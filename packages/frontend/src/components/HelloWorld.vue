@@ -15,6 +15,9 @@ defineProps<{ msg: string }>()
   <div class="card">
     <Suspense>
       <MealTable />
+      <template #fallback>
+        Loading...
+      </template>
     </Suspense>
     <div class="container">
       <MealList></MealList>

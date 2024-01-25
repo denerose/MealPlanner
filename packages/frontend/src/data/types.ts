@@ -12,7 +12,8 @@ export interface Ingredient {
 }
 
 export interface MealPlan {
-    date?: Date
+    id?: number
+    date?: string | Date
     day: string
     dinner?: Meal
 }

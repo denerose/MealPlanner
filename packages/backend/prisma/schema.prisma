@@ -40,8 +40,9 @@ model User {
 }
 
 model MealPlan {
+  id     Int      @id @default(autoincrement())
   date   DateTime @unique
   day    String
-  dinner Meal     @relation(fields: [mealId], references: [id])
-  mealId Int
+  dinner Meal?    @relation(fields: [mealId], references: [id])
+  mealId Int?
 }
