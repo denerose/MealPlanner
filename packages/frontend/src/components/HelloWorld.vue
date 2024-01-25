@@ -2,6 +2,7 @@
 import MealTable from './MealTable.vue';
 import MealForm from './MealForm.vue'
 import MealList from './MealList.vue';
+import IngredientList from './IngredientList.vue';
 // import TagInputTest from './TagInputTest.vue';
 
 defineProps<{ msg: string }>()
@@ -13,13 +14,20 @@ defineProps<{ msg: string }>()
 
   <div class="card">
     <Suspense>
+      <MealTable />
     </Suspense>
-    <MealList></MealList>
+    <div class="container">
+      <MealList></MealList>
+      <IngredientList></IngredientList>
+    </div>
+
     <MealForm></MealForm>
   </div>
-  <Suspense>
-    <MealTable />
-  </Suspense>
 </template>
 
-<style scoped></style>
+<style scoped>
+.container {
+  display: flex;
+  justify-content: space-around;
+}
+</style>

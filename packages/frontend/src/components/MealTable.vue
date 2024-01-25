@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useDataStore } from '../data/store';
+import MealTab from './MealTab.vue';
 
 const store = useDataStore()
 await store.fetchMealList()
@@ -18,7 +19,9 @@ await store.fetchMealPlans()
         <tbody>
             <tr>
                 <td>Dinner:</td>
-                <td v-for="meal in store.mealPlan">{{ meal.dinner?.mealName }}</td>
+                <td v-for="meal in store.mealPlan">
+                    <MealTab :plan="meal"></MealTab>
+                </td>
             </tr>
         </tbody>
     </table>

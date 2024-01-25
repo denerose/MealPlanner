@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { useDataStore } from '../data/store';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
+
 
 const store = useDataStore()
 store.fetchIngredients()
@@ -11,6 +13,8 @@ store.fetchIngredients()
         <ul>
             <li v-for="ing in store.allIngredients">
                 <div class="item-div"><span class="item">{{ ing.ingredientName }}</span>
+                    <XMarkIcon @click="store.pushDeleteIngredient(ing)" class="del">
+                    </XMarkIcon>
                 </div>
             </li>
         </ul>

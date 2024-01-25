@@ -49,7 +49,6 @@ export async function postUpdateMealToServer(updatedMeal: Meal): Promise<Meal> {
             body: JSON.stringify(updatedMeal),
         })
     const data = await response.json() as Meal
-    console.log(data)
     return data
 }
 
@@ -81,7 +80,7 @@ export async function getIngredientsFromServer(): Promise<Ingredient[]> {
 }
 
 export async function deleteIngredientFromServer(idToDelete: number): Promise<void> {
-    const response = await fetch(`${SOURCE}/ing/delete/${String(idToDelete)}`,
+    const response = await fetch(`${SOURCE}/ing/delete/${idToDelete}`,
         { method: "DELETE" })
     LOG(`Deleted: ${response.json()}`)
 }

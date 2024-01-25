@@ -24,7 +24,7 @@ app.get('/ing/all', async (req, res) => {
         await prisma.ingredient.findMany())
 })
 
-app.delete(`/meal/ing/:id`, async (req, res) => {
+app.delete(`/ing/delete/:id`, async (req, res) => {
     res.json(
         await prisma.ingredient.delete({
             where: {
@@ -139,5 +139,49 @@ app.get('/filtermeals', async (req, res) => {
 })
 
 // Meal Plans CRUD
+
+app.get('/plan/all', async (_, res) => {
+    res.json(
+        await prisma.mealPlan.findMany({
+            include: { dinner: true }
+        }))
+})
+
+app.post(`/plan/new`, async (req, res) => {
+    const { date, day, dinner } = req.body
+    const result = await prisma.mealPlan.create({
+        data: {
+            date,
+            day,
+            dinner: {
+                connect: {
+                    mealName: dinner.mealName
+                }
+
+            }
+        }
+    })
+    res.json(result)
+})
+
+app.post(`/plan/update/:date`, async (req, res) => {
+    const { date, day, dinner } = req.body
+    const result = await prisma.mealPlan.update({
+        where: { date: (req.params.id) },
+        data: {
+            date,
+            day,
+            dinner: {
+                connect: {
+                    mealName: dinner.mealName
+                },
+            },
+        },
+        include: { dinner: true }
+    })
+    res.json(result)
+})
+
+// always last
 
 app.listen(3200, () => console.log('Server ready at: http://localhost:3200'))

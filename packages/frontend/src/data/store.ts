@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { Ingredient, Meal, MealPlan } from "./types"
 import { mealPlansMock } from "./mockData"
-import { deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealToServer } from "./helpers"
+import { deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealToServer } from "./helpers"
 
 const LOG = (msg: any) => { console.log(msg) }
 
@@ -100,7 +100,7 @@ export const useDataStore = defineStore('data', {
                 if (ingsToRemove.length > 0) {
                     ingsToRemove.map(async (item) => await disconnectIngredientFromMeal(item, Number(updatedMeal.id)))
                 }
-                this.$patch((state) => {
+                this.$patch((_state) => {
                     this.meals.splice(oldIndex, 1, confirmedMeal)
                     this.meals[oldIndex].ingredients = updatedMeal.ingredients
                 })
@@ -147,6 +147,13 @@ export const useDataStore = defineStore('data', {
         findIngIdByName(ingName: string): Ingredient {
             const result = this.allIngredients.find((ing) => ing.ingredientName === ingName)
             return result === undefined ? { ingredientName: ingName } : result
+        },
+
+        pushDeleteIngredient(ingToDelete: Ingredient) {
+            if (ingToDelete.id === undefined) throw Error('no such ing id')
+            deleteIngredientFromServer(ingToDelete.id)
+            const newArray = this.allIngredients.filter(ing => ing.id !== ingToDelete.id)
+            this.$patch({ allIngredients: newArray })
         }
 
     },

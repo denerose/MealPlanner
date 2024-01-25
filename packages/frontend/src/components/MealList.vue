@@ -32,30 +32,32 @@ const submitHandler = () => {
 </script>
 
 <template>
-    <h3>Meals List for Testing</h3>
-    <div class="list-div">
-        <ul>
-            <li v-for="meal in store.meals">
-                <div class="item-div">
-                    <span class="item">{{ meal.mealName }}</span>
-                    <PencilSquareIcon @click="openModal(meal)" class="edit"></PencilSquareIcon>
-                    <XMarkIcon @click="store.pushDeleteMeal(Number(meal.id))" class="del">
-                    </XMarkIcon>
-                </div>
-                <ul>
-                    <li v-for="ingredient in meal.ingredients">
-                        <div class="item-div"><span class="item">{{ ingredient.ingredientName
-                        }}</span>
-                            <MinusCircleIcon @click="store.removeIngredient(ingredient, meal)" class="del">
-                            </MinusCircleIcon>
-                        </div>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <div>
+        <h3>Meals List for Testing</h3>
+        <div class="list-div">
+            <ul>
+                <li v-for="meal in store.meals">
+                    <div class="item-div">
+                        <span class="item">{{ meal.mealName }}</span>
+                        <PencilSquareIcon @click="openModal(meal)" class="edit"></PencilSquareIcon>
+                        <XMarkIcon @click="store.pushDeleteMeal(Number(meal.id))" class="del">
+                        </XMarkIcon>
+                    </div>
+                    <ul>
+                        <li v-for="ingredient in meal.ingredients">
+                            <div class="item-div"><span class="item">{{ ingredient.ingredientName
+                            }}</span>
+                                <MinusCircleIcon @click="store.removeIngredient(ingredient, meal)" class="del">
+                                </MinusCircleIcon>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
     </div>
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
-        <template #header>Custom header</template>
+        <template #header>Editing: {{ modalProps.mealName }}</template>
         <template #content>
             <MealFormEdit v-bind="modalProps"></MealFormEdit>
         </template>
@@ -65,8 +67,8 @@ const submitHandler = () => {
 
 <style scoped>
 .list-div {
-    min-width: 100px;
-    max-width: 200px;
+    min-width: 150px;
+    max-width: 400px;
 }
 
 .item-div {
