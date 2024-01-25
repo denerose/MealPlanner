@@ -15,8 +15,13 @@ const planData = ref<MealPlan>({
     dinner: props.dinner,
 })
 
+const dinnerText = ref(
+    props.dinner?.mealName
+)
+
 const submitForm = async () => {
-    store.pushUpdatedMealPlan(planData.value)
+    planData.value.dinner = store.meals.find(meal => meal.mealName === dinnerText.value)
+    await store.pushUpdatedMealPlan(planData.value)
 }
 
 </script>
@@ -26,9 +31,10 @@ const submitForm = async () => {
         <input v-model="planData.date" type="date" required>
         <div>
             <label for="dinnerSelect">Dinner:</label>
-            <select v-model="planData.dinner" id="dinnerSelect" required>
+            <select v-model="dinnerText" id="dinnerSelect" required>
                 <option disabled value="">Please select one</option>
-                <option v-for="mealOption in store.meals" :key="mealOption.mealName">{{ mealOption.mealName }}</option>
+                <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
+                    mealOption.mealName }}</option>
             </select>
             <button type="submit">Update</button>
         </div>

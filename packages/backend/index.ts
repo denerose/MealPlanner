@@ -178,7 +178,7 @@ app.post(`/plan/update/:id`, async (req, res) => {
             day,
             dinner: {
                 connect: {
-                    mealName: dinner
+                    mealName: dinner.mealName
                 },
             },
         },
