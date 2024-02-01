@@ -3,7 +3,8 @@ export interface Meal {
     id?: number,
     mealName: string,
     description?: string,
-    ingredients: Ingredient[]
+    ingredients: Ingredient[],
+    qualities?: Quals
 }
 
 export interface Ingredient {
@@ -16,4 +17,26 @@ export interface MealPlan {
     date?: string | Date
     day: string
     dinner?: Meal
+}
+
+export interface Quals {
+    isHighCarb?: boolean,
+    isHighVeg?: boolean,
+    makesLunch?: boolean,
+    isCreamy?: boolean,
+    isAcidic?: boolean,
+    outdoorCooking?: boolean
+}
+
+export interface RawMeal {
+    id: number,
+    mealName: string,
+    description: string,
+    ingredients: Ingredient[],
+    isHighCarb: boolean,
+    isHighVeg: boolean,
+    makesLunch: boolean,
+    isCreamy: boolean,
+    isAcidic: boolean,
+    outdoorCooking: boolean,
 }

@@ -11,11 +11,17 @@ datasource db {
 }
 
 model Meal {
-  id          Int          @id @default(autoincrement())
-  mealName    String       @unique
-  description String?
-  ingredients Ingredient[]
-  MealPlan    MealPlan[]
+  id             Int          @id @default(autoincrement())
+  mealName       String       @unique
+  description    String?
+  ingredients    Ingredient[]
+  MealPlan       MealPlan[]
+  isHighCarb     Boolean?
+  isHighVeg      Boolean?
+  makesLunch     Boolean?
+  isCreamy       Boolean?
+  isAcidic       Boolean?
+  outdoorCooking Boolean?
 }
 
 model Ingredient {

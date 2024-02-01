@@ -55,7 +55,7 @@ app.get('/meal/all', async (req, res) => {
 })
 
 app.post(`/meal/new`, async (req, res) => {
-    const { mealName, description, ingredients } = req.body
+    const { mealName, description, ingredients, qualities } = req.body
     const result = await prisma.meal.create({
         data: {
             mealName,
@@ -67,7 +67,13 @@ app.post(`/meal/new`, async (req, res) => {
                         create: { ingredientName: i.ingredientName }
                     }
                 })
-            }
+            },
+            isHighCarb: qualities.isHighCarb,
+            isHighVeg: qualities.isHighVeg,
+            makesLunch: qualities.makesLunch,
+            isCreamy: qualities.isCreamy,
+            isAcidic: qualities.isAcidic,
+            outdoorCooking: qualities.outdoorCooking,
         },
     })
     console.log(`New meal: ${result}`)
@@ -75,7 +81,7 @@ app.post(`/meal/new`, async (req, res) => {
 })
 
 app.post(`/meal/update/:id`, async (req, res) => {
-    const { mealName, description, ingredients } = req.body
+    const { mealName, description, ingredients, qualities } = req.body
     const result = await prisma.meal.update({
         where: { id: Number(req.params.id) },
         data: {
@@ -88,7 +94,13 @@ app.post(`/meal/update/:id`, async (req, res) => {
                         create: { ingredientName: i.ingredientName }
                     };
                 }),
-            }
+            },
+            isHighCarb: qualities.isHighCarb,
+            isHighVeg: qualities.isHighVeg,
+            makesLunch: qualities.makesLunch,
+            isCreamy: qualities.isCreamy,
+            isAcidic: qualities.isAcidic,
+            outdoorCooking: qualities.outdoorCooking,
         },
         include: { ingredients: true }
     })

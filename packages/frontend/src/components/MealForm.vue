@@ -14,16 +14,16 @@ const mealData = ref<Meal>({
     mealName: '',
     description: '',
     ingredients: [] as Ingredient[],
-    id: undefined
+    id: undefined,
+    qualities: {
+        isHighCarb: false,
+        isHighVeg: false,
+        makesLunch: false,
+        isCreamy: false,
+        isAcidic: false,
+        outdoorCooking: false,
+    }
 });
-
-// const addIngredient = () => {
-//     mealData.value.ingredients.push({ ingredientName: '' });
-// };
-
-// const removeIngredient = (index: number) => {
-//     mealData.value.ingredients.splice(index, 1);
-// };
 
 const submitForm = async () => {
     addTags()
@@ -67,7 +67,47 @@ function addTags() {
                 <tag-input :autocomplete-items="autocompleteItems" v-model="tags" :validator="/\w/"
                     validation-message="must be a word" :customDelimiter="customDelimiter" tagBgColor="#028218" />
             </div>
-
+            <div>
+                <label>Qualities:</label>
+                <div class="quals-box">
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isHighCarb" />
+                            High Carb
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isHighVeg" />
+                            High Veg
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.makesLunch" />
+                            Makes Lunch
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isCreamy" />
+                            Creamy
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isAcidic" />
+                            Acidic
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.outdoorCooking" />
+                            Outdoor Cooking
+                        </label>
+                    </div>
+                </div>
+            </div>
             <button type="submit">{{ isEditMode ? 'Update Meal' : 'Create Meal' }}</button>
         </form>
     </div>
@@ -78,5 +118,10 @@ function addTags() {
 .tag-input {
     margin: 5px;
     padding: 3px;
+}
+
+.quals-box {
+    display: flex;
+    justify-content: space-between;
 }
 </style>

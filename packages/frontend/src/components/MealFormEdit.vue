@@ -12,6 +12,7 @@ const mealData = ref<Meal>({
     mealName: props.mealName,
     description: props.description,
     ingredients: props.ingredients as Ingredient[],
+    qualities: props.qualities
 });
 
 const submitForm = async () => {
@@ -51,6 +52,47 @@ function addTags() {
                 <label>Ingredients:</label>
                 <tag-input :autocomplete-items="autocompleteItems" v-model="tags" :validator="/\w/"
                     validation-message="must be a word" :customDelimiter="customDelimiter" tagBgColor="#4f396c" />
+            </div>
+            <div>
+                <label>Qualities:</label>
+                <div class="quals-box">
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isHighCarb" />
+                            High Carb
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isHighVeg" />
+                            High Veg
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.makesLunch" />
+                            Makes Lunch
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isCreamy" />
+                            Creamy
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.isAcidic" />
+                            Acidic
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" v-model="mealData.qualities.outdoorCooking" />
+                            Outdoor Cooking
+                        </label>
+                    </div>
+                </div>
             </div>
 
             <button type="submit">Update Meal</button>

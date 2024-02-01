@@ -1,4 +1,4 @@
-import { Ingredient, Meal, MealPlan } from "./types";
+import { Ingredient, Meal, MealPlan, Quals, RawMeal } from "./types";
 
 const SOURCE = 'http://localhost:3200'
 const LOG = (msg: any) => { console.log(msg) }
@@ -14,21 +14,68 @@ export async function postNewMealToServer(newMeal: Meal): Promise<Meal | undefin
                 },
                 body: JSON.stringify(newMeal),
             })
-        const result = await response.json() as Meal
+        const result = await response.json() as RawMeal
         if (result === undefined) throw Error('new meal not returned')
         LOG(`New meal: ${result.mealName}`)
-        return result
+        const confirmedMeal: Meal = {
+            id: result.id,
+            mealName: result.mealName,
+            description: result.description,
+            ingredients: result.ingredients,
+            qualities: rawQualsToObject(
+                result.isHighCarb,
+                result.isHighVeg,
+                result.makesLunch,
+                result.isCreamy,
+                result.isAcidic,
+                result.outdoorCooking,
+            )
+        }
+        return confirmedMeal
     }
     catch (error) {
         LOG(error)
     }
 }
 
+function rawQualsToObject(
+    isHighCarb: boolean,
+    isHighVeg: boolean,
+    makesLunch: boolean,
+    isCreamy: boolean,
+    isAcidic: boolean,
+    outdoorCooking: boolean,
+): Quals {
+    return {
+        isHighCarb,
+        isHighVeg,
+        makesLunch,
+        isCreamy,
+        isAcidic,
+        outdoorCooking,
+    }
+}
+
 export async function getMealsFromServer(): Promise<Meal[]> {
     const response = await fetch(`${SOURCE}/meal/all`)
-    const data = await response.json()
+    const data = await response.json() as RawMeal[]
     LOG(`All meals: ${data.length}`)
-    return data as Meal[]
+    const mealList: Meal[] = []
+    data.map((result) => mealList.push({
+        id: result.id,
+        mealName: result.mealName,
+        description: result.description,
+        ingredients: result.ingredients,
+        qualities: rawQualsToObject(
+            result.isHighCarb,
+            result.isHighVeg,
+            result.makesLunch,
+            result.isCreamy,
+            result.isAcidic,
+            result.outdoorCooking,
+        )
+    }))
+    return mealList
 }
 
 export async function getMealByIdFromServer(mealID: number): Promise<Meal> {

@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import { MealPlan } from '../data/types';
 import { useDataStore } from '../data/store';
+import NewMealBtn from './NewMealBtn.vue';
 
 const props = defineProps<MealPlan>()
 const store = useDataStore()
@@ -34,8 +35,15 @@ const submitForm = async () => {
                 <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
                     mealOption.mealName }}</option>
             </select>
-            <button type="submit">Update</button>
+            <div class="buttons">
+                <button type="submit">Update</button>
+                <NewMealBtn></NewMealBtn>
+            </div>
         </div>
     </form>
 </template>
-<style scoped></style>
+<style scoped>
+.buttons {
+    display: flex;
+}
+</style>
