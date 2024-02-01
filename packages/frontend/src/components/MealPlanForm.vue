@@ -37,10 +37,10 @@ const submitForm = async () => {
             </select>
             <div class="buttons">
                 <button type="submit">Update</button>
-                <NewMealBtn></NewMealBtn>
             </div>
         </div>
     </form>
+    <NewMealBtn></NewMealBtn>
 </template>
 <style scoped>
 .buttons {

@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { Ingredient, Meal, MealPlan } from "./types"
 // import { mealPlansMock } from "./mockData"
-import { deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
+import { dayFromDate, deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
 
 const LOG = (msg: any) => { console.log(msg) }
 
@@ -41,12 +41,22 @@ export const useDataStore = defineStore('data', {
             try {
                 // const newData = await mealPlansMock()
                 const newData = await getMealPlansFromServer()
-                this.mealPlan = newData
+                this.mealPlan = this.sortedMealPlans(newData)
             } catch (error) {
                 LOG(String(error))
             }
-
         },
+
+        sortedMealPlans(rawPlans: MealPlan[]) {
+            const map = {
+                'Monday': 1, 'Tuesday': 2, 'Wednesday': 3, 'Thursday': 4, 'Friday': 5, 'Saturday': 6,
+                'Sunday': 7
+            }
+            return rawPlans.toSorted((a, b) => {
+                return map[a.day] - map[b.day]
+            })
+        },
+
         async fetchIngredients() {
             try {
                 const newData = await getIngredientsFromServer()
@@ -89,6 +99,7 @@ export const useDataStore = defineStore('data', {
 
         async pushUpdatedMealPlan(updatedPlan: MealPlan) {
             const oldIndex = this.mealPlan.findIndex(plan => plan.id === updatedPlan.id)
+            if (updatedPlan.date) { updatedPlan.day = dayFromDate(new Date(updatedPlan.date)) }
             const confirmedPlan = await postUpdateMealPlanToServer(updatedPlan)
             if (confirmedPlan === undefined) throw Error('updated plan returned undefined')
             this.mealPlan.splice(oldIndex, 1, confirmedPlan)

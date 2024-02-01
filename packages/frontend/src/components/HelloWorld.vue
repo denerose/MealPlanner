@@ -10,9 +10,8 @@ defineProps<{ msg: string }>()
 </script>
 
 <template>
-  <h1>{{ msg }}</h1>
-
   <div class="card">
+    <h1>{{ msg }}</h1>
     <Suspense>
       <MealTable />
       <template #fallback>

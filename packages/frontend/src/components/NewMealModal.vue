@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import { defineProps, defineEmits, ref } from "vue";
 import { onClickOutside } from '@vueuse/core'
+import MealForm from './MealForm.vue';
 
 const props = defineProps({
     isOpen: Boolean,
 });
-defineOptions({
-    inheritAttrs: false
-})
-const emit = defineEmits(["modal-close"]);
+
+const emit = defineEmits(["meal-modal-close"]);
 
 const target = ref(null)
-onClickOutside(target, () => emit('modal-close'))
+onClickOutside(target, () => emit('meal-modal-close'))
 
 </script>
 
@@ -19,18 +18,13 @@ onClickOutside(target, () => emit('modal-close'))
     <div v-if="isOpen" class="modal-mask">
         <div class="modal-wrapper">
             <div class="modal-container" ref="target">
-                <div class="modal-header">
-                    <slot name="header"> default header </slot>
-                </div>
-                <div class="modal-body">
-                    <slot name="content"> default content </slot>
-                </div>
-                <div class="modal-footer">
-                    <slot name="footer">
+                <div>
+                    <MealForm />
+                    <footer>
                         <div>
-                            <button @click.stop="emit('modal-close')">Cancel</button>
+                            <button @click.stop="emit('meal-modal-close')">Cancel</button>
                         </div>
-                    </slot>
+                    </footer>
                 </div>
             </div>
         </div>
@@ -49,7 +43,8 @@ onClickOutside(target, () => emit('modal-close'))
 }
 
 .modal-container {
-    width: 300px;
+    min-width: 100%;
+    max-width: 500px;
     margin: 150px auto;
     padding: 20px 30px;
     background-color: #fff;

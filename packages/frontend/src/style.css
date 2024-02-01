@@ -1,0 +1,16 @@
+#app {
+    min-width: fit-content;
+    background-color: aliceblue;
+}
+
+body {
+    grid-template-columns: 1fr min(70rem, 90%) 1fr;
+
+}
+
+.card {
+    margin: auto;
+    padding: 2rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    background-color: rgba(236, 235, 235, 0.292);
+}

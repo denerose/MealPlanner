@@ -1,4 +1,4 @@
-import { Ingredient, Meal, MealPlan, Quals, RawMeal } from "./types";
+import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal } from "./types";
 
 const SOURCE = 'http://localhost:3200'
 const LOG = (msg: any) => { console.log(msg) }
@@ -155,7 +155,8 @@ export async function postUpdateMealPlanToServer(updatedPlan: MealPlan): Promise
     const data = await response.json() as MealPlan
     if (data.date !== undefined) {
         const newDate = cleanISODate(data.date)
-        console.log(newDate)
+        LOG(`updated plan for date: ${newDate}`)
+        data.date = newDate
     }
     return data
 }
@@ -173,7 +174,12 @@ export async function postNewPlanToServer(newPlan: MealPlan): Promise<MealPlan |
         const result = await response.json() as MealPlan
         if (result === undefined) throw Error('new meal plan not returned')
         LOG(`New plan: ${result.date}`)
-        return result
+        const confirmedPlan = result
+        if (result.date !== undefined) {
+            const newDate = cleanISODate(result.date)
+            confirmedPlan.date = newDate
+        }
+        return confirmedPlan
     }
     catch (error) {
         LOG(error)
@@ -191,4 +197,10 @@ function cleanISODate(isoDate: string | Date): Date | string {
     const day = String(date.getDate()).padStart(2, '0')
 
     return `${year}-${month}-${day}`
+}
+
+export function dayFromDate(date: Date): DayOfWeek {
+    const dayNum = date.getDay()
+    const dayName: DayOfWeek[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return dayName[dayNum]
 }

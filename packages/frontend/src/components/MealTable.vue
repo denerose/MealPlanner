@@ -31,4 +31,8 @@ await store.fetchMealPlans()
 tr {
     min-width: 120px;
 }
+
+table {
+    margin: auto;
+}
 </style>

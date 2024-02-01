@@ -14,8 +14,8 @@ export interface Ingredient {
 
 export interface MealPlan {
     id?: number
-    date?: string | Date
-    day: string
+    date: string | Date
+    day: DayOfWeek
     dinner?: Meal
 }
 
@@ -41,3 +41,6 @@ export interface RawMeal {
     isAcidic: boolean,
     outdoorCooking: boolean,
 }
+
+export type DayOfWeek =
+    "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
