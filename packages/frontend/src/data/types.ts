@@ -20,12 +20,12 @@ export interface MealPlan {
 }
 
 export interface Quals {
-    isHighCarb?: boolean,
-    isHighVeg?: boolean,
-    makesLunch?: boolean,
-    isCreamy?: boolean,
-    isAcidic?: boolean,
-    outdoorCooking?: boolean
+    isHighCarb: boolean,
+    isHighVeg: boolean,
+    makesLunch: boolean,
+    isCreamy: boolean,
+    isAcidic: boolean,
+    outdoorCooking: boolean
 }
 
 export interface RawMeal {
@@ -33,6 +33,7 @@ export interface RawMeal {
     mealName: string,
     description: string,
     ingredients: Ingredient[],
+    MealPlan?: MealPlan[]
     isHighCarb: boolean,
     isHighVeg: boolean,
     makesLunch: boolean,

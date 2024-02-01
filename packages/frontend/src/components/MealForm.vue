@@ -62,47 +62,49 @@ function addTags() {
                 <textarea v-model="mealData.description" id="description"></textarea>
             </div>
 
-            <div class="tag-input">
+            <div>
                 <label>Ingredients:</label>
-                <tag-input :autocomplete-items="autocompleteItems" v-model="tags" :validator="/\w/"
-                    validation-message="must be a word" :customDelimiter="customDelimiter" tagBgColor="#028218" />
+                <div class="tag-input">
+                    <tag-input :autocomplete-items="autocompleteItems" v-model="tags" :validator="/\w/"
+                        validation-message="must be a word" :customDelimiter="customDelimiter" tagBgColor="#028218" />
+                </div>
             </div>
             <div>
                 <label>Qualities:</label>
                 <div class="quals-box">
                     <div>
                         <label>
-                            <input type="checkbox" v-model="mealData.qualities.isHighCarb" />
+                            <input type="checkbox" id="isHighCarb" v-model="mealData.qualities.isHighCarb" />
                             High Carb
                         </label>
                     </div>
                     <div>
                         <label>
-                            <input type="checkbox" v-model="mealData.qualities.isHighVeg" />
+                            <input type="checkbox" id="isHighVeg" v-model="mealData.qualities.isHighVeg" />
                             High Veg
                         </label>
                     </div>
                     <div>
                         <label>
-                            <input type="checkbox" v-model="mealData.qualities.makesLunch" />
+                            <input type="checkbox" id="makesLunch" v-model="mealData.qualities.makesLunch" />
                             Makes Lunch
                         </label>
                     </div>
                     <div>
                         <label>
-                            <input type="checkbox" v-model="mealData.qualities.isCreamy" />
+                            <input type="checkbox" id="isCreamy" v-model="mealData.qualities.isCreamy" />
                             Creamy
                         </label>
                     </div>
                     <div>
                         <label>
-                            <input type="checkbox" v-model="mealData.qualities.isAcidic" />
+                            <input type="checkbox" id="isAcidic" v-model="mealData.qualities.isAcidic" />
                             Acidic
                         </label>
                     </div>
                     <div>
                         <label>
-                            <input type="checkbox" v-model="mealData.qualities.outdoorCooking" />
+                            <input type="checkbox" id="outdoorCooking" v-model="mealData.qualities.outdoorCooking" />
                             Outdoor Cooking
                         </label>
                     </div>
@@ -116,7 +118,7 @@ function addTags() {
 
 <style scoped>
 .tag-input {
-    margin: 5px;
+    margin: 2px;
     padding: 3px;
 }
 

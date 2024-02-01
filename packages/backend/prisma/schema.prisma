@@ -16,12 +16,12 @@ model Meal {
   description    String?
   ingredients    Ingredient[]
   MealPlan       MealPlan[]
-  isHighCarb     Boolean?
-  isHighVeg      Boolean?
-  makesLunch     Boolean?
-  isCreamy       Boolean?
-  isAcidic       Boolean?
-  outdoorCooking Boolean?
+  isHighCarb     Boolean      @default(false)
+  isHighVeg      Boolean      @default(false)
+  makesLunch     Boolean      @default(false)
+  isCreamy       Boolean      @default(false)
+  isAcidic       Boolean      @default(false)
+  outdoorCooking Boolean      @default(false)
 }
 
 model Ingredient {
