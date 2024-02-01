@@ -17,9 +17,11 @@ const submitHandler = () => {
 }
 </script>
 <template>
-    <button @click="openModal">New Meal</button>
-    <NewMealModal :isOpen="isModalOpened" @meal-modal-close="closeModal" @submit="submitHandler" name="new-meal-modal">
-    </NewMealModal>
+    <div>
+        <button @click="openModal">New Meal</button>
+        <NewMealModal :isOpen="isModalOpened" @meal-modal-close="closeModal" @submit="submitHandler" name="new-meal-modal">
+        </NewMealModal>
+    </div>
 </template>
 
 <style scoped></style>

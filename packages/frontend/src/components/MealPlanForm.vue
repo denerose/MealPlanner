@@ -7,6 +7,10 @@ import NewMealBtn from './NewMealBtn.vue';
 const props = defineProps<MealPlan>()
 const store = useDataStore()
 
+// defineOptions({
+//     inheritAttrs: false
+// })
+
 const planData = ref<MealPlan>({
     id: props.id,
     date: props.date,
@@ -25,22 +29,24 @@ const submitForm = async () => {
 
 </script>
 <template>
-    <form @submit.prevent="submitForm">
-        <h4>{{ props.day }}</h4>
-        <input v-model="planData.date" type="date" required>
-        <div>
-            <label for="dinnerSelect">Dinner:</label>
-            <select v-model="dinnerText" id="dinnerSelect" required>
-                <option disabled value="">Please select one</option>
-                <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
-                    mealOption.mealName }}</option>
-            </select>
-            <div class="buttons">
-                <button type="submit">Update</button>
+    <div>
+        <form @submit.prevent="submitForm">
+            <h4>{{ props.day }}</h4>
+            <input v-model="planData.date" type="date" required>
+            <div>
+                <label for="dinnerSelect">Dinner:</label>
+                <select v-model="dinnerText" id="dinnerSelect" required>
+                    <option disabled value="">Please select one</option>
+                    <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
+                        mealOption.mealName }}</option>
+                </select>
+                <div class="buttons">
+                    <button type="submit">Update</button>
+                </div>
             </div>
-        </div>
-    </form>
-    <NewMealBtn></NewMealBtn>
+        </form>
+        <NewMealBtn></NewMealBtn>
+    </div>
 </template>
 <style scoped>
 .buttons {

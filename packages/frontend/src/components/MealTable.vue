@@ -20,7 +20,7 @@ await store.fetchMealPlans()
             <tr>
                 <td>Dinner:</td>
                 <td v-for="meal in store.mealPlan">
-                    <MealTab :plan="meal"></MealTab>
+                    <MealTab :plan="meal" :key="meal.id"></MealTab>
                 </td>
             </tr>
         </tbody>

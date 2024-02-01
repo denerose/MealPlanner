@@ -5,9 +5,7 @@ import { onClickOutside } from '@vueuse/core'
 const props = defineProps({
     isOpen: Boolean,
 });
-defineOptions({
-    inheritAttrs: false
-})
+
 const emit = defineEmits(["modal-close"]);
 
 const target = ref(null)

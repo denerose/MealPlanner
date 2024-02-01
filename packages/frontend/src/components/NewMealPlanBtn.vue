@@ -9,10 +9,6 @@ const props = defineProps<{
     plan: MealPlan
 }>()
 
-defineOptions({
-    inheritAttrs: false
-})
-
 // modal controls
 const isModalOpened = ref(false);
 
@@ -28,7 +24,6 @@ const submitHandler = () => {
 }
 </script>
 <template>
-    <div></div>
     <PlusCircleIcon v-if="!props.plan.dinner" @click="openModal" class="addEditMeal"></PlusCircleIcon>
     <PencilSquareIcon v-else @click="openModal" class="addEditMeal"></PencilSquareIcon>
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
