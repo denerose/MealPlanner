@@ -204,7 +204,7 @@ app.get('/plan/yest', async (req, res) => {
     const { date } = req.query
     if (date !== typeof VarDate) throw Error('no original date supplied for yesterday check')
     res.json(
-        await getYesterdayPlan(new Date(date))
+        await getYesterdayPlan(date as unknown as VarDate)
     )
 })
 
