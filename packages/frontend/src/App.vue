@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import NavBar from './components/NavBar.vue';
+
 </script>
 
 <template>
-  <Suspense>
-    <HelloWorld msg="Hello, World!" />
-    <template #fallback>
-      Loading...
-    </template>
-  </Suspense>
+  <header>
+    <h1>myMealPlanner</h1>
+    <nav-bar />
+  </header>
+  <router-view />
+  <footer><small>this is the footer</small></footer>
 </template>
 
 <style scoped></style>
