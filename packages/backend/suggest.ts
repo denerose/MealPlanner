@@ -13,8 +13,8 @@ namespace rules {
         return lunchNights
     }
 
-    export function noRepeats(currentMeal: Meal, option: Meal): boolean {
-        return currentMeal.mealName !== option.mealName
+    export function isRepeat(currentMeal: Meal, option: Meal): boolean {
+        return currentMeal.id === option.id
     }
 
     export function makeLunch(previousDay: MealPlan, option: Meal): boolean {
@@ -30,16 +30,25 @@ namespace rules {
 export async function suggest(currentDay?: MealPlan): Promise<Meal> {
     const allMeals = await getAllMeals()
     // if no currentDay supplied, just choose a random meal (in case earlier call getYesterdayPlan fails)
-    if (!currentDay) { return allMeals[Math.floor(Math.random() * allMeals.length - 1)] }
+    if (!currentDay) {
+        const randomSuggestion = allMeals[Math.floor(Math.random() * allMeals.length)]
+        console.log('random all meal index: ' + randomSuggestion)
+        return randomSuggestion
+    }
     const currentMeal = await findMealByID(Number(currentDay.mealId))
     // if no previous meal, just choose any random meal.
-    if (currentMeal === null || currentMeal === undefined) { return allMeals[Math.floor(Math.random() * allMeals.length - 1)] }
+    if (currentMeal === null || currentMeal === undefined) {
+        const anyMeal = allMeals[Math.floor(Math.random() * allMeals.length)]
+        console.log('any meal: ' + anyMeal)
+        return anyMeal
+    }
     const validOptions = allMeals.filter((item) => {
-        if (!rules.noRepeats(currentMeal, item)) return false
-        else if (!rules.makeLunch(currentDay, item)) return false
-        else return true
+        if (rules.isRepeat(currentMeal, item)) return false
+        else return rules.makeLunch(currentDay, item)
     })
     if (validOptions.length < 0) throw Error("no meal values match current rules")
-    const randomIndex = Math.floor(Math.random() * validOptions.length) - 1
-    return validOptions[randomIndex]
+    const randomIndex = Math.floor(Math.random() * validOptions.length)
+    console.log('random valid index: ' + randomIndex)
+    const suggestion = validOptions[randomIndex]
+    return suggestion
 }

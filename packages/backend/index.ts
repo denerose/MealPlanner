@@ -152,10 +152,12 @@ app.get('/meal/filter', async (req, res) => {
 
 app.post('/plan/suggest', async (req, res) => {
     const request = req.body as MealPlan
-    console.log(`today was ${request.date}`)
-    const previousPlan = await getYesterdayPlan(request.date)
-    res.json(
-        await suggest(previousPlan))
+    const previousPlan = await getYesterdayPlan(String(request.date))
+    if (previousPlan) {
+        res.json(
+            await suggest(previousPlan))
+    }
+    else res.json(await suggest())
 })
 
 app.get('/plan/all', async (_, res) => {
@@ -204,7 +206,7 @@ app.get('/plan/yest', async (req, res) => {
     const { date } = req.query
     if (date !== typeof VarDate) throw Error('no original date supplied for yesterday check')
     res.json(
-        await getYesterdayPlan(date as unknown as VarDate)
+        await getYesterdayPlan(String(date))
     )
 })
 

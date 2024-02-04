@@ -28,13 +28,13 @@ export async function findMealByID(id: number): Promise<Meal | undefined> {
     return data
 }
 
-export async function getYesterdayPlan(input: VarDate): Promise<MealPlan> {
+export async function getYesterdayPlan(input: string): Promise<MealPlan> {
     const today = new Date(input)
     const year = today.getFullYear()
     const month = String(today.getMonth() + 1).padStart(2, '0')
     const day = String(today.getDate() - 1).padStart(2, '0')
     const yesterday = new Date(`${year}-${month}-${day}`).toISOString()
-    console.log(`yesterday = ${yesterday}`)
+    // console.log(`yesterday = ${yesterday}`)
     return prisma.mealPlan.findFirstOrThrow({
         where: {
             date: yesterday

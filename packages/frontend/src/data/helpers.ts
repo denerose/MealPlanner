@@ -143,8 +143,13 @@ export async function getSuggestion(currentPlan: MealPlan): Promise<Meal> {
             },
             body: JSON.stringify(currentPlan)
         })
-    const data = await response.json() as Meal
-    return data
+    try {
+        const data = await response.json()
+        return data as Meal
+    } catch (error) {
+        throw LOG(error)
+    }
+
 }
 
 export async function getMealPlansFromServer(): Promise<MealPlan[]> {
