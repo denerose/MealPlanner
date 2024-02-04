@@ -3,7 +3,7 @@ import { ref } from 'vue';
 import { MealPlan } from '../data/types';
 import { useDataStore } from '../data/store';
 import NewMealBtn from './NewMealBtn.vue';
-import { SparklesIcon } from '@heroicons/vue/24/outline';
+// import { SparklesIcon } from '@heroicons/vue/24/outline';
 import { getSuggestion } from '../data/helpers';
 
 

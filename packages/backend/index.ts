@@ -2,7 +2,7 @@ import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
 import Prisma, { Ingredient, Meal, MealPlan } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
-import { findMealByID, getAllMealPlans, getAllMeals, getYesterdayPlan } from './dbHelpers'
+import { findMealByID, getAllMealPlans, getAllMeals, getPreviousDayPlan } from './dbHelpers'
 import { suggest } from './suggest'
 
 const prisma = new Prisma.PrismaClient()
@@ -152,7 +152,7 @@ app.get('/meal/filter', async (req, res) => {
 
 app.post('/plan/suggest', async (req, res) => {
     const request = req.body as MealPlan
-    const previousPlan = await getYesterdayPlan(String(request.date))
+    const previousPlan = await getPreviousDayPlan(String(request.date))
     if (previousPlan) {
         res.json(
             await suggest(previousPlan))
@@ -206,7 +206,7 @@ app.get('/plan/yest', async (req, res) => {
     const { date } = req.query
     if (date !== typeof VarDate) throw Error('no original date supplied for yesterday check')
     res.json(
-        await getYesterdayPlan(String(date))
+        await getPreviousDayPlan(String(date))
     )
 })
 

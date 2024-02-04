@@ -25,9 +25,10 @@ namespace rules {
     }
 }
 
-// export function setRules() {}
+// export function setRules() {} 
 
 export async function suggest(currentDay?: MealPlan): Promise<Meal> {
+
     const allMeals = await getAllMeals()
     // if no currentDay supplied, just choose a random meal (in case earlier call getYesterdayPlan fails)
     if (!currentDay) {
@@ -46,7 +47,7 @@ export async function suggest(currentDay?: MealPlan): Promise<Meal> {
         if (rules.isRepeat(currentMeal, item)) return false
         else return rules.makeLunch(currentDay, item)
     })
-    if (validOptions.length < 0) throw Error("no meal values match current rules")
+    if (validOptions.length <= 0) throw Error("no meal values match current rules")
     const randomIndex = Math.floor(Math.random() * validOptions.length)
     console.log('random valid index: ' + randomIndex)
     const suggestion = validOptions[randomIndex]
