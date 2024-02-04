@@ -1,7 +1,9 @@
 import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
-import Prisma, { Ingredient, Meal } from '@prisma/client'
+import Prisma, { Ingredient, Meal, MealPlan } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
+import { findMealByID, getAllMealPlans, getAllMeals, getYesterdayPlan } from './dbHelpers'
+import { suggest } from './suggest'
 
 const prisma = new Prisma.PrismaClient()
 const app = new App().use(cors({ origin: '*' })).options('*', cors()).use(bodyParser.json())
@@ -50,8 +52,7 @@ app.post(`/meal/remove/:id`, async (req, res) => {
 // Meals CRUD
 app.get('/meal/all', async (req, res) => {
     res.json(
-        await prisma.meal.findMany(
-            { include: { ingredients: true } }))
+        await getAllMeals())
 })
 
 app.post(`/meal/new`, async (req, res) => {
@@ -118,12 +119,7 @@ app.delete(`/meal/delete/:id`, async (req, res) => {
 })
 app.get(`/meal/:id`, async (req, res) => {
     res.json(
-        await prisma.meal.findFirst({
-            where: {
-                id: Number(req.params)
-            },
-            include: { ingredients: true }
-        })
+        await findMealByID(Number(req.params))
     )
 })
 app.get('/meal/filter', async (req, res) => {
@@ -152,14 +148,19 @@ app.get('/meal/filter', async (req, res) => {
 
 // Meal Plans CRUD
 
+//note: check with Kim if there is another/better way to do this
+
+app.post('/plan/suggest', async (req, res) => {
+    const request = req.body as MealPlan
+    console.log(`today was ${request.date}`)
+    const previousPlan = await getYesterdayPlan(request.date)
+    res.json(
+        await suggest(previousPlan))
+})
+
 app.get('/plan/all', async (_, res) => {
     res.json(
-        await prisma.mealPlan.findMany(
-            {
-                where: {},
-                include: { dinner: true }
-            }
-        ))
+        await getAllMealPlans())
 })
 
 app.post(`/plan/new`, async (req, res) => {
@@ -198,6 +199,15 @@ app.post(`/plan/update/:id`, async (req, res) => {
     })
     res.json(result)
 })
+
+app.get('/plan/yest', async (req, res) => {
+    const { date } = req.query
+    if (date !== typeof VarDate) throw Error('no original date supplied for yesterday check')
+    res.json(
+        await getYesterdayPlan(new Date(date))
+    )
+})
+
 
 // always last
 

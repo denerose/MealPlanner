@@ -134,6 +134,19 @@ export async function deleteIngredientFromServer(idToDelete: number): Promise<vo
 
 // Meal plans - functions to fetch and send meal plan associations to/from server
 
+export async function getSuggestion(currentPlan: MealPlan): Promise<Meal> {
+    const response = await fetch(`${SOURCE}/plan/suggest`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(currentPlan)
+        })
+    const data = await response.json() as Meal
+    return data
+}
+
 export async function getMealPlansFromServer(): Promise<MealPlan[]> {
     const response = await fetch(`${SOURCE}/plan/all`)
     const data = await response.json() as MealPlan[]

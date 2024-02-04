@@ -3,6 +3,9 @@ import { ref } from 'vue';
 import { MealPlan } from '../data/types';
 import { useDataStore } from '../data/store';
 import NewMealBtn from './NewMealBtn.vue';
+import { SparklesIcon } from '@heroicons/vue/24/outline';
+import { getSuggestion } from '../data/helpers';
+
 
 const props = defineProps<MealPlan>()
 const store = useDataStore()
@@ -27,11 +30,18 @@ const submitForm = async () => {
     await store.pushUpdatedMealPlan(planData.value)
 }
 
+const handleSuggest = async () => {
+    const suggestion = await getSuggestion(props)
+    dinnerText.value = suggestion.mealName
+    alert(suggestion.mealName)
+}
+
 </script>
 <template>
     <div>
+        <h4>{{ props.day }}</h4>
+        <button @click="handleSuggest">Suggestion</button>
         <form @submit.prevent="submitForm">
-            <h4>{{ props.day }}</h4>
             <input v-model="planData.date" type="date" required>
             <div>
                 <label for="dinnerSelect">Dinner:</label>

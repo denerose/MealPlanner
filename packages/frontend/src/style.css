@@ -8,7 +8,9 @@ body {
 
 .card {
     margin: auto;
+    margin-top: 1rem;
     padding: 2rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     background-color: rgba(236, 235, 235, 0.292);
+    border-radius: 5px;
 }
