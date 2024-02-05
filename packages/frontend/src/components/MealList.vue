@@ -32,8 +32,7 @@ const submitHandler = () => {
 </script>
 
 <template>
-    <div>
-        <h3>Meals List for Testing</h3>
+    <div class="card">
         <div class="list-div">
             <ul>
                 <li v-for="meal in store.meals">

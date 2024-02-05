@@ -9,7 +9,6 @@ store.fetchIngredients()
 </script>
 <template>
     <div class="card">
-        <h3>All Ingredients</h3>
         <ul>
             <li v-for="ing in store.allIngredients">
                 <div class="item-div"><span class="item">{{ ing.ingredientName }}</span>

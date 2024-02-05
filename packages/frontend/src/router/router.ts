@@ -13,6 +13,12 @@ const routes = [
         component: () =>
             import('../views/SettingsPage.vue')
     },
+    {
+        path: '/meals',
+        name: 'meals',
+        component: () =>
+            import('../views/MealsPage.vue')
+    },
 ]
 
 const router = createRouter({

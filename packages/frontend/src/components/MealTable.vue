@@ -18,7 +18,7 @@ await store.fetchMealPlans()
         </thead>
         <tbody>
             <tr>
-                <td>Dinner:</td>
+                <td><b>Dinner:</b></td>
                 <td v-for="meal in store.mealPlan">
                     <MealTab :plan="meal" :key="meal.id"></MealTab>
                 </td>
@@ -29,10 +29,21 @@ await store.fetchMealPlans()
 
 <style scoped>
 tr {
-    min-width: 120px;
+    min-width: 90%;
+    border: none;
 }
 
 table {
     margin: auto;
+    border-collapse: separate;
+}
+
+td,
+th {
+    border-radius: 5px;
+}
+
+th {
+    background-color: rgba(200, 255, 145, 0.2);
 }
 </style>
