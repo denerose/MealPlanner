@@ -1,5 +1,5 @@
 import Prisma, { Meal, MealPlan } from '@prisma/client'
-import { sub } from "date-fns";
+import { add, sub } from "date-fns";
 
 const prisma = new Prisma.PrismaClient()
 
@@ -31,7 +31,7 @@ export async function findMealByID(id: number): Promise<Meal | undefined> {
 
 export async function getPreviousDayPlan(input: string): Promise<MealPlan> {
     const today = new Date(input)
-    const yesterday = sub(new Date(today), { days: 1 }).toISOString()
+    const yesterday = sub(today, { days: 1 }).toISOString()
     // console.log(`yesterday = ${yesterday}`)
     return prisma.mealPlan.findFirstOrThrow({
         where: {
@@ -39,4 +39,17 @@ export async function getPreviousDayPlan(input: string): Promise<MealPlan> {
         },
         include: { dinner: true }
     })
+}
+
+export async function getFutureDayPlan(input: string, n: number): Promise<MealPlan | undefined> {
+    const today = new Date(input)
+    const futureDate = add(today, { days: n }).toISOString()
+    const nextMealPlan = await prisma.mealPlan.findFirstOrThrow({
+        where: {
+            date: futureDate
+        },
+        include: { dinner: true }
+    })
+    if (nextMealPlan !== undefined) return undefined
+    else return nextMealPlan
 }
