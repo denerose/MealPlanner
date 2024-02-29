@@ -105,6 +105,10 @@ export const useDataStore = defineStore('data', {
             this.mealPlan.splice(oldIndex, 1, confirmedPlan)
         },
 
+        async createNewWeek() {
+
+        },
+
         oldIngredientsToRemove(oldIngs: Ingredient[], newIngs: Ingredient[]): Ingredient[] {
             const idsToRemove: Ingredient[] = []
             oldIngs.map((oldItem): void => {

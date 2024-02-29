@@ -1,5 +1,6 @@
 import Prisma, { Meal, MealPlan } from '@prisma/client'
 import { add, sub } from "date-fns";
+import { DayOfWeek } from './suggest';
 
 const prisma = new Prisma.PrismaClient()
 
@@ -52,4 +53,47 @@ export async function getFutureDayPlan(input: string, n: number): Promise<MealPl
     })
     if (nextMealPlan !== undefined) return undefined
     else return nextMealPlan
+}
+
+export async function newPlanWithDinner(date: string, day: string, dinner: Meal) {
+    const result = await prisma.mealPlan.create({
+        data: {
+            date,
+            day,
+            dinner: {
+                connect: {
+                    mealName: dinner.mealName
+                }
+
+            }
+        }
+    })
+    return result
+}
+
+export async function newWeek(entryPoint: Date) {
+    const newDates = []
+    for (let index = 1; index < 7; index++) {
+        const newDate = add(entryPoint, { days: index })
+        newDates.push({ date: newDate.toISOString(), day: dayFromDate(newDate) })
+    }
+    const results: MealPlan[] = []
+    newDates.forEach(async (plan) => {
+        const result = await prisma.mealPlan.create({
+            data: {
+                date: plan.date,
+                day: plan.day
+            }
+        })
+        results.push(result)
+    })
+    return results
+}
+
+// helpers for the helpers
+
+function dayFromDate(date: Date): DayOfWeek {
+    const dayNum = date.getDay()
+    const dayName: DayOfWeek[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return dayName[dayNum]
 }

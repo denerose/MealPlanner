@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { getSuggestion } from '../data/helpers';
+// import { getSuggestion } from '../data/helpers';
 import { MealPlan } from '../data/types';
 import NewMealPlanBtn from './NewMealPlanBtn.vue';
-import { SparklesIcon } from '@heroicons/vue/24/outline';
+// import { SparklesIcon } from '@heroicons/vue/24/outline';
 
 // import { MealPlan } from '../data/types';
 

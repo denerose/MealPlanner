@@ -1,3 +1,4 @@
+import { ISOStringFormat } from "date-fns";
 import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal } from "./types";
 
 const SOURCE = 'http://localhost:3200'
@@ -202,6 +203,10 @@ export async function postNewPlanToServer(newPlan: MealPlan): Promise<MealPlan |
     catch (error) {
         LOG(error)
     }
+}
+
+export async function postNewWeekToServer(entryDate: ISOStringFormat) {
+    
 }
 
 // export async function getMealPlanFromServer() {}
