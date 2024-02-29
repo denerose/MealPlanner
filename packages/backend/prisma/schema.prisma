@@ -11,17 +11,18 @@ datasource db {
 }
 
 model Meal {
-  id             Int          @id @default(autoincrement())
-  mealName       String       @unique
-  description    String?
-  ingredients    Ingredient[]
-  MealPlan       MealPlan[]
-  isHighCarb     Boolean      @default(false)
-  isHighVeg      Boolean      @default(false)
-  makesLunch     Boolean      @default(false)
-  isCreamy       Boolean      @default(false)
-  isAcidic       Boolean      @default(false)
-  outdoorCooking Boolean      @default(false)
+  id              Int          @id @default(autoincrement())
+  mealName        String       @unique
+  description     String?
+  ingredients     Ingredient[]
+  isHighCarb      Boolean      @default(false)
+  isHighVeg       Boolean      @default(false)
+  makesLunch      Boolean      @default(false)
+  isCreamy        Boolean      @default(false)
+  isAcidic        Boolean      @default(false)
+  outdoorCooking  Boolean      @default(false)
+  MealPlan        MealPlan[]   @relation("dinner")
+  MealPlanLunches MealPlan[]   @relation("lunch")
 }
 
 model Ingredient {
@@ -49,8 +50,8 @@ model MealPlan {
   id      Int      @id @default(autoincrement())
   date    DateTime @unique
   day     String
-  dinner  Meal?    @relation(fields: [mealId], references: [id])
-  lunch   Meal?    @relation(fields: [lunchId], references: [id])
+  dinner  Meal?    @relation(fields: [mealId], references: [id], name: "dinner")
+  lunch   Meal?    @relation(fields: [lunchId], references: [id], name: "lunch")
   mealId  Int?
-  lunchID Int?
+  lunchId Int?
 }
