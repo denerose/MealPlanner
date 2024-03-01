@@ -1,8 +1,8 @@
 import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
-import Prisma, { Ingredient, Meal, MealPlan } from '@prisma/client'
+import Prisma, { Ingredient, Meal, MealPlan, Settings } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
-import { findMealByID, getAllMealPlans, getAllMeals, getPreviousDayPlan, newPlanWithDinner } from './dbHelpers'
+import { findMealByID, getAllMealPlans, getAllMeals, getPreviousDayPlan, getSettings, newPlanWithDinner, updateSettings } from './dbHelpers'
 import { suggest } from './suggest'
 
 const prisma = new Prisma.PrismaClient()
@@ -204,6 +204,19 @@ app.get('/plan/yest', async (req, res) => {
     res.json(
         await getPreviousDayPlan(String(date))
     )
+})
+
+// settings
+
+app.post('/settings/update', async (req, res) => {
+    const newData = req.body as Settings
+    const result = await updateSettings(newData)
+    res.json(result)
+})
+
+app.get('/settings', async (_, res) => {
+    const result = await getSettings('default')
+    res.json(result)
 })
 
 

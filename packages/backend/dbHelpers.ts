@@ -1,4 +1,4 @@
-import Prisma, { Meal, MealPlan } from '@prisma/client'
+import Prisma, { Meal, MealPlan, Settings } from '@prisma/client'
 import { add, sub } from "date-fns";
 import { DayOfWeek } from './suggest';
 
@@ -88,6 +88,28 @@ export async function newWeek(entryPoint: Date) {
         results.push(result)
     })
     return results
+}
+// Settings
+
+export async function updateSettings(newData: Settings): Promise<Settings | undefined> {
+    const result = await prisma.settings.update({
+        where: { preset: newData.preset },
+        data: {
+            lunchRule: newData.lunchRule,
+            carbRule: newData.carbRule,
+            acidRule: newData.acidRule
+        }
+    })
+    if (result === null) return undefined
+    return result
+}
+
+export async function getSettings(settingsName: string): Promise<Settings | undefined> {
+    const result = await prisma.settings.findFirst({
+        where: { preset: settingsName }
+    })
+    if (result === null) return undefined
+    return result
 }
 
 // helpers for the helpers

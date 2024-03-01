@@ -1,5 +1,5 @@
 import { Meal, MealPlan } from '@prisma/client'
-import { findMealByID, getAllMeals, getFutureDayPlan } from './dbHelpers';
+import { findMealByID, getAllMeals, getFutureDayPlan, getSettings } from './dbHelpers';
 import { format } from "date-fns";
 
 export type DayOfWeek =
@@ -32,9 +32,10 @@ namespace rules {
     }
 }
 
-// export function setRules() {} 
-
 export async function suggest(currentDay?: MealPlan): Promise<Meal> {
+
+    const settings = await getSettings('default')
+    if (settings === undefined) throw Error('no settings found')
 
     const allMeals = await getAllMeals()
     // if no currentDay supplied, just choose a random meal (in case earlier call getYesterdayPlan fails)
@@ -59,8 +60,9 @@ export async function suggest(currentDay?: MealPlan): Promise<Meal> {
      */
     const validOptions = allMeals.filter((item) => {
         if (rules.isRepeat(currentMeal, item, futureMeal)) return false
-        else if (rules.doubleCarbs(currentMeal, item, futureMeal)) return false
-        else return rules.meetsLunchRules(currentDay, item)
+        else if (settings.carbRule && rules.doubleCarbs(currentMeal, item, futureMeal)) return false
+        else if (settings.lunchRule) return rules.meetsLunchRules(currentDay, item)
+        else return true
     })
 
     if (validOptions.length <= 0) throw Error("no meal values match current rules")
