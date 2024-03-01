@@ -214,7 +214,7 @@ app.post('/settings/update', async (req, res) => {
     res.json(result)
 })
 
-app.get('/settings', async (_, res) => {
+app.get('/settings/get', async (_, res) => {
     const result = await getSettings('default')
     res.json(result)
 })

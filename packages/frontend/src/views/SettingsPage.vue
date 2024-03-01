@@ -1,9 +1,14 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import SettingsPanel from '../components/SettingsPanel.vue';
+</script>
 
 <template>
     <div class="card">
         <h2>Settings Page</h2>
-        <p>A settings form will go here!</p>
+        <Suspense>
+            <SettingsPanel />
+        </Suspense>
+
     </div>
 </template>
 

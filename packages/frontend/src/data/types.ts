@@ -44,3 +44,10 @@ export interface RawMeal {
 
 export type DayOfWeek =
     "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday";
+
+export interface SettingsData {
+    preset: string,
+    lunchRule: boolean,
+    carbRule: boolean,
+    acidRule: boolean,
+}

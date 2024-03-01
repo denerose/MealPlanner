@@ -1,5 +1,5 @@
 import { ISOStringFormat } from "date-fns";
-import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal } from "./types";
+import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal, SettingsData } from "./types";
 
 const SOURCE = 'http://localhost:3200'
 const LOG = (msg: any) => { console.log(msg) }
@@ -206,10 +206,37 @@ export async function postNewPlanToServer(newPlan: MealPlan): Promise<MealPlan |
 }
 
 export async function postNewWeekToServer(entryDate: ISOStringFormat) {
-    
+
 }
 
 // export async function getMealPlanFromServer() {}
+
+// settings functions
+
+export async function getSettingsFromServer(): Promise<SettingsData> {
+    try {
+        const response = await fetch(`${SOURCE}/settings/get`)
+        const data = await response.json() as SettingsData
+        if (data === undefined) { throw Error('no settings found') }
+        return data
+    } catch (error) {
+        LOG(error)
+    }
+}
+
+export async function updateSettingsOnServer(newData: SettingsData) {
+    const response = await fetch(`${SOURCE}/settings/update`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newData),
+        })
+    const result = await response.json() as SettingsData
+    if (result === undefined) throw Error('updated settings not returned')
+    return result as SettingsData
+}
 
 // generic helpers
 
