@@ -92,9 +92,15 @@ export async function newWeek(entryPoint: Date) {
 // Settings
 
 export async function updateSettings(newData: Settings): Promise<Settings | undefined> {
-    const result = await prisma.settings.update({
+    const result = await prisma.settings.upsert({
         where: { preset: newData.preset },
-        data: {
+        update: {
+            lunchRule: newData.lunchRule,
+            carbRule: newData.carbRule,
+            acidRule: newData.acidRule
+        },
+        create: {
+            preset: newData.preset,
             lunchRule: newData.lunchRule,
             carbRule: newData.carbRule,
             acidRule: newData.acidRule
