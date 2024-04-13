@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { Ingredient, Meal, MealPlan } from "./types"
 // import { mealPlansMock } from "./mockData"
-import { dayFromDate, deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
+import { dayFromDate, deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, getNextPlansFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
 
 const LOG = (msg: any) => { console.log(msg) }
 
@@ -19,6 +19,8 @@ export const useDataStore = defineStore('data', {
         ] as Meal[],
 
         mealPlan: [] as MealPlan[],
+
+        nextMealPlans: [] as MealPlan[],
 
         allIngredients: [] as Ingredient[]
     }),
@@ -42,6 +44,8 @@ export const useDataStore = defineStore('data', {
                 // const newData = await mealPlansMock()
                 const newData = await getMealPlansFromServer()
                 this.mealPlan = this.sortedMealPlans(newData)
+                const nextWeek = await getNextPlansFromServer()
+                this.nextMealPlans = nextWeek
             } catch (error) {
                 LOG(String(error))
             }

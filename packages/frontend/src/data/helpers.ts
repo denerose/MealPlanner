@@ -160,6 +160,22 @@ export async function getMealPlansFromServer(): Promise<MealPlan[]> {
     return data
 }
 
+export async function getNextPlansFromServer() {
+    const response = await fetch(`${SOURCE}/plan/next`)
+    const data = await response.json() as MealPlan[]
+    LOG(`Next week: ${data.length}`)
+    data.map((plan) => { if (plan.date !== undefined) { plan.date = cleanISODate(plan.date) } })
+    return data
+}
+
+export async function createNextPlansOnServer() {
+    const response = await fetch(`${SOURCE}/plan/newweek`)
+    const data = await response.json() as MealPlan[]
+    LOG(`Next week created: ${data.length}`)
+    data.map((plan) => { if (plan.date !== undefined) { plan.date = cleanISODate(plan.date) } })
+    return data
+}
+
 export async function postUpdateMealPlanToServer(updatedPlan: MealPlan): Promise<MealPlan> {
     if (!updatedPlan.id) throw Error("no id on plan")
     const response = await fetch(`${SOURCE}/plan/update/${updatedPlan.id}`,

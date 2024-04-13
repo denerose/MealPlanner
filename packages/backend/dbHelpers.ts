@@ -1,5 +1,5 @@
 import Prisma, { Meal, MealPlan } from '@prisma/client'
-import { add, eachDayOfInterval, isMonday, nextSunday, previousMonday, sub } from "date-fns";
+import { add, eachDayOfInterval, isMonday, nextMonday, nextSunday, previousMonday, sub } from "date-fns";
 import { DayOfWeek } from './suggest';
 
 const prisma = new Prisma.PrismaClient()
@@ -80,7 +80,8 @@ export async function getOrCreateCurrentWeek() {
     for (const day of currentWeekDates) {
         const date = day.toISOString();
         const result = await prisma.mealPlan.findUnique({
-            where: { date: date }
+            where: { date: date },
+            include: { dinner: true }
         });
         if (result && result != null) {
             results.push(result);
@@ -96,6 +97,56 @@ export async function getOrCreateCurrentWeek() {
             results.push(newPlan);
         }
     }
+    // TODO add error checking here
+    return results
+}
+
+export async function getNextWeek() {
+    const today = cleanDate(new Date())
+    const monday = nextMonday(today)
+    const sunday = nextSunday(monday)
+    const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
+    const results: MealPlan[] = []
+    for (const day of currentWeekDates) {
+        const date = day.toISOString();
+        const result = await prisma.mealPlan.findUnique({
+            where: { date: date },
+            include: { dinner: true }
+        });
+        if (result && result != null) {
+            results.push(result);
+        }
+    }
+}
+
+export async function getOrCreateNextWeek() {
+    // returns server time, TODO: bring 'today' from client, TODO refactor to combined function with mon & sun as params
+    const today = cleanDate(new Date())
+    const monday = nextMonday(today)
+    const sunday = nextSunday(monday)
+    const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
+    const results: MealPlan[] = []
+    for (const day of currentWeekDates) {
+        const date = day.toISOString();
+        const result = await prisma.mealPlan.findUnique({
+            where: { date: date },
+            include: { dinner: true }
+        });
+        if (result && result != null) {
+            results.push(result);
+        }
+        else {
+            const newPlan: MealPlan = await prisma.mealPlan.create({
+                data: {
+                    date,
+                    day: dayFromDate(day)
+                }
+            });
+            console.log(`new plan: ${newPlan}`);
+            results.push(newPlan);
+        }
+    }
+    // TODO add error checking here
     return results
 }
 
