@@ -102,11 +102,17 @@ export const useDataStore = defineStore('data', {
         },
 
         async pushUpdatedMealPlan(updatedPlan: MealPlan) {
-            const oldIndex = this.mealPlan.findIndex(plan => plan.id === updatedPlan.id)
             if (updatedPlan.date) { updatedPlan.day = dayFromDate(new Date(updatedPlan.date)) }
             const confirmedPlan = await postUpdateMealPlanToServer(updatedPlan)
             if (confirmedPlan === undefined) throw Error('updated plan returned undefined')
-            this.mealPlan.splice(oldIndex, 1, confirmedPlan)
+            const oldIndexCurr = this.mealPlan.findIndex(plan => plan.id === updatedPlan.id)
+            if (oldIndexCurr >= 0) {
+                this.mealPlan.splice(oldIndexCurr, 1, confirmedPlan)
+            }
+            else {
+                const oldIndexNext = this.nextMealPlans.findIndex(plan => plan.id === updatedPlan.id)
+                this.nextMealPlans.splice(oldIndexNext, 1, confirmedPlan)
+            }
         },
 
         oldIngredientsToRemove(oldIngs: Ingredient[], newIngs: Ingredient[]): Ingredient[] {
