@@ -3,8 +3,11 @@ import { useDataStore } from '../data/store';
 import MealTab from './MealTab.vue';
 
 const store = useDataStore()
-await store.fetchMealList()
-await store.fetchMealPlans()
+
+if (store.mealPlan.length == 0) {
+    await store.fetchMealList()
+    await store.fetchMealPlans()
+}
 
 </script>
 
@@ -28,7 +31,7 @@ await store.fetchMealPlans()
             </tbody>
         </table>
     </div>
-    <div v-if="store.nextMealPlans.length == 0"><button>Add Next Week</button></div>
+    <div v-if="store.nextMealPlans.length == 0"><button @click="store.createNewWeek">Add Next Week</button></div>
     <div v-else>
         <h3>Next Week</h3>
         <table>

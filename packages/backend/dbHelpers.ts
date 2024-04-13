@@ -117,6 +117,7 @@ export async function getNextWeek() {
             results.push(result);
         }
     }
+    return results
 }
 
 export async function getOrCreateNextWeek() {
@@ -153,7 +154,7 @@ export async function getOrCreateNextWeek() {
 // shared helpers
 
 function cleanDate(date: Date) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0)
 }
 
 function dayFromDate(date: Date): DayOfWeek {

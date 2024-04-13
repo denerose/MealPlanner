@@ -1,7 +1,7 @@
 import { defineStore } from "pinia"
 import { Ingredient, Meal, MealPlan } from "./types"
 // import { mealPlansMock } from "./mockData"
-import { dayFromDate, deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, getNextPlansFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
+import { createNextPlansOnServer, dayFromDate, deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, getNextPlansFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
 
 const LOG = (msg: any) => { console.log(msg) }
 
@@ -99,6 +99,11 @@ export const useDataStore = defineStore('data', {
             } catch (error) {
                 LOG(error)
             }
+        },
+
+        async createNewWeek() {
+            const newWeek = await createNextPlansOnServer()
+            this.nextMealPlans = newWeek
         },
 
         async pushUpdatedMealPlan(updatedPlan: MealPlan) {

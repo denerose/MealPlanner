@@ -4,7 +4,7 @@ import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 
 const store = useDataStore()
-store.fetchIngredients()
+if (store.allIngredients.length == 0) { store.fetchIngredients() }
 
 </script>
 <template>
