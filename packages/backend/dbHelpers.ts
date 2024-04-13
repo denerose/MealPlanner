@@ -29,6 +29,21 @@ export async function findMealByID(id: number): Promise<Meal | undefined> {
     return data
 }
 
+export async function newMealPlan(isoDate: string, day: string, dinner: { mealName: any; }): Promise<MealPlan | undefined> {
+    return await prisma.mealPlan.create({
+        data: {
+            date: isoDate,
+            day,
+            dinner: {
+                connect: {
+                    mealName: dinner.mealName
+                }
+
+            }
+        }
+    })
+}
+
 export async function getPreviousDayPlan(input: string): Promise<MealPlan> {
     const today = new Date(input)
     const yesterday = sub(today, { days: 1 }).toISOString()
