@@ -1,5 +1,6 @@
 import Prisma, { Meal, MealPlan } from '@prisma/client'
-import { add, sub } from "date-fns";
+import { add, eachDayOfInterval, isMonday, nextSunday, previousMonday, sub } from "date-fns";
+import { DayOfWeek } from './suggest';
 
 const prisma = new Prisma.PrismaClient()
 
@@ -67,4 +68,45 @@ export async function getFutureDayPlan(input: string, n: number): Promise<MealPl
     })
     if (nextMealPlan !== undefined) return undefined
     else return nextMealPlan
+}
+
+export async function getOrCreateCurrentWeek() {
+    // returns server time, TODO: bring 'today' from client
+    const today = cleanDate(new Date())
+    const monday = isMonday(today) ? today : previousMonday(today)
+    const sunday = nextSunday(monday)
+    const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
+    const results: MealPlan[] = []
+    for (const day of currentWeekDates) {
+        const date = day.toISOString();
+        const result = await prisma.mealPlan.findUnique({
+            where: { date: date }
+        });
+        if (result && result != null) {
+            results.push(result);
+        }
+        else {
+            const newPlan: MealPlan = await prisma.mealPlan.create({
+                data: {
+                    date,
+                    day: dayFromDate(day)
+                }
+            });
+            console.log(`new plan: ${newPlan}`);
+            results.push(newPlan);
+        }
+    }
+    return results
+}
+
+// shared helpers
+
+function cleanDate(date: Date) {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+}
+
+function dayFromDate(date: Date): DayOfWeek {
+    const dayNum = date.getDay()
+    const dayName: DayOfWeek[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    return dayName[dayNum]
 }

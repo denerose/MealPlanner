@@ -153,9 +153,9 @@ export async function getSuggestion(currentPlan: MealPlan): Promise<Meal> {
 }
 
 export async function getMealPlansFromServer(): Promise<MealPlan[]> {
-    const response = await fetch(`${SOURCE}/plan/all`)
+    const response = await fetch(`${SOURCE}/plan/current`)
     const data = await response.json() as MealPlan[]
-    LOG(`All meal plans: ${data.length}`)
+    LOG(`Current meal plans: ${data.length}`)
     data.map((plan) => { if (plan.date !== undefined) { plan.date = cleanISODate(plan.date) } })
     return data
 }
