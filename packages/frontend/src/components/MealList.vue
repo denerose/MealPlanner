@@ -7,7 +7,7 @@ import MealFormEdit from "./MealFormEdit.vue";
 import { Ingredient, Meal } from "../data/types";
 
 const store = useDataStore()
-store.fetchMealList()
+if (store.meals.length == 0) { store.fetchMealList() }
 
 // modal controls
 const isModalOpened = ref(false);
@@ -45,7 +45,7 @@ const submitHandler = () => {
                     <ul>
                         <li v-for="ingredient in meal.ingredients">
                             <div class="item-div"><span class="item">{{ ingredient.ingredientName
-                            }}</span>
+                                    }}</span>
                                 <MinusCircleIcon @click="store.removeIngredient(ingredient, meal)" class="del">
                                 </MinusCircleIcon>
                             </div>

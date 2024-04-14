@@ -2,7 +2,7 @@ import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
 import Prisma, { Ingredient, Meal, MealPlan, Settings } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
-import { findMealByID, getAllMealPlans, getAllMeals, getPreviousDayPlan, getSettings, newPlanWithDinner, updateSettings } from './dbHelpers'
+import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateSettings } from './dbHelpers'
 import { suggest } from './suggest'
 
 const prisma = new Prisma.PrismaClient()
@@ -165,17 +165,22 @@ app.get('/plan/all', async (_, res) => {
         await getAllMealPlans())
 })
 
+app.get('/plan/current', async (_, res) => {
+    res.json(await getOrCreateCurrentWeek())
+})
+
+app.get('/plan/next', async (_, res) => {
+    res.json(await getNextWeek())
+})
+
+app.get('/plan/newweek', async (_, res) => {
+    res.json(await getOrCreateNextWeek())
+})
+
 app.post(`/plan/new`, async (req, res) => {
     const { date, day, dinner } = req.body
     const isoDate = new Date(date).toISOString()
-    const result = await newPlanWithDinner(isoDate, day, dinner)
-    res.json(result)
-})
-
-app.post(`/plan/new/week`, async (req, res) => {
-    const { date, day, dinner } = req.body
-    const isoDate = new Date(date).toISOString()
-    const result = await newPlanWithDinner(isoDate, day, dinner)
+    const result = newMealPlan(isoDate, day, dinner)
     res.json(result)
 })
 
@@ -185,8 +190,8 @@ app.post(`/plan/update/:id`, async (req, res) => {
     const result = await prisma.mealPlan.update({
         where: { id: Number(req.params.id) },
         data: {
-            date: isoDate,
-            day,
+            // date: isoDate,
+            // day,
             dinner: {
                 connect: {
                     mealName: dinner.mealName

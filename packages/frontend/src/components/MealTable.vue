@@ -1,26 +1,25 @@
 <script setup lang="ts">
 import { useDataStore } from '../data/store';
 import MealTab from './MealTab.vue';
-import { PlusCircleIcon } from '@heroicons/vue/24/outline';
+// import { PlusCircleIcon } from '@heroicons/vue/24/outline';
 
 const store = useDataStore()
-await store.fetchMealList()
-await store.fetchMealPlans()
 
-const handleNewRowClick = () => {
-
+if (store.mealPlan.length == 0) {
+    await store.fetchMealList()
+    await store.fetchMealPlans()
 }
 
 </script>
 
 <template>
-    <div class="table-overflow">
+    <div>
+        <h3>Current Week</h3>
         <table>
             <thead>
                 <tr>
                     <th>Day:</th>
                     <th v-for="meal in store.mealPlan">{{ meal.day }}</th>
-                    <th>New+</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,8 +28,25 @@ const handleNewRowClick = () => {
                     <td v-for="meal in store.mealPlan">
                         <MealTab :plan="meal" :key="meal.id"></MealTab>
                     </td>
-                    <td>
-                        <PlusCircleIcon class="icon" @click="handleNewRowClick" />
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div v-if="store.nextMealPlans.length == 0"><button @click="store.createNewWeek">Add Next Week</button></div>
+    <div v-else>
+        <h3>Next Week</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Day:</th>
+                    <th v-for="meal in store.nextMealPlans">{{ meal.day }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><b>Dinner:</b></td>
+                    <td v-for="meal in store.nextMealPlans">
+                        <MealTab :plan="meal" :key="meal.id"></MealTab>
                     </td>
                 </tr>
             </tbody>
