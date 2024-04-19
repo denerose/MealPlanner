@@ -120,10 +120,6 @@ export const useDataStore = defineStore('data', {
             }
         },
 
-        async createNewWeek() {
-
-        },
-
         oldIngredientsToRemove(oldIngs: Ingredient[], newIngs: Ingredient[]): Ingredient[] {
             const idsToRemove: Ingredient[] = []
             oldIngs.map((oldItem): void => {

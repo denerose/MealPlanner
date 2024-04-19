@@ -1,5 +1,5 @@
 import Prisma, { Meal, MealPlan, Settings } from '@prisma/client'
-import { add, eachDayOfInterval, isMonday, nextMonday, nextSunday, previousMonday, sub } from "date-fns";
+import { add, eachDayOfInterval, isMonday, nextMonday, nextSunday, previousMonday, setHours, sub } from "date-fns";
 import { DayOfWeek } from './suggest';
 
 
@@ -134,17 +134,12 @@ export async function getSettings(settingsName: string): Promise<Settings | unde
     return result
 }
 
-// helpers for the helpers
 
-function dayFromDate(date: Date): DayOfWeek {
-    const dayNum = date.getDay()
-    const dayName: DayOfWeek[] = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return dayName[dayNum]
-}
 
 export async function getOrCreateCurrentWeek() {
     // returns server time, TODO: bring 'today' from client
     const today = cleanDate(new Date())
+    console.log(today)
     const monday = isMonday(today) ? today : previousMonday(today)
     const sunday = nextSunday(monday)
     const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
@@ -226,8 +221,10 @@ export async function getOrCreateNextWeek() {
 // shared helpers
 
 function cleanDate(date: Date) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), 0)
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }
+
+// helpers for the helpers
 
 function dayFromDate(date: Date): DayOfWeek {
     const dayNum = date.getDay()

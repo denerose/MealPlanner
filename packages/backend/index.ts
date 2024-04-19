@@ -191,7 +191,7 @@ app.post(`/plan/update/:id`, async (req, res) => {
         where: { id: Number(req.params.id) },
         data: {
             // date: isoDate,
-            // day,
+            day,
             dinner: {
                 connect: {
                     mealName: dinner.mealName
