@@ -177,21 +177,20 @@ app.get('/plan/newweek', async (_, res) => {
     res.json(await getOrCreateNextWeek())
 })
 
-app.post(`/plan/new`, async (req, res) => {
-    const { date, day, dinner } = req.body
-    const isoDate = new Date(date).toISOString()
-    const result = newMealPlan(isoDate, day, dinner)
-    res.json(result)
-})
+// app.post(`/plan/new`, async (req, res) => {
+//     const { date, day, dinner } = req.body
+//     const isoDate = dateForStorage(date)
+//     const result = newMealPlan(isoDate, day, dinner)
+//     res.json(result)
+// })
 
 app.post(`/plan/update/:id`, async (req, res) => {
     const { date, day, dinner } = req.body
-    const isoDate = new Date(date).toISOString()
     const result = await prisma.mealPlan.update({
         where: { id: Number(req.params.id) },
         data: {
             // date: isoDate,
-            day,
+            // day,
             dinner: {
                 connect: {
                     mealName: dinner.mealName

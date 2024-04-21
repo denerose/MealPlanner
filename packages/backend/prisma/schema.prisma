@@ -47,11 +47,11 @@ model User {
 }
 
 model MealPlan {
-  id      Int      @id @default(autoincrement())
-  date    DateTime @unique
+  id      Int    @id @default(autoincrement())
+  date    String @unique
   day     String
-  dinner  Meal?    @relation(fields: [mealId], references: [id], name: "dinner")
-  lunch   Meal?    @relation(fields: [lunchId], references: [id], name: "lunch")
+  dinner  Meal?  @relation(fields: [mealId], references: [id], name: "dinner")
+  lunch   Meal?  @relation(fields: [lunchId], references: [id], name: "lunch")
   mealId  Int?
   lunchId Int?
 }

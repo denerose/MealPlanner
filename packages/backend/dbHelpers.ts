@@ -1,5 +1,5 @@
 import Prisma, { Meal, MealPlan, Settings } from '@prisma/client'
-import { add, eachDayOfInterval, isMonday, nextMonday, nextSunday, previousMonday, setHours, sub } from "date-fns";
+import { add, eachDayOfInterval, formatISO, isMonday, nextMonday, nextSunday, previousMonday, setHours, sub } from "date-fns";
 import { DayOfWeek } from './suggest';
 
 
@@ -48,11 +48,11 @@ export async function newMealPlan(isoDate: string, day: string, dinner: { mealNa
 
 export async function getPreviousDayPlan(input: string): Promise<MealPlan> {
     const today = new Date(input)
-    const yesterday = sub(today, { days: 1 }).toISOString()
+    const yesterday = sub(today, { days: 1 })
     // console.log(`yesterday = ${yesterday}`)
     return prisma.mealPlan.findFirstOrThrow({
         where: {
-            date: yesterday
+            date: dateForStorage(yesterday)
         },
         include: { dinner: true }
     })
@@ -60,10 +60,10 @@ export async function getPreviousDayPlan(input: string): Promise<MealPlan> {
 
 export async function getFutureDayPlan(input: string, n: number): Promise<MealPlan | undefined> {
     const today = new Date(input)
-    const futureDate = add(today, { days: n }).toISOString()
+    const futureDate = add(today, { days: n })
     const nextMealPlan = await prisma.mealPlan.findFirstOrThrow({
         where: {
-            date: futureDate
+            date: dateForStorage(futureDate)
         },
         include: { dinner: true }
     })
@@ -91,7 +91,7 @@ export async function newWeek(entryPoint: Date) {
     const newDates = []
     for (let index = 1; index < 7; index++) {
         const newDate = add(entryPoint, { days: index })
-        newDates.push({ date: newDate.toISOString(), day: dayFromDate(newDate) })
+        newDates.push({ date: dateForStorage(newDate), day: dayFromDate(newDate) })
     }
     const results: MealPlan[] = []
     newDates.forEach(async (plan) => {
@@ -145,7 +145,7 @@ export async function getOrCreateCurrentWeek() {
     const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
     const results: MealPlan[] = []
     for (const day of currentWeekDates) {
-        const date = day.toISOString();
+        const date = dateForStorage(day);
         const result = await prisma.mealPlan.findUnique({
             where: { date: date },
             include: { dinner: true }
@@ -175,7 +175,7 @@ export async function getNextWeek() {
     const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
     const results: MealPlan[] = []
     for (const day of currentWeekDates) {
-        const date = day.toISOString();
+        const date = dateForStorage(day);
         const result = await prisma.mealPlan.findUnique({
             where: { date: date },
             include: { dinner: true }
@@ -195,7 +195,7 @@ export async function getOrCreateNextWeek() {
     const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
     const results: MealPlan[] = []
     for (const day of currentWeekDates) {
-        const date = day.toISOString();
+        const date = dateForStorage(day);
         const result = await prisma.mealPlan.findUnique({
             where: { date: date },
             include: { dinner: true }
@@ -218,13 +218,16 @@ export async function getOrCreateNextWeek() {
     return results
 }
 
-// shared helpers
+// helpers for the helpers
 
 function cleanDate(date: Date) {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate())
 }
 
-// helpers for the helpers
+export function dateForStorage(dateInput: Date) {
+    const cleanDate = formatISO(dateInput, { representation: "date" })
+    return cleanDate
+}
 
 function dayFromDate(date: Date): DayOfWeek {
     const dayNum = date.getDay()
