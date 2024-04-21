@@ -5,7 +5,7 @@ import MealTab from './MealTab.vue';
 
 const store = useDataStore()
 
-if (store.mealPlan.length == 0) {
+if (store.mealPlans.length == 0) {
     await store.fetchMealList()
     await store.fetchMealPlans()
 }
@@ -19,13 +19,13 @@ if (store.mealPlan.length == 0) {
             <thead>
                 <tr>
                     <th>Day:</th>
-                    <th v-for="meal in store.mealPlan">{{ meal.day }}</th>
+                    <th v-for="meal in store.mealPlans">{{ meal.day }}</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
                     <td><b>Dinner:</b></td>
-                    <td v-for="meal in store.mealPlan">
+                    <td v-for="meal in store.mealPlans">
                         <MealTab :plan="meal" :key="meal.id"></MealTab>
                     </td>
                 </tr>

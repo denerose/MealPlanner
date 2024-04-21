@@ -17,6 +17,7 @@ export interface MealPlan {
     date: string | Date
     day: DayOfWeek
     dinner?: Meal
+    lunch?: Meal
 }
 
 export interface Quals {

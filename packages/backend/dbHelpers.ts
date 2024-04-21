@@ -9,7 +9,7 @@ export async function getAllMealPlans(): Promise<MealPlan[]> {
     return await prisma.mealPlan.findMany(
         {
             where: {},
-            include: { dinner: true }
+            include: { dinner: true, lunch: true }
         }
     )
 }
@@ -44,6 +44,26 @@ export async function newMealPlan(isoDate: string, day: string, dinner: { mealNa
             }
         }
     })
+}
+
+export async function updateMealPlan(id: number, dinner: Meal, lunch: Meal): Promise<MealPlan> {
+    const result = await prisma.mealPlan.update({
+        where: { id: Number(id) },
+        data: {
+            dinner: {
+                connect: {
+                    mealName: dinner.mealName
+                },
+            },
+            lunch: {
+                connect: {
+                    mealName: lunch.mealName
+                }
+            }
+        },
+        include: { dinner: true, lunch: true }
+    })
+    return result
 }
 
 export async function getPreviousDayPlan(input: string): Promise<MealPlan> {
@@ -148,7 +168,7 @@ export async function getOrCreateCurrentWeek() {
         const date = dateForStorage(day);
         const result = await prisma.mealPlan.findUnique({
             where: { date: date },
-            include: { dinner: true }
+            include: { dinner: true, lunch: true }
         });
         if (result && result != null) {
             results.push(result);
@@ -178,7 +198,7 @@ export async function getNextWeek() {
         const date = dateForStorage(day);
         const result = await prisma.mealPlan.findUnique({
             where: { date: date },
-            include: { dinner: true }
+            include: { dinner: true, lunch: true }
         });
         if (result && result != null) {
             results.push(result);
@@ -198,7 +218,7 @@ export async function getOrCreateNextWeek() {
         const date = dateForStorage(day);
         const result = await prisma.mealPlan.findUnique({
             where: { date: date },
-            include: { dinner: true }
+            include: { dinner: true, lunch: true }
         });
         if (result && result != null) {
             results.push(result);

@@ -18,7 +18,7 @@ export const useDataStore = defineStore('data', {
         }
         ] as Meal[],
 
-        mealPlan: [] as MealPlan[],
+        mealPlans: [] as MealPlan[],
 
         nextMealPlans: [] as MealPlan[],
 
@@ -43,7 +43,7 @@ export const useDataStore = defineStore('data', {
             try {
                 // const newData = await mealPlansMock()
                 const newData = await getMealPlansFromServer()
-                this.mealPlan = this.sortedMealPlans(newData)
+                this.mealPlans = this.sortedMealPlans(newData)
                 const nextWeek = await getNextPlansFromServer()
                 this.nextMealPlans = nextWeek
             } catch (error) {
@@ -110,9 +110,9 @@ export const useDataStore = defineStore('data', {
             if (updatedPlan.date) { updatedPlan.day = dayFromDate(new Date(updatedPlan.date)) }
             const confirmedPlan = await postUpdateMealPlanToServer(updatedPlan)
             if (confirmedPlan === undefined) throw Error('updated plan returned undefined')
-            const oldIndexCurr = this.mealPlan.findIndex(plan => plan.id === updatedPlan.id)
+            const oldIndexCurr = this.mealPlans.findIndex(plan => plan.id === updatedPlan.id)
             if (oldIndexCurr >= 0) {
-                this.mealPlan.splice(oldIndexCurr, 1, confirmedPlan)
+                this.mealPlans.splice(oldIndexCurr, 1, confirmedPlan)
             }
             else {
                 const oldIndexNext = this.nextMealPlans.findIndex(plan => plan.id === updatedPlan.id)

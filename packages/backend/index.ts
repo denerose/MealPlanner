@@ -2,7 +2,7 @@ import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
 import Prisma, { Ingredient, Meal, MealPlan, Settings } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
-import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateSettings } from './dbHelpers'
+import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateMealPlan, updateSettings } from './dbHelpers'
 import { suggest } from './suggest'
 
 const prisma = new Prisma.PrismaClient()
@@ -185,20 +185,8 @@ app.get('/plan/newweek', async (_, res) => {
 // })
 
 app.post(`/plan/update/:id`, async (req, res) => {
-    const { date, day, dinner } = req.body
-    const result = await prisma.mealPlan.update({
-        where: { id: Number(req.params.id) },
-        data: {
-            // date: isoDate,
-            // day,
-            dinner: {
-                connect: {
-                    mealName: dinner.mealName
-                },
-            },
-        },
-        include: { dinner: true }
-    })
+    const { date, day, dinner, lunch } = req.body
+    const result = await updateMealPlan(Number(req.params.id), dinner, lunch)
     res.json(result)
 })
 

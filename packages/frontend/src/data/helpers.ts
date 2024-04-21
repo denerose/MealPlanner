@@ -1,4 +1,4 @@
-import { ISOStringFormat } from "date-fns";
+// import { ISOStringFormat } from "date-fns";
 import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal, SettingsData } from "./types";
 
 const SOURCE = 'http://localhost:3200'
@@ -150,7 +150,6 @@ export async function getSuggestion(currentPlan: MealPlan): Promise<Meal> {
     } catch (error) {
         throw LOG(error)
     }
-
 }
 
 export async function getMealPlansFromServer(): Promise<MealPlan[]> {
@@ -221,15 +220,9 @@ export async function postNewPlanToServer(newPlan: MealPlan): Promise<MealPlan |
     }
 }
 
-export async function postNewWeekToServer(entryDate: ISOStringFormat) {
-
-}
-
-// export async function getMealPlanFromServer() {}
-
 // settings functions
 
-export async function getSettingsFromServer(): Promise<SettingsData> {
+export async function getSettingsFromServer(): Promise<SettingsData | undefined> {
     try {
         const response = await fetch(`${SOURCE}/settings/get`)
         const data = await response.json() as SettingsData
