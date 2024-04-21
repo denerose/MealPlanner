@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useDataStore } from '../data/store';
 import MealTab from './MealTab.vue';
+import LunchTab from './LunchTab.vue'
 // import { PlusCircleIcon } from '@heroicons/vue/24/outline';
 
 const store = useDataStore()
@@ -29,6 +30,12 @@ if (store.mealPlans.length == 0) {
                         <MealTab :plan="meal" :key="meal.id"></MealTab>
                     </td>
                 </tr>
+                <tr>
+                    <td><b>Lunch:</b></td>
+                    <td v-for="meal in store.mealPlans">
+                        {{ meal.lunch?.mealName }}
+                    </td>
+                </tr>
             </tbody>
         </table>
     </div>
@@ -47,6 +54,12 @@ if (store.mealPlans.length == 0) {
                     <td><b>Dinner:</b></td>
                     <td v-for="meal in store.nextMealPlans">
                         <MealTab :plan="meal" :key="meal.id"></MealTab>
+                    </td>
+                </tr>
+                <tr>
+                    <td><b>Lunch:</b></td>
+                    <td v-for="meal in store.nextMealPlans">
+                        {{ meal.lunch?.mealName }}
                     </td>
                 </tr>
             </tbody>
