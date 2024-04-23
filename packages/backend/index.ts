@@ -4,9 +4,10 @@ import Prisma, { Ingredient, Meal, MealPlan, Settings } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
 import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateMealPlan, updateSettings } from './dbHelpers'
 import { suggest } from './suggest'
+import { logger } from '@tinyhttp/logger'
 
 const prisma = new Prisma.PrismaClient()
-const app = new App().use(cors({ origin: '*' })).options('*', cors()).use(bodyParser.json())
+const app = new App().use(logger()).use(cors({ origin: '*' })).options('*', cors()).use(bodyParser.json())
 
 app.post(`/user`, async (req, res) => {
     res.json(

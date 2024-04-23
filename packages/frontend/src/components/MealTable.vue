@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDataStore } from '../data/store';
 import MealTab from './MealTab.vue';
-import LunchTab from './LunchTab.vue'
+// import LunchTab from './LunchTab.vue'
 // import { PlusCircleIcon } from '@heroicons/vue/24/outline';
 
 const store = useDataStore()

@@ -55,11 +55,11 @@ export async function updateMealPlan(id: number, dinner: Meal, lunch: Meal): Pro
                     mealName: dinner.mealName
                 },
             },
-            lunch: {
+            lunch: lunch ? {
                 connect: {
                     mealName: lunch.mealName
                 }
-            }
+            } : {}
         },
         include: { dinner: true, lunch: true }
     })
@@ -159,7 +159,6 @@ export async function getSettings(settingsName: string): Promise<Settings | unde
 export async function getOrCreateCurrentWeek() {
     // returns server time, TODO: bring 'today' from client
     const today = cleanDate(new Date())
-    console.log(today)
     const monday = isMonday(today) ? today : previousMonday(today)
     const sunday = nextSunday(monday)
     const currentWeekDates = eachDayOfInterval({ start: monday, end: sunday })
