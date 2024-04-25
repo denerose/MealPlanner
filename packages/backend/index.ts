@@ -3,7 +3,7 @@ import { cors } from '@tinyhttp/cors'
 import Prisma, { Ingredient, Meal, MealPlan, Settings } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
 import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateMealPlan, updateSettings } from './dbHelpers'
-import { suggest } from './suggest'
+import { getValidOptionsList, suggest } from './suggest'
 import { logger } from '@tinyhttp/logger'
 
 const prisma = new Prisma.PrismaClient()
@@ -147,11 +147,9 @@ app.get('/meal/filter', async (req, res) => {
     )
 })
 
-// Meal Plans CRUD
+// suggestions and valid options
 
-//note: check with Kim if there is another/better way to do this
-
-app.post('/plan/suggest', async (req, res) => {
+app.post('/suggest/pick', async (req, res) => {
     const request = req.body as MealPlan
     const previousPlan = await getPreviousDayPlan(String(request.date))
     if (previousPlan) {
@@ -160,6 +158,21 @@ app.post('/plan/suggest', async (req, res) => {
     }
     else res.json(await suggest())
 })
+
+app.post('/suggest/list', async (req, res) => {
+    const request = req.body as MealPlan
+    const previousPlan = await getPreviousDayPlan(String(request.date))
+    if (previousPlan) {
+        res.json(
+            await getValidOptionsList(previousPlan))
+    }
+    else res.json(await getAllMeals())
+})
+
+
+// Meal Plans CRUD
+
+//note: check with Kim if there is another/better way to do this
 
 app.get('/plan/all', async (_, res) => {
     res.json(

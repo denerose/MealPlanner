@@ -136,7 +136,7 @@ export async function deleteIngredientFromServer(idToDelete: number): Promise<vo
 // Meal plans - functions to fetch and send meal plan associations to/from server
 
 export async function getSuggestion(currentPlan: MealPlan): Promise<Meal> {
-    const response = await fetch(`${SOURCE}/plan/suggest`,
+    const response = await fetch(`${SOURCE}/suggest/pick`,
         {
             method: "POST",
             headers: {
@@ -147,6 +147,23 @@ export async function getSuggestion(currentPlan: MealPlan): Promise<Meal> {
     try {
         const data = await response.json()
         return data as Meal
+    } catch (error) {
+        throw LOG(error)
+    }
+}
+
+export async function getSuggestedMeals(currentPlan: MealPlan): Promise<Meal[]> {
+    const response = await fetch(`${SOURCE}/suggest/list`,
+        {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(currentPlan)
+        })
+    try {
+        const data = await response.json()
+        return data as Meal[]
     } catch (error) {
         throw LOG(error)
     }
