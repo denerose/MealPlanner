@@ -32,29 +32,19 @@ namespace rules {
     }
 }
 
-export async function suggest(currentDay?: MealPlan): Promise<Meal> {
-
+export async function getValidOptionsList(currentDay: MealPlan): Promise<Meal[]> {
     const settings = await getSettings('default')
     if (settings === undefined) throw Error('no settings found')
 
     const allMeals = await getAllMeals()
-    // if no currentDay supplied, just choose a random meal (in case earlier call getYesterdayPlan fails)
-    if (!currentDay) {
-        const randomSuggestion = allMeals[Math.floor(Math.random() * allMeals.length)]
-        console.log('random all meal index: ' + randomSuggestion)
-        return randomSuggestion
-    }
+
     const currentMeal = await findMealByID(Number(currentDay.mealId))
-    // if no previous meal, just choose any random meal.
-    if (currentMeal === null || currentMeal === undefined) {
-        const anyMeal = allMeals[Math.floor(Math.random() * allMeals.length)]
-        console.log('any meal: ' + anyMeal)
-        return anyMeal
-    }
-    // const futureDay = await getFutureDayPlan(format(currentDay.date, 'yyyy-mm-dd'), 2)
+    if (!currentMeal) return allMeals
+
     const futureDay = await getFutureDayPlan(String(currentDay.date), 2)
     let futureMeal: Meal | undefined = undefined
     if (futureDay !== undefined && futureDay.mealId !== null) { futureMeal = await findMealByID(futureDay.mealId) }
+
     /**
      * filter meal options to a valid list based on active rules
      */
@@ -66,8 +56,22 @@ export async function suggest(currentDay?: MealPlan): Promise<Meal> {
     })
 
     if (validOptions.length <= 0) throw Error("no meal values match current rules")
-    const randomIndex = Math.floor(Math.random() * validOptions.length)
-    console.log('random valid index: ' + randomIndex)
-    const suggestion = validOptions[randomIndex]
-    return suggestion
+    return validOptions
+}
+
+export async function suggest(previousDay?: MealPlan): Promise<Meal> {
+    if (!previousDay) {
+        const allMeals = await getAllMeals()
+        const randomIndex = Math.floor(Math.random() * allMeals.length)
+        console.log('random allMeals index: ' + randomIndex)
+        const suggestion = allMeals[randomIndex]
+        return suggestion
+    }
+    else {
+        const validOptions = await getValidOptionsList(previousDay)
+        const randomIndex = Math.floor(Math.random() * validOptions.length)
+        console.log('random valid index: ' + randomIndex)
+        const suggestion = validOptions[randomIndex]
+        return suggestion
+    }
 }
