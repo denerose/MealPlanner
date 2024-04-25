@@ -3,11 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "jest",
     "start": "tsm index.ts",
     "tsm": "tsm",
-    "dev": "npx onchange -i -k '**/*.ts' -- npm run start"
+    "dev": "npx onchange -i -k '**/*.ts' -- npm run start",
+    "build": "tsc --project tsconfig.build.json"
   },
   "keywords": [],
   "author": "",

@@ -1,6 +1,6 @@
 import Prisma, { Meal, MealPlan, Settings } from '@prisma/client'
 import { add, eachDayOfInterval, formatISO, isMonday, nextMonday, nextSunday, previousMonday, setHours, sub } from "date-fns";
-import { DayOfWeek } from './suggest';
+import { DayOfWeek } from './suggest.js';
 
 
 const prisma = new Prisma.PrismaClient()

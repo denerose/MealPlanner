@@ -1,5 +1,5 @@
 import { Meal, MealPlan } from '@prisma/client'
-import { findMealByID, getAllMeals, getFutureDayPlan, getSettings } from './dbHelpers';
+import { findMealByID, getAllMeals, getFutureDayPlan, getSettings } from './dbHelpers.js';
 import { format } from "date-fns";
 
 export type DayOfWeek =
@@ -48,7 +48,7 @@ export async function getValidOptionsList(currentDay: MealPlan): Promise<Meal[]>
     /**
      * filter meal options to a valid list based on active rules
      */
-    const validOptions = allMeals.filter((item) => {
+    const validOptions = allMeals.filter((item: Meal) => {
         if (rules.isRepeat(currentMeal, item, futureMeal)) return false
         else if (settings.carbRule && rules.doubleCarbs(currentMeal, item, futureMeal)) return false
         else if (settings.lunchRule) return rules.meetsLunchRules(currentDay, item)

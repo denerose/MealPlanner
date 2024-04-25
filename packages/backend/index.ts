@@ -2,8 +2,8 @@ import { App } from '@tinyhttp/app'
 import { cors } from '@tinyhttp/cors'
 import Prisma, { Ingredient, Meal, MealPlan, Settings } from '@prisma/client'
 import * as bodyParser from 'milliparsec'
-import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateMealPlan, updateSettings } from './dbHelpers'
-import { getValidOptionsList, suggest } from './suggest'
+import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateMealPlan, updateSettings } from './dbHelpers.js'
+import { getValidOptionsList, suggest } from './suggest.js'
 import { logger } from '@tinyhttp/logger'
 
 const prisma = new Prisma.PrismaClient()
