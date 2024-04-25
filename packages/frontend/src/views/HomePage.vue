@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Suspense } from 'vue';
 import MealTable from '../components/MealTable.vue';
+import LoadingWheel from '../components/LoadingWheel.vue';
 
 </script>
 
@@ -9,7 +10,7 @@ import MealTable from '../components/MealTable.vue';
         <Suspense>
             <MealTable />
             <template #fallback>
-                Loading...
+                <LoadingWheel />
             </template>
         </Suspense>
     </div>

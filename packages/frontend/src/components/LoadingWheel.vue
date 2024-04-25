@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
-    <h2>Loading...</h2>
+    <h4>Loading...</h4>
 </template>

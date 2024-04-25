@@ -4,6 +4,7 @@ import ModalComp from './ModalComp.vue';
 import { MealPlan } from '../data/types';
 import MealPlanForm from './MealPlanForm.vue';
 import { PlusCircleIcon, PencilSquareIcon } from '@heroicons/vue/24/outline';
+import LoadingWheel from './LoadingWheel.vue';
 
 const props = defineProps<{
     plan: MealPlan
@@ -29,7 +30,12 @@ const submitHandler = () => {
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
         <template #header>Meal Allocation - {{ props.plan.day }}</template>
         <template #content>
-            <MealPlanForm v-bind="props.plan"></MealPlanForm>
+            <Suspense>
+                <MealPlanForm v-bind="props.plan"></MealPlanForm>
+                <template #fallback>
+                    <LoadingWheel />
+                </template>
+            </Suspense>
         </template>
         <template #footer></template>
     </ModalComp>

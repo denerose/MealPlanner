@@ -9,7 +9,9 @@ const props = defineProps({
 const emit = defineEmits(["modal-close"]);
 
 const target = ref(null)
-onClickOutside(target, () => emit('modal-close'))
+onClickOutside(target, () => {
+    emit('modal-close')
+})
 
 </script>
 
@@ -35,24 +37,4 @@ onClickOutside(target, () => emit('modal-close'))
     </div>
 </template>
 
-<style scoped>
-.modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-container {
-    width: 80vw;
-    overflow: scroll;
-    margin: 150px auto;
-    padding: 20px 30px;
-    background-color: rgba(133, 103, 167, 0.98);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-}
-</style>
+<style scoped></style>
