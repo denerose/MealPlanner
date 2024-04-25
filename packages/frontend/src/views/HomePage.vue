@@ -6,7 +6,6 @@ import MealTable from '../components/MealTable.vue';
 
 <template>
     <div class="card">
-        <h2>This is the home page!</h2>
         <Suspense>
             <MealTable />
             <template #fallback>

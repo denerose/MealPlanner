@@ -51,8 +51,8 @@ onClickOutside(target, () => emit('modal-close'))
     overflow: scroll;
     margin: 150px auto;
     padding: 20px 30px;
-    background-color: #fff;
-    border-radius: 2px;
+    background-color: rgba(133, 103, 167, 0.98);
+    border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
 }
 </style>
