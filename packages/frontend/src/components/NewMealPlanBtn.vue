@@ -28,7 +28,9 @@ const submitHandler = () => {
     <PlusCircleIcon v-if="!props.plan.dinner" @click="openModal" class="addEditMeal"></PlusCircleIcon>
     <PencilSquareIcon v-else @click="openModal" class="addEditMeal"></PencilSquareIcon>
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
-        <template #header>Meal Allocation - {{ props.plan.day }}</template>
+        <template #header>
+            <h3>Meal Allocation - {{ props.plan.day }}</h3>
+        </template>
         <template #content>
             <Suspense>
                 <MealPlanForm v-bind="props.plan"></MealPlanForm>

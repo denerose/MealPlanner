@@ -162,8 +162,23 @@ export async function getSuggestedMeals(currentPlan: MealPlan): Promise<Meal[]> 
             body: JSON.stringify(currentPlan)
         })
     try {
-        const data = await response.json()
-        return data as Meal[]
+        const data = await response.json() as RawMeal[]
+        const mealList: Meal[] = []
+        data.map((result) => mealList.push({
+            id: result.id,
+            mealName: result.mealName,
+            description: result.description,
+            ingredients: result.ingredients,
+            qualities: rawQualsToObject(
+                result.isHighCarb,
+                result.isHighVeg,
+                result.makesLunch,
+                result.isCreamy,
+                result.isAcidic,
+                result.outdoorCooking,
+            )
+        }))
+        return mealList as Meal[]
     } catch (error) {
         throw LOG(error)
     }

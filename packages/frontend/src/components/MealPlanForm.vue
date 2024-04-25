@@ -5,6 +5,7 @@ import { useDataStore } from '../data/store';
 import NewMealBtn from './NewMealBtn.vue';
 // import { SparklesIcon } from '@heroicons/vue/24/outline';
 import { getSuggestion, getSuggestedMeals } from '../data/helpers';
+import SuggestionDisplay from './SuggestionDisplay.vue'
 
 
 const props = defineProps<MealPlan>()
@@ -46,6 +47,7 @@ const handleSuggest = async () => {
 
 const suggestionList = await getSuggestedMeals(props)
 
+
 const handlePick = (choice: string) => {
     dinnerText.value = choice
 }
@@ -84,12 +86,12 @@ const handlePick = (choice: string) => {
         </div>
         <div>
             <h5>Suggested Options</h5>
-            <ul>
-                <li v-for="meal in suggestionList" :key="meal.id" @click="handlePick(meal.mealName)">{{ meal.mealName }}
-                </li>
-            </ul>
+            <SuggestionDisplay v-for="meal in suggestionList" :key="meal.id" :meal="meal"
+                @click="handlePick(meal.mealName)">
+            </SuggestionDisplay>
             <hr />
         </div>
+        <div></div>
     </div>
 </template>
 <style scoped>
@@ -99,6 +101,7 @@ const handlePick = (choice: string) => {
 
 .plan-frame {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 2rem;
 }
 </style>
