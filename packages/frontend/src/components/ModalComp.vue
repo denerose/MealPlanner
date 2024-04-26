@@ -2,6 +2,7 @@
 import { defineProps, defineEmits, ref } from "vue";
 import { onClickOutside } from '@vueuse/core'
 
+//@ts-ignore
 const props = defineProps({
     isOpen: Boolean,
 });

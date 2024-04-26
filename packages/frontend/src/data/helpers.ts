@@ -1,11 +1,11 @@
 // import { ISOStringFormat } from "date-fns";
-import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal, SettingsData } from "./types";
+import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal, SettingsData, ValidMeal } from "./types";
 
 const SOURCE = 'http://localhost:3200'
 const LOG = (msg: any) => { console.log(msg) }
 
 // Meal options/list - function to get and send meal options to/from server
-export async function postNewMealToServer(newMeal: Meal): Promise<Meal | undefined> {
+export async function postNewMealToServer(newMeal: ValidMeal): Promise<ValidMeal | undefined> {
     try {
         const response = await fetch(`${SOURCE}/meal/new`,
             {
@@ -13,12 +13,12 @@ export async function postNewMealToServer(newMeal: Meal): Promise<Meal | undefin
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify(newMeal),
+                body: JSON.stringify(flatMeal(newMeal)),
             })
         const result = await response.json() as RawMeal
         if (result === undefined) throw Error('new meal not returned')
         LOG(`New meal: ${result.mealName}`)
-        const confirmedMeal: Meal = {
+        const confirmedMeal: ValidMeal = {
             id: result.id,
             mealName: result.mealName,
             description: result.description,
@@ -37,6 +37,40 @@ export async function postNewMealToServer(newMeal: Meal): Promise<Meal | undefin
     catch (error) {
         LOG(error)
     }
+}
+
+export function rawMealToValidMeal(rawMeal: RawMeal): ValidMeal {
+    const validMeal = {
+        id: rawMeal.id,
+        mealName: rawMeal.mealName,
+        description: rawMeal.description,
+        ingredients: rawMeal.ingredients,
+        qualities: rawQualsToObject(
+            rawMeal.isHighCarb,
+            rawMeal.isHighVeg,
+            rawMeal.makesLunch,
+            rawMeal.isCreamy,
+            rawMeal.isAcidic,
+            rawMeal.outdoorCooking,
+        )
+    }
+    return validMeal
+}
+
+function flatMeal(newMeal: ValidMeal): RawMeal {
+    const flatMeal: RawMeal = {
+        id: Number(newMeal.id),
+        mealName: newMeal.mealName,
+        description: newMeal.description ? newMeal.description : '',
+        ingredients: newMeal.ingredients,
+        isHighCarb: newMeal.qualities.isHighCarb,
+        isHighVeg: newMeal.qualities.isHighVeg,
+        makesLunch: newMeal.qualities.makesLunch,
+        isCreamy: newMeal.qualities.isCreamy,
+        isAcidic: newMeal.qualities.isAcidic,
+        outdoorCooking: newMeal.qualities.outdoorCooking,
+    }
+    return flatMeal
 }
 
 function rawQualsToObject(
@@ -86,7 +120,7 @@ export async function getMealByIdFromServer(mealID: number): Promise<Meal> {
     return data
 }
 
-export async function postUpdateMealToServer(updatedMeal: Meal): Promise<Meal> {
+export async function postUpdateMealToServer(updatedMeal: ValidMeal): Promise<ValidMeal> {
     if (!updatedMeal.id) throw Error("no meal id")
     const response = await fetch(`${SOURCE}/meal/update/${updatedMeal.id}`,
         {
@@ -96,8 +130,8 @@ export async function postUpdateMealToServer(updatedMeal: Meal): Promise<Meal> {
             },
             body: JSON.stringify(updatedMeal),
         })
-    const data = await response.json() as Meal
-    return data
+    const data = await response.json() as RawMeal
+    return rawMealToValidMeal(data)
 }
 
 export async function deleteMealFromServer(idToDelete: number): Promise<void> {

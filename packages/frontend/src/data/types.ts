@@ -7,6 +7,14 @@ export interface Meal {
     qualities?: Quals
 }
 
+export interface ValidMeal {
+    id?: number,
+    mealName: string,
+    description?: string,
+    ingredients: Ingredient[],
+    qualities: Quals
+}
+
 export interface Ingredient {
     id?: number,
     ingredientName: string

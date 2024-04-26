@@ -25,6 +25,7 @@
   },
   "dependencies": {
     "@prisma/client": "^5.8.0",
+    "@tinyhttp/app": "2.2.3",
     "@tinyhttp/cors": "^2.0.0",
     "@tinyhttp/logger": "^2.0.0",
     "date-fns": "^3.3.1",

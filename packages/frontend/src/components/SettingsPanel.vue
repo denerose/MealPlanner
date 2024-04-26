@@ -4,7 +4,11 @@ import { getSettingsFromServer, updateSettingsOnServer } from '../data/helpers';
 import { SettingsData } from '../data/types';
 import LunchDaysTable from './LunchDaysTable.vue';
 
-const serverSettings = await getSettingsFromServer()
+const serverSettings = await getSettingsFromServer() || {
+    lunchRule: false,
+    carbRule: false,
+    acidRule: false
+}
 
 const settingsData = ref<SettingsData>({
     preset: "default",

@@ -1,5 +1,5 @@
 import { defineStore } from "pinia"
-import { Ingredient, Meal, MealPlan } from "./types"
+import { Ingredient, MealPlan, ValidMeal } from "./types"
 // import { mealPlansMock } from "./mockData"
 import { createNextPlansOnServer, dayFromDate, deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, getNextPlansFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
 
@@ -8,15 +8,7 @@ const LOG = (msg: any) => { console.log(msg) }
 export const useDataStore = defineStore('data', {
 
     state: () => ({
-        meals: [{
-            mealName: 'pasta',
-            ingredients: []
-        },
-        {
-            mealName: 'soup',
-            ingredients: []
-        }
-        ] as Meal[],
+        meals: [] as ValidMeal[],
 
         mealPlans: [] as MealPlan[],
 
@@ -32,7 +24,7 @@ export const useDataStore = defineStore('data', {
     actions: {
         async fetchMealList() {
             try {
-                const newData = await getMealsFromServer()
+                const newData = await getMealsFromServer() as ValidMeal[]
                 this.meals = newData
             } catch (error) {
                 LOG(String(error))
@@ -69,7 +61,7 @@ export const useDataStore = defineStore('data', {
                 LOG(String(error))
             }
         },
-        async pushNewMeal(newMeal: Meal) {
+        async pushNewMeal(newMeal: ValidMeal) {
             try {
                 if (newMeal.ingredients.length < 1 || newMeal.ingredients === undefined) {
                     newMeal.ingredients = []
@@ -83,7 +75,7 @@ export const useDataStore = defineStore('data', {
             }
         },
 
-        async pushUpdatedMeal(updatedMeal: Meal) {
+        async pushUpdatedMeal(updatedMeal: ValidMeal) {
             try {
                 const oldIndex = this.meals.findIndex(meal => meal.id === updatedMeal.id)
                 const ingsToRemove = this.oldIngredientsToRemove(this.meals[oldIndex].ingredients, updatedMeal.ingredients)
@@ -140,7 +132,7 @@ export const useDataStore = defineStore('data', {
             }
         },
 
-        async removeIngredient(ingToRemove: Ingredient, meal: Meal) {
+        async removeIngredient(ingToRemove: Ingredient, meal: ValidMeal) {
             try {
                 if (meal.id === undefined) throw Error(`no meal id`)
                 await disconnectIngredientFromMeal(ingToRemove, Number(meal.id))

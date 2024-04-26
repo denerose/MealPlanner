@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Ingredient, Meal } from '../data/types';
+import { Ingredient, ValidMeal } from '../data/types';
 import { useDataStore } from '../data/store';
 import TagInput from "@mayank1513/vue-tag-input";
 
-const props = defineProps<Meal>();
+const props = defineProps<ValidMeal>();
 const store = useDataStore()
 
-const mealData = ref<Meal>({
+const mealData = ref<ValidMeal>({
     id: props.id,
     mealName: props.mealName,
     description: props.description,
@@ -100,7 +100,7 @@ function addTags() {
         </form>
     </div>
 </template>
-  
+
 
 <style scoped>
 .tag-input {

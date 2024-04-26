@@ -4,21 +4,29 @@ import { useDataStore } from '../data/store';
 import { XMarkIcon, PencilSquareIcon, MinusCircleIcon } from '@heroicons/vue/24/outline';
 import ModalComp from "./ModalComp.vue"
 import MealFormEdit from "./MealFormEdit.vue";
-import { Ingredient, Meal } from "../data/types";
+import { Ingredient, ValidMeal } from "../data/types";
 
 const store = useDataStore()
 if (store.meals.length == 0) { store.fetchMealList() }
 
 // modal controls
 const isModalOpened = ref(false);
-const modalProps = ref<Meal>({
+const modalProps = ref<ValidMeal>({
     id: undefined,
     mealName: 'default',
     description: '',
     ingredients: [] as Ingredient[],
+    qualities: {
+        isHighCarb: false,
+        isHighVeg: false,
+        makesLunch: false,
+        isCreamy: false,
+        isAcidic: false,
+        outdoorCooking: false,
+    }
 })
 
-const openModal = (passedProps: Meal) => {
+const openModal = (passedProps: ValidMeal) => {
     modalProps.value = passedProps
     isModalOpened.value = true;
 };

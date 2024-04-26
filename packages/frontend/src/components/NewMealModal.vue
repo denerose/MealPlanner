@@ -3,6 +3,7 @@ import { defineProps, defineEmits, ref } from "vue";
 import { onClickOutside } from '@vueuse/core'
 import MealForm from './MealForm.vue';
 
+//@ts-ignore
 const props = defineProps({
     isOpen: Boolean,
 });
