@@ -22,7 +22,6 @@ const props = defineProps<{
         <div><span v-if="props.plan.dinner">{{ props.plan.dinner.mealName }}</span>
             <span v-else>No Meal</span>
         </div>
-        <div class="plan-btns"></div>
         <NewMealPlanBtn :plan="plan"></NewMealPlanBtn>
     </div>
 </template>
@@ -32,7 +31,8 @@ const props = defineProps<{
     background-color: rgba(246, 233, 159, 0.443);
     border: 0.5px solid gold;
     display: flex;
-    min-width: 130px;
+    min-width: 8vw;
+    max-width: 100%;
     justify-content: space-between;
     border-radius: 13px;
     padding: 5px;

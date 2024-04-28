@@ -6,7 +6,7 @@ import LoadingWheel from '../components/LoadingWheel.vue';
 </script>
 
 <template>
-    <div class="card">
+    <div class="container page-frame">
         <Suspense>
             <MealTable />
             <template #fallback>

@@ -20,12 +20,13 @@ select {
     max-width: 95%;
 }
 
-.card {
+.page-frame {
     margin: 1rem auto;
     margin-top: 1rem;
     padding: 2rem;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     border-radius: 5px;
+    border: 1px solid rgba(0, 0, 0, 0.1)
 }
 
 .modal-mask {

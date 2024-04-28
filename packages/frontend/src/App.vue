@@ -4,12 +4,14 @@ import NavBar from './components/NavBar.vue';
 </script>
 
 <template>
-  <header>
-    <h1>🍽 myMealPlanner</h1>
-    <nav-bar />
-  </header>
-  <router-view />
-  <footer><small>this is the footer</small></footer>
+  <div class="container-lg">
+    <header class="">
+      <h1>🍽 myMealPlanner</h1>
+      <nav-bar />
+    </header>
+    <router-view />
+    <footer><small>this is the footer</small></footer>
+  </div>
 </template>
 
 <style scoped>

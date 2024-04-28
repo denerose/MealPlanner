@@ -3,7 +3,7 @@ import SettingsPanel from '../components/SettingsPanel.vue';
 </script>
 
 <template>
-    <div class="card">
+    <div class="page-frame">
         <h2>Settings Page</h2>
         <Suspense>
             <SettingsPanel />

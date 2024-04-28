@@ -49,7 +49,7 @@ function addTags() {
 </script>
 
 <template>
-    <div class="card">
+    <div class="page-frame">
         <h2>{{ isEditMode ? 'Edit Meal' : 'Create Meal' }}</h2>
         <form @submit.prevent="submitForm">
             <div>

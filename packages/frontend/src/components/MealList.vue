@@ -40,7 +40,7 @@ const submitHandler = () => {
 </script>
 
 <template>
-    <div class="card">
+    <div class="page-frame">
         <div class="list-div">
             <ul>
                 <li v-for="meal in store.meals">
