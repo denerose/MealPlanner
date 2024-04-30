@@ -28,6 +28,8 @@ import { HomeIcon, BookOpenIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline
                     </li>
                 </ul>
             </div>
+            <router-link class="nav-link" to="/"><span class="navbar-brand">🍽 myMealPlanner</span></router-link>
+
         </div>
     </nav>
 </template>

@@ -5,7 +5,6 @@ import NavBar from './components/NavBar.vue';
 
 <template>
   <header class="bg-white text-dark border-bottom sticky-top p-2">
-    <h1>🍽 myMealPlanner</h1>
     <nav-bar />
   </header>
   <div class="container-lg">
