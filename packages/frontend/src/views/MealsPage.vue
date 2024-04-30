@@ -5,7 +5,7 @@ import MealList from '../components/MealList.vue';
 </script>
 
 <template>
-    <div class="page-frame">
+    <div class="page-frame bg-white" style="--bs-bg-opacity: .9;">
         <details open>
             <summary>Manage meals</summary>
             <MealList />

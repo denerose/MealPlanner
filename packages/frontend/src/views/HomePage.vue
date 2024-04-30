@@ -6,7 +6,7 @@ import LoadingWheel from '../components/LoadingWheel.vue';
 </script>
 
 <template>
-    <div class="container page-frame">
+    <div class="container page-frame bg-white" style="--bs-bg-opacity: .9;">
         <Suspense>
             <MealTable />
             <template #fallback>

@@ -1,5 +1,12 @@
+body {
+    background-image: url("./assets/pexels-ella-olsson-572949-1640777.jpg");
+    background-size: cover;
+}
+
 #app {
     min-width: fit-content;
+    background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .50) 25%, rgba(255, 255, 255, 1) 100%);
+    min-height: 100%;
 }
 
 .page-frame {
