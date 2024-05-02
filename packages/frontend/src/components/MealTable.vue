@@ -20,13 +20,15 @@ if (store.mealPlans.length == 0) {
         <div class="card-group">
             <MealCard v-for="day in store.mealPlans" :plan="day"></MealCard>
         </div>
+        <br />
+        <router-view :key="$route.params.id as string"></router-view>
     </div>
     <div v-if="store.nextMealPlans.length == 0"><button @click="store.createNewWeek">Add Next Week</button></div>
     <div v-else>
         <div class="container">
             <h3>Next Week</h3>
             <div class="table-overflow">
-                <table class="table">
+                <table class="table bg-transparent">
                     <thead>
                         <tr>
                             <th>Day:</th>

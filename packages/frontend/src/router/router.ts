@@ -1,11 +1,16 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
+import EditPlanPage from '../views/EditPlanPage.vue'
 
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: HomePage
+        component: HomePage,
+        children: [{
+            path: '/:id',
+            component: EditPlanPage
+        }]
     },
     {
         path: '/settings',

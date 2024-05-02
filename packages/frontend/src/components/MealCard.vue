@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import type { MealPlan } from '../data/types';
-import NewMealPlanBtn from './NewMealPlanBtn.vue';
+// import NewMealPlanBtn from './NewMealPlanBtn.vue';
 
 
 const props = defineProps<{
     plan: MealPlan
 }>();
+
+const linkID = props.plan.id
 
 </script>
 
@@ -22,7 +24,9 @@ const props = defineProps<{
             </div>
         </div>
         <div class="card-footer">
-            <NewMealPlanBtn :plan="plan" />
+            <router-link :to="'/' + linkID"><button class="btn btn-success">
+                    edit </button>
+            </router-link>
         </div>
     </div>
 </template>
