@@ -4,6 +4,7 @@ import { cleanISODate } from '../../data/helpers.ts';
 import TodayCard from './TodayCard.vue';
 import { MealPlan } from '../../data/types';
 import CurrentWeekSummary from './CurrentWeekSummary.vue';
+import { onMounted } from 'vue';
 
 const store = useDataStore()
 
@@ -17,6 +18,11 @@ const nextWeek = store.nextMealPlans
 
 const today: string = cleanISODate(new Date())
 const todayPlan = thisWeek.find((i) => i.date === today) as MealPlan
+
+onMounted(() => {
+    const todayCard = document.getElementById(today)
+    todayCard?.classList.add('text-bg-success')
+})
 
 </script>
 
