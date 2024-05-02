@@ -3,3 +3,4 @@ packages/backend/prisma/dev.db-journal
 packages/frontend/src/components/IngredientInput.vue
 .DS_Store
 **/*/dist/
+packages/frontend/src/components/archived

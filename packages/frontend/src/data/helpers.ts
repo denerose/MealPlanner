@@ -315,7 +315,7 @@ export async function updateSettingsOnServer(newData: SettingsData) {
 
 // generic helpers
 
-function cleanISODate(isoDate: string | Date): Date | string {
+export function cleanISODate(isoDate: string | Date): string {
     const date = new Date(isoDate)
     const year = date.getFullYear()
     const month = String(date.getMonth() + 1).padStart(2, '0')

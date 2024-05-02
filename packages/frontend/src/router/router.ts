@@ -13,6 +13,16 @@ const routes = [
         }]
     },
     {
+        path: '/plan',
+        name: 'planner',
+        component: () =>
+            import('../views/WeekPlanPage.vue'),
+        children: [{
+            path: 'plan/:id',
+            component: EditPlanPage
+        }]
+    },
+    {
         path: '/settings',
         name: 'settings',
         component: () =>

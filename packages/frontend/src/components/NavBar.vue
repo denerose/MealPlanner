@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { HomeIcon, BookOpenIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroicons/vue/24/outline';
 </script>
 
 <template>
@@ -14,6 +14,11 @@ import { HomeIcon, BookOpenIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline
                     <li class="nav-item">
                         <router-link class="nav-link" to="/">
                             <home-icon class="icon" /><span> | Home</span>
+                        </router-link>
+                    </li>
+                    <li class="nav-item"><router-link class="nav-link" :to="{ name: 'planner' }"><calendar-days-icon
+                                class="icon" />
+                            <span> | Next Week</span>
                         </router-link>
                     </li>
                     <li class="nav-item"><router-link class="nav-link" :to="{ name: 'meals' }"><book-open-icon

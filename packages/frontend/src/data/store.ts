@@ -1,6 +1,5 @@
 import { defineStore } from "pinia"
 import { Ingredient, MealPlan, ValidMeal } from "./types"
-// import { mealPlansMock } from "./mockData"
 import { createNextPlansOnServer, dayFromDate, deleteIngredientFromServer, deleteMealFromServer, disconnectIngredientFromMeal, getIngredientsFromServer, getMealPlansFromServer, getMealsFromServer, getNextPlansFromServer, postNewMealToServer, postUpdateMealPlanToServer, postUpdateMealToServer } from "./helpers"
 
 const LOG = (msg: any) => { console.log(msg) }
