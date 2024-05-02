@@ -9,6 +9,11 @@ const props = defineProps<{
 
 const linkID = props.plan.id
 
+function handleClick() {
+    const details = document.getElementById(`details-${linkID}`)
+    details?.toggleAttribute('open')
+}
+
 </script>
 
 <template>
@@ -24,7 +29,7 @@ const linkID = props.plan.id
             </div>
         </div>
         <div class="card-footer">
-            <router-link :to="'/' + linkID"><button class="btn btn-success">
+            <router-link :to="'/' + linkID"><button class="btn btn-success" @click="handleClick">
                     edit </button>
             </router-link>
         </div>

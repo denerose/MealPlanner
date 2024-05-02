@@ -19,9 +19,9 @@ const currentPlan: MealPlan = planToFind ? planToFind : {
 
 <template>
     <div v-if="currentPlan == undefined" class="bg-danger text-white">No such plan exists!</div>
-    <details v-else open>
+    <details v-else open :id="`details-${currentPlan.id}`">
         <summary>
-            {{ currentPlan.day }}
+            Edit - {{ currentPlan.day }}
         </summary>
         <div>
             <MealPlanForm v-bind="currentPlan"></MealPlanForm>
