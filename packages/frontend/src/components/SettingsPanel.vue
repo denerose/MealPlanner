@@ -25,29 +25,42 @@ const submitForm = async () => {
 </script>
 
 <template>
-    <div>
-        <details>
-            <summary open>Suggestion Rules</summary>
-            <form @submit.prevent="submitForm">
-                <div>
-                    <label for="lunch-rule">Check for lunches:</label>
-                    <input v-model="settingsData.lunchRule" type="checkbox" id="lunch-rule" />
-                </div>
-                <div>
-                    <label for="carb-rule">Avoid double carbs:</label>
-                    <input v-model="settingsData.carbRule" type="checkbox" id="carb-rule" />
-                </div>
-                <div>
-                    <label for="acid-rule">Avoid double acid:</label>
-                    <input v-model="settingsData.acidRule" type="checkbox" id="acid-rule" />
-                </div>
-                <button type="submit">Update Settings</button>
-            </form>
-        </details>
-        <details>
-            <summary>Lunch Days</summary>
-            <LunchDaysTable />
-        </details>
+    <div class="container page-frame">
+        <div class="card">
+            <details class="card-body">
+                <summary class="" open>
+                    <h4>Suggestion Rules</h4>
+                </summary>
+                <form submit.prevent="submitForm">
+                    <ul>
+                        <li>
+                            <label for="lunch-rule">Check for lunches:</label>
+                            <input v-model="settingsData.lunchRule" type="checkbox" id="lunch-rule" />
+                        </li>
+                        <li>
+                            <label for="carb-rule">Avoid double carbs:</label>
+                            <input v-model="settingsData.carbRule" type="checkbox" id="carb-rule" />
+                        </li>
+                        <li>
+                            <label for="acid-rule">Avoid double acid:</label>
+                            <input v-model="settingsData.acidRule" type="checkbox" id="acid-rule" />
+                        </li>
+                    </ul>
+                    <button class="btn btn-outline-primary" type="submit" @click="submitForm">Update Settings</button>
+                </form>
+            </details>
+        </div>
+
+        <hr />
+        <div class="card">
+            <details class="card-body">
+                <summary>
+                    <h4>Lunch Days</h4>
+                </summary>
+                <LunchDaysTable />
+                <p>Test</p>
+            </details>
+        </div>
     </div>
 </template>
 

@@ -4,9 +4,16 @@ body {
     background-attachment: fixed;
 }
 
+details summary {
+    cursor: pointer;
+}
+
+details summary>* {
+    display: inline;
+}
+
 #app {
     min-width: fit-content;
-    /* background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, .50) 25%, rgba(255, 255, 255, 1) 100%); */
     min-height: 100%;
 }
 
