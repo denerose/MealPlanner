@@ -5,11 +5,13 @@ import EditPlanCard from './EditPlanCard.vue'
 const store = useDataStore();
 const plans = await store.nextMealPlans
 
-if (plans.length == 0) {
+if (plans.length > 7) {
     await store.fetchMealList()
     await store.fetchMealPlans()
-    if (plans.length == 0) { store.createNewWeek() }
+    await store.createNewWeek()
 }
+
+
 </script>
 
 <template>
