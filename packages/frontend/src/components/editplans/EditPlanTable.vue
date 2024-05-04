@@ -3,19 +3,18 @@ import { useDataStore } from '../../data/store';
 import EditPlanCard from './EditPlanCard.vue'
 
 const store = useDataStore();
-const plans = await store.nextMealPlans
+const plans = store.nextMealPlans
 
-if (plans.length > 7) {
+if (plans.length < 7) {
     await store.fetchMealList()
     await store.fetchMealPlans()
     await store.createNewWeek()
 }
 
-
 </script>
 
 <template>
     <div class="card-group">
-        <EditPlanCard v-for="plan in plans" :plan="plan"></EditPlanCard>
+        <EditPlanCard v-for="plan in store.nextMealPlans" :plan="plan"></EditPlanCard>
     </div>
 </template>
