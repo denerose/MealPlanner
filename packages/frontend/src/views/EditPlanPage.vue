@@ -7,7 +7,7 @@ import MealPlanForm from '../components/MealPlanForm.vue';
 const route = useRoute();
 const store = useDataStore();
 
-const planToFind: MealPlan | undefined = store.mealPlans.find(plan => plan.id == Number(route.params.id))
+const planToFind: MealPlan | undefined = await store.mealPlans.find(plan => plan.id == Number(route.params.id))
 const currentPlan: MealPlan = planToFind ? planToFind : {
     id: 0,
     day: 'Monday',

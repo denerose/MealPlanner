@@ -1,26 +1,18 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
-import EditPlanPage from '../views/EditPlanPage.vue'
+import WeekPlanPage from '../views/WeekPlanPage.vue'
+// import EditPlanPage from '../views/EditPlanPage.vue'
 
 const routes = [
     {
         path: '/',
         name: 'home',
-        component: HomePage,
-        children: [{
-            path: '/:id',
-            component: EditPlanPage
-        }]
+        component: HomePage
     },
     {
         path: '/plan',
-        name: 'planner',
-        component: () =>
-            import('../views/WeekPlanPage.vue'),
-        children: [{
-            path: 'plan/:id',
-            component: EditPlanPage
-        }]
+        name: 'plan',
+        component: WeekPlanPage
     },
     {
         path: '/settings',

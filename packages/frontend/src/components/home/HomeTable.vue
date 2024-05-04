@@ -27,7 +27,7 @@ onMounted(() => {
 </script>
 
 <template>
-    <TodayCard :plan="todayPlan"></TodayCard>
+    <TodayCard :plan="todayPlan" class="d-none d-sm-block"></TodayCard>
     <br />
     <CurrentWeekSummary :plans="thisWeek"></CurrentWeekSummary>
     <br />

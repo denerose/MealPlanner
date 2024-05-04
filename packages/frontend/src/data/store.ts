@@ -36,7 +36,7 @@ export const useDataStore = defineStore('data', {
                 const newData = await getMealPlansFromServer()
                 this.mealPlans = this.sortedMealPlans(newData)
                 const nextWeek = await getNextPlansFromServer()
-                this.nextMealPlans = nextWeek
+                this.nextMealPlans = this.sortedMealPlans(nextWeek)
             } catch (error) {
                 LOG(String(error))
             }

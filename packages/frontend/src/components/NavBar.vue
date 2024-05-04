@@ -12,11 +12,11 @@ import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroic
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/">
+                        <router-link class="nav-link" :to="{ name: 'home' }">
                             <home-icon class="icon" /><span> | Home</span>
                         </router-link>
                     </li>
-                    <li class="nav-item"><router-link class="nav-link" :to="{ name: 'planner' }"><calendar-days-icon
+                    <li class="nav-item"><router-link class="nav-link" :to="{ name: 'plan' }"><calendar-days-icon
                                 class="icon" />
                             <span> | Next Week</span>
                         </router-link>
@@ -33,7 +33,8 @@ import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroic
                     </li>
                 </ul>
             </div>
-            <router-link class="nav-link" to="/"><span class="navbar-brand">🍽 myMealPlanner</span></router-link>
+            <router-link class="nav-link" :to="{ name: 'home' }"><span class="navbar-brand">🍽
+                    myMealPlanner</span></router-link>
 
         </div>
     </nav>
