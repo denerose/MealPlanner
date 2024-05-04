@@ -6,6 +6,7 @@ import MealList from '../components/MealList.vue';
 
 <template>
     <div class="page-frame bg-white" style="--bs-bg-opacity: .9;">
+        <h2>Meals and Recipes</h2>
         <div class="card">
             <details class="card-body" open>
                 <summary>

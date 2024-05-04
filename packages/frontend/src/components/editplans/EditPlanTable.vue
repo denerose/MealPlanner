@@ -14,6 +14,7 @@ if (plans.length < 7) {
 </script>
 
 <template>
+    <h2>Edit Next Week</h2>
     <div class="card-group">
         <EditPlanCard v-for="plan in store.nextMealPlans" :plan="plan"></EditPlanCard>
     </div>
