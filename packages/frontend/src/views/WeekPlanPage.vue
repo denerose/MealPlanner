@@ -18,7 +18,7 @@ const route = useRoute()
         <div class="d-none d-sm-block">
             View
             <Suspense>
-                <router-view :id="route.params.id"></router-view>
+                <router-view :key="route.fullPath"></router-view>
             </Suspense>
         </div>
     </div>

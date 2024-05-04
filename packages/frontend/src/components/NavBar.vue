@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroicons/vue/24/outline';
+
 </script>
 
 <template>
@@ -16,7 +17,7 @@ import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroic
                             <home-icon class="icon" /><span> | Home</span>
                         </router-link>
                     </li>
-                    <li class="nav-item"><router-link class="nav-link" :to="{ name: 'plan' }"><calendar-days-icon
+                    <li class="nav-item"><router-link class="nav-link" :to="{ path: '/plan' }"><calendar-days-icon
                                 class="icon" />
                             <span> | Next Week</span>
                         </router-link>
