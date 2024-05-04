@@ -1,5 +1,9 @@
 <script setup lang="ts">
+import { useRoute } from 'vue-router';
+import LoadingWheel from '../components/LoadingWheel.vue';
 import EditPlanTable from '../components/editplans/EditPlanTable.vue'
+
+const route = useRoute()
 
 </script>
 
@@ -11,6 +15,11 @@ import EditPlanTable from '../components/editplans/EditPlanTable.vue'
                 <LoadingWheel />
             </template>
         </Suspense>
-        <router-view class="d-none s-sm-block"></router-view>
+        <div class="d-none d-sm-block">
+            View
+            <Suspense>
+                <router-view :id="route.params.id"></router-view>
+            </Suspense>
+        </div>
     </div>
 </template>
