@@ -18,6 +18,10 @@ export const useDataStore = defineStore('data', {
 
     getters: {
 
+        getNextMonday: (state) => {
+            return state.nextMealPlans[0].id
+        },
+
     },
 
     actions: {
