@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomePage from '../views/HomePage.vue'
 import WeekPlanPage from '../views/WeekPlanPage.vue'
+import EditPlanForm from '../components/editplans/EditPlanForm.vue'
 // import EditPlanPage from '../views/EditPlanPage.vue'
 
 const routes = [
@@ -12,7 +13,14 @@ const routes = [
     {
         path: '/plan',
         name: 'plan',
-        component: WeekPlanPage
+        component: WeekPlanPage,
+        children: [
+            {
+                path: ':id',
+                component: EditPlanForm,
+                props: true
+            },
+        ]
     },
     {
         path: '/settings',
