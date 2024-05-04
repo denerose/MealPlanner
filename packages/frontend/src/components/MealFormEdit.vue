@@ -22,7 +22,8 @@ const submitForm = async () => {
 };
 
 // tag input options
-store.fetchIngredients()
+
+if (store.allIngredients.length == 0) { store.fetchIngredients() }
 const ingredientNamesArray = store.allIngredients.map(ing => ing.ingredientName)
 const autocompleteItems = ingredientNamesArray
 const tags = ref<string[]>(props.ingredients.map(ing => ing.ingredientName))
