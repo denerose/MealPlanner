@@ -25,7 +25,11 @@ const lunchText = ref(
     props.lunch?.mealName
 )
 
-const displayDate = new Date(props.date).toLocaleDateString()
+const displayDate = new Date(props.date).toLocaleDateString(navigator.language, {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+})
 
 const submitForm = async () => {
     planData.value.dinner = store.meals.find(meal => meal.mealName === dinnerText.value)
@@ -50,39 +54,45 @@ const handlePick = (choice: string) => {
 <template>
     <div>
         <div>
-            <h3>{{ planData.day }}</h3>
-            <p>{{ displayDate }}</p>
+            <h3>{{ planData.day }} ({{ displayDate }})</h3>
+            <hr />
             <div>
                 <form @submit.prevent="submitForm">
-                    <div>
-                        <div class=""><label for="dinnerSelect" class="form-label">Dinner:</label>
-                            <button class="btn" @click.prevent="handleSuggest">Pick For Me</button>
-                        </div>
-                        <select v-model="dinnerText" id="dinnerSelect" class="form-select" required>
-                            <option disabled value="">Please select one</option>
-                            <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
+                    <div class="row">
+                        <div class="col-sm">
+                            <h5>Meal Selection</h5>
+                            <div class=""><label for="dinnerSelect" class="form-label">Dinner:</label>
+                                <button class="btn btn-outline-secondary" @click.prevent="handleSuggest">Pick For
+                                    Me</button>
+                            </div>
+                            <select v-model="dinnerText" id="dinnerSelect" class="form-select" required>
+                                <option disabled value="">Please select one</option>
+                                <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
                 mealOption.mealName }}</option>
-                        </select>
-                        <label class="form-label">Lunch:</label>
-                        <br />
-                        <select v-model="lunchText" id="lunchSelect" class="form-select">
-                            <option disabled value="">Please select one</option>
-                            <option v-for="mealOption in store.meals" :value="mealOption.mealName">
-                                {{ mealOption.mealName }}</option>
-                        </select>
+                            </select>
+                            <label class="form-label">Lunch:</label>
+                            <br />
+                            <select v-model="lunchText" id="lunchSelect" class="form-select">
+                                <option disabled value="">Please select one</option>
+                                <option v-for="mealOption in store.meals" :value="mealOption.mealName">
+                                    {{ mealOption.mealName }}</option>
+                            </select>
+                        </div>
+                        <div class="col-sm">
+                            <hr class="d-sm-none" />
+                            <h5>Suggested Options</h5>
+                            <SuggestionDisplay v-for="meal in suggestionList" :key="meal.id" :meal="meal"
+                                @click="handlePick(meal.mealName)">
+                            </SuggestionDisplay>
+                        </div>
+                    </div>
+                    <div>
                         <hr />
                         <div class="buttons">
-                            <button class="btn" type="submit">Update</button>
+                            <button class="btn btn-outline-primary" type="submit">Update</button>
                         </div>
                     </div>
                 </form>
-            </div>
-            <div>
-                <h5>Suggested Options</h5>
-                <SuggestionDisplay v-for="meal in suggestionList" :key="meal.id" :meal="meal"
-                    @click="handlePick(meal.mealName)">
-                </SuggestionDisplay>
-                <hr />
             </div>
         </div>
     </div>
