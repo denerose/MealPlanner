@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroicons/vue/24/outline';
+import { useDataStore } from '../data/store';
+
+const store = useDataStore();
+
+if (store.nextMealPlans.length < 7) {
+    await store.fetchMealList()
+    await store.fetchMealPlans()
+    await store.createNewWeek()
+}
+
+const mondayID = store.getNextMonday
 
 </script>
 
@@ -17,8 +28,8 @@ import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroic
                             <home-icon class="icon" /><span> | Home</span>
                         </router-link>
                     </li>
-                    <li class="nav-item"><router-link class="nav-link" :to="{ path: '/plan' }"><calendar-days-icon
-                                class="icon" />
+                    <li class="nav-item"><router-link class="nav-link"
+                            :to="{ path: `/plan/${mondayID}` }"><calendar-days-icon class="icon" />
                             <span> | Next Week</span>
                         </router-link>
                     </li>

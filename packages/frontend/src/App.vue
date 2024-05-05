@@ -5,7 +5,7 @@ import NavBar from './components/NavBar.vue';
 
 <template>
   <header class="bg-white text-dark border-bottom sticky-top p-2" style="--bs-bg-opacity: .9;">
-    <nav-bar />
+    <Suspense><nav-bar /></Suspense>
   </header>
   <div class="container-lg">
     <router-view />

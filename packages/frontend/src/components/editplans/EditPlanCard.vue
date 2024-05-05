@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router';
 import type { MealPlan } from '../../data/types';
+import EditPlanForm from './EditPlanForm.vue';
 // import { useDataStore } from '../../data/store';
 // import { ref } from 'vue';
 
@@ -27,7 +28,9 @@ function handleClick() {
     <div class="card">
         <p>{{ linkID }}</p>
         <button class="btn" @click="handleClick">Button</button>
-        <div class="d-sm-none" :id="`div-${linkID}`" hidden>Content</div>
+        <div class="d-sm-none" :id="`div-${linkID}`" hidden>
+            <EditPlanForm v-bind="props.plan"></EditPlanForm>
+        </div>
     </div>
 
 </template>

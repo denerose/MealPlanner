@@ -42,7 +42,6 @@ const submitForm = async () => {
 const handleSuggest = async () => {
     const suggestion = await getSuggestion(props)
     dinnerText.value = suggestion.mealName
-    // alert(suggestion.mealName)
 }
 
 const suggestionList = await getSuggestedMeals(props)
