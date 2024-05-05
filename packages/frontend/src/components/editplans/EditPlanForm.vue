@@ -61,17 +61,25 @@ const handlePick = (choice: string) => {
                     <div class="row">
                         <div class="col-sm">
                             <h5>Meal Selection</h5>
-                            <div class=""><label for="dinnerSelect" class="form-label">Dinner:</label>
-                                <button class="btn btn-outline-secondary" @click.prevent="handleSuggest">Pick For
-                                    Me</button>
+                            <div class="row me-0">
+                                <label for="dinnerSelect" class="col">
+                                    Dinner
+                                </label>
+                                <button class="btn btn-outline-secondary m-1 me-0 col" @click.prevent="handleSuggest">
+                                    Pick For Me</button>
                             </div>
                             <select v-model="dinnerText" id="dinnerSelect" class="form-select" required>
                                 <option disabled value="">Please select one</option>
                                 <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
                 mealOption.mealName }}</option>
                             </select>
-                            <label class="form-label">Lunch:</label>
-                            <br />
+                            <div class="row me-0">
+                                <label class="form-label col">
+                                    <span class="align-baseline">Lunch</span>
+                                </label>
+                                <button class="btn btn-outline-secondary m-1 me-0 col" disabled>
+                                    Leftovers</button>
+                            </div>
                             <select v-model="lunchText" id="lunchSelect" class="form-select">
                                 <option disabled value="">Please select one</option>
                                 <option v-for="mealOption in store.meals" :value="mealOption.mealName">
