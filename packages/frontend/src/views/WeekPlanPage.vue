@@ -16,7 +16,7 @@ const route = useRoute()
             </template>
         </Suspense>
         <div class="d-none d-sm-block">
-            View
+            <br />
             <Suspense>
                 <router-view :key="route.fullPath"></router-view>
             </Suspense>
