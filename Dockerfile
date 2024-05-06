@@ -1,30 +1,28 @@
-FROM node:20-alpine3.18
+ARG NODE_VERSION=20-alpine3.18
+# backend build step
+FROM node:${NODE_VERSION} as frontend_build
 
-# Set up build 
+WORKDIR /tmp/frontend/
+COPY ./packages/frontend /tmp/
+RUN npm install
+RUN npm run build
+
+#frontend build step
+FROM node:${NODE_VERSION} as backend_build
+
 WORKDIR /tmp
-COPY ./packages/backend /tmp/backend/
-COPY ./packages/frontend /tmp/frontend/
-
-# Build frontend
-WORKDIR /tmp/frontend
+COPY ./packages/backend /tmp/
+# TODO, ensure no dev dependencices get installed? except maybe prisma?
 RUN npm install 
-RUN npm run build
+RUN npx prisma generate
+RUN npm run build:package
 
-# Build backend 
-WORKDIR /tmp/backend
-RUN npm install 
-RUN npm run build
+# pull in files into one final smaller image
+FROM node:${NODE_VERSION} as prod_build
 
-# Copy built files out
+COPY --from=backend_build /tmp/dist /app/
+COPY --from=backend_build /tmp/node_modules/ /app/node_modules/
+COPY --from=frontend_build /tmp/dist /app/static/
 
 WORKDIR /app
-
-RUN mkdir -p /app/backend
-RUN cp -r /tmp/backend/dist/ /app/backend/dist
-RUN cp /tmp/backend/package.json /app/backend/package.json
-RUN cp /tmp/backend/node_modules /app/backend/node_modules
-
-RUN mkdir -p /app/frontend
-RUN cp /tmp/frontend/dist/* /app/frontend/.
-
-# CMD node /app/backend/index.js
+CMD /app/start.sh
