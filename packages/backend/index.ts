@@ -5,13 +5,9 @@ import * as bodyParser from 'milliparsec'
 import { findMealByID, getAllMealPlans, getAllMeals, getNextWeek, getOrCreateCurrentWeek, getOrCreateNextWeek, getPreviousDayPlan, getSettings, newMealPlan, updateMealPlan, updateSettings } from './dbHelpers.js'
 import { getValidOptionsList, suggest } from './suggest.js'
 import { logger } from '@tinyhttp/logger'
-import sirv from 'sirv'
 
 const prisma = new Prisma.PrismaClient()
 const app = new App().use(logger()).use(cors({ origin: '*' })).options('*', cors()).use(bodyParser.json())
-
-app.use('/', sirv('static/index.html'))
-app.use('/files/', sirv('static'))
 
 app.post(`/user`, async (req, res) => {
     res.json(

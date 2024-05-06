@@ -9,7 +9,9 @@
     "start": "tsm index.ts",
     "tsm": "tsm",
     "dev": "npx onchange -i -k '**/*.ts' -- npm run start",
-    "build": "tsc --project tsconfig.build.json && cp package.json dist/ && cp yarn.lock dist/ && cp prisma/schema.prisma dist/prisma/ && cp -r prisma/migrations dist/prisma/"
+    "build": "tsc --project tsconfig.build.json",
+    "package": "cp start.sh dist/ && cp package.json dist/ && cp package-lock.json dist/ && cp -R prisma/ dist/",
+    "build:package": "npm run build && npm run package"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +31,6 @@
     "@tinyhttp/cors": "^2.0.0",
     "@tinyhttp/logger": "^2.0.0",
     "date-fns": "^3.3.1",
-    "milliparsec": "^2.3.0",
-    "sirv": "^2.0.4"
+    "milliparsec": "^2.3.0"
   }
 }
