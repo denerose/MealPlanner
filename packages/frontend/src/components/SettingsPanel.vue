@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import { getSettingsFromServer, updateSettingsOnServer } from '../data/helpers';
 import { SettingsData } from '../data/types';
-import LunchDaysTable from './LunchDaysTable.vue';
+import LunchDaysTable from './archived/LunchDaysTable.vue';
 
 const serverSettings = await getSettingsFromServer() || {
     lunchRule: false,
