@@ -1,7 +1,7 @@
 // import { ISOStringFormat } from "date-fns";
 import { DayOfWeek, Ingredient, Meal, MealPlan, Quals, RawMeal, SettingsData, ValidMeal } from "./types";
 
-const SOURCE = 'http://localhost:3200'
+const SOURCE = '/api'
 const LOG = (msg: any) => { console.log(msg) }
 
 // Meal options/list - function to get and send meal options to/from server
