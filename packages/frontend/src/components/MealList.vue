@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { useDataStore } from '../data/store';
-import { XMarkIcon, PencilSquareIcon, MinusCircleIcon } from '@heroicons/vue/24/outline';
+import { XMarkIcon, PencilSquareIcon, MinusCircleIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
 import ModalComp from "./ModalComp.vue"
 import MealFormEdit from "./MealFormEdit.vue";
 import { Ingredient, ValidMeal } from "../data/types";
@@ -44,12 +44,12 @@ const submitHandler = () => {
         <div class="card-body">
             <ul class="d-flex">
                 <li v-for="meal in store.meals" class="card m-1">
-                    <div class="item-div card-header">
+                    <h6 class="item-div card-header">
                         <span class="item">{{ meal.mealName }}</span>
                         <PencilSquareIcon @click="openModal(meal)" class="edit"></PencilSquareIcon>
                         <XMarkIcon @click="store.pushDeleteMeal(Number(meal.id))" class="del">
                         </XMarkIcon>
-                    </div>
+                    </h6>
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item">
                             <span v-if="meal.qualities">
@@ -97,10 +97,16 @@ const submitHandler = () => {
 .edit {
     color: rgb(79, 57, 108);
     width: 1.5rem;
+    cursor: pointer;
 }
 
 .del {
     color: crimson;
     width: 1.5rem;
+    cursor: pointer;
+}
+
+.qual-icon {
+    padding: 0.2rem;
 }
 </style>

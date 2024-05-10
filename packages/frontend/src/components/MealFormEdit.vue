@@ -62,25 +62,29 @@ function addTags() {
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="makesLunch"
                         v-model="mealData.qualities.makesLunch">
-                    <label class="form-check-label" for="makesLunch">Makes Lunch</label>
+                    <label class="form-check-label" for="makesLunch">🥡 Makes Lunch</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="highCarb"
                         v-model="mealData.qualities.isHighCarb">
-                    <label class="form-check-label" for="highCarb">High Carb</label>
+                    <label class="form-check-label" for="highCarb">🥐 High Carb</label>
                 </div>
                 <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="highVeg"
-                        v-model="mealData.qualities.isHighCarb">
-                    <label class="form-check-label" for="highVeg">High Veg</label>
+                    <input class="form-check-input" type="checkbox" id="highVeg" v-model="mealData.qualities.isHighVeg">
+                    <label class="form-check-label" for="highVeg">🥦 Lots of Veg</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="isCreamy" v-model="mealData.qualities.isCreamy">
-                    <label class="form-check-label" for="isCreamy">Creamy</label>
+                    <label class="form-check-label" for="isCreamy">🫕 Creamy</label>
                 </div>
                 <div class="form-check form-check-inline">
                     <input class="form-check-input" type="checkbox" id="isAcid" v-model="mealData.qualities.isAcidic">
-                    <label class="form-check-label" for="isAcid">Acidic</label>
+                    <label class="form-check-label" for="isAcid">🍋 Acidic</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="outsideCooking"
+                        v-model="mealData.qualities.outdoorCooking">
+                    <label class="form-check-label" for="outsideCooking">🔥 Outdoor Cooking</label>
                 </div>
             </div>
 
