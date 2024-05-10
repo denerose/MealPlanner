@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDataStore } from '../../data/store';
 import { MealPlan } from '../../data/types';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { getSuggestion, getSuggestedMeals } from '../../data/helpers';
 import SuggestionDisplay from './SuggestionDisplay.vue'
 
@@ -48,6 +48,13 @@ const suggestionList = await getSuggestedMeals(props)
 const handlePick = (choice: string) => {
     dinnerText.value = choice
 }
+
+// onMounted(() => {
+//     if () {
+//         const prevBtn = document.getElementById('prev') as HTMLButtonElement
+//         prevBtn.disabled = false
+//     }
+// })
 
 </script>
 
@@ -96,8 +103,16 @@ const handlePick = (choice: string) => {
                     </div>
                     <div>
                         <hr />
-                        <div class="buttons">
-                            <button class="btn btn-outline-primary" type="submit">Update</button>
+                        <div class="btn-toolbar" role="toolbar">
+                            <div class="btn-group me-2">
+                                <button class="btn btn-outline-primary" type="submit">Update</button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-primary" type="submit" id="prev" disabled>
+                                    < Prev</button>
+                                        <button class="btn btn-outline-primary" type="submit" id="next" disabled>Next
+                                            ></button>
+                            </div>
                         </div>
                     </div>
                 </form>
