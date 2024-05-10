@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { getSettingsFromServer, updateSettingsOnServer } from '../data/helpers';
-import { SettingsData } from '../data/types';
+import { getSettingsFromServer, updateSettingsOnServer } from '../../data/helpers';
+import { SettingsData } from '../../data/types';
 import LunchDaysTable from './LunchDaysTable.vue';
 
 const serverSettings = await getSettingsFromServer() || {

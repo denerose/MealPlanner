@@ -3,7 +3,7 @@ import { useDataStore } from '../../data/store';
 import { MealPlan } from '../../data/types';
 import { ref } from 'vue';
 import { getSuggestion, getSuggestedMeals } from '../../data/helpers';
-import SuggestionDisplay from '../SuggestionDisplay.vue'
+import SuggestionDisplay from './SuggestionDisplay.vue'
 
 const store = useDataStore()
 
@@ -71,7 +71,7 @@ const handlePick = (choice: string) => {
                             <select v-model="dinnerText" id="dinnerSelect" class="form-select" required>
                                 <option disabled value="">Please select one</option>
                                 <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
-                mealOption.mealName }}</option>
+                                    mealOption.mealName }}</option>
                             </select>
                             <div class="row me-0">
                                 <label class="form-label col">

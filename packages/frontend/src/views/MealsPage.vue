@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import IngredientList from '../components/IngredientList.vue';
-import MealForm from '../components/MealForm.vue';
-import MealList from '../components/MealList.vue';
+import IngredientList from '../components/meals/IngredientList.vue';
+import MealForm from '../components/meals/MealForm.vue';
+import MealList from '../components/meals/MealList.vue';
 </script>
 
 <template>

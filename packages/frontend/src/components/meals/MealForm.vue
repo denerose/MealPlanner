@@ -1,34 +1,49 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { Ingredient, ValidMeal } from '../data/types';
-import { useDataStore } from '../data/store';
+import { Ingredient, ValidMeal } from '../../data/types';
+import { useDataStore } from '../../data/store';
 import TagInput from "@mayank1513/vue-tag-input";
+import "@mayank1513/vue-tag-input/style.css";
 
-const props = defineProps<ValidMeal>();
+const props = defineProps(['isEditMode', 'initialMeal']);
 const store = useDataStore()
 
+const isEditMode: boolean = props.isEditMode
+
 const mealData = ref<ValidMeal>({
-    id: props.id,
-    mealName: props.mealName,
-    description: props.description,
-    ingredients: props.ingredients as Ingredient[],
-    qualities: props.qualities
+    mealName: '',
+    description: '',
+    ingredients: [] as Ingredient[],
+    id: undefined,
+    qualities: {
+        isHighCarb: false,
+        isHighVeg: false,
+        makesLunch: false,
+        isCreamy: false,
+        isAcidic: false,
+        outdoorCooking: false,
+    }
 });
 
 const submitForm = async () => {
     addTags()
-    console.log('Updated meal:', mealData.value.mealName);
-    await store.pushUpdatedMeal(mealData.value)
+    if (isEditMode) {
+        console.log('Updated meal:', mealData.value);
+        await store.pushUpdatedMeal(mealData.value)
+    } else {
+        console.log('New meal:', mealData.value);
+        await store.pushNewMeal(mealData.value)
+    }
 };
 
 // tag input options
-
-if (store.allIngredients.length == 0) { store.fetchIngredients() }
+if (store.allIngredients.length < 1) {
+    store.fetchIngredients()
+}
 const ingredientNamesArray = store.allIngredients.map(ing => ing.ingredientName)
 const autocompleteItems = ingredientNamesArray
-const tags = ref<string[]>(props.ingredients.map(ing => ing.ingredientName))
+const tags = ref<string[]>([])
 const customDelimiter = [",", " "]
-
 function addTags() {
     const newArray = tags.value.map((tag) => store.findIngIdByName(tag))
     mealData.value.ingredients = newArray
@@ -36,9 +51,9 @@ function addTags() {
 </script>
 
 <template>
-    <div>
-        <h2>Editing: {{ mealData.mealName }}</h2>
-        <form @submit.prevent="submitForm">
+    <div class="">
+        <h2>{{ isEditMode ? 'Edit Meal' : 'Create Meal' }}</h2>
+        <form @submit.prevent="submitForm" class="form">
             <div class="mb-3">
                 <label for="mealName" class="form-label">Meal Name:</label>
                 <input v-model="mealData.mealName" class="form-control" type="text" id="mealName" required />
@@ -89,11 +104,20 @@ function addTags() {
             </div>
 
             <hr />
-
-            <button class="btn btn-primary" type="submit">Update Meal</button>
+            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Meal' : 'Create Meal' }}</button>
         </form>
     </div>
 </template>
 
 
-<style scoped></style>
+<style scoped>
+/* .tag-input {
+    margin: 2px;
+    padding: 3px;
+} */
+
+/* .quals-box {
+    display: flex;
+    justify-content: space-between;
+} */
+</style>

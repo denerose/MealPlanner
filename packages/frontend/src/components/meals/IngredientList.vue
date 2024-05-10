@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDataStore } from '../data/store';
+import { useDataStore } from '../../data/store';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 
 
