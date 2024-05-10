@@ -10,7 +10,7 @@ if (store.allIngredients.length == 0) { store.fetchIngredients() }
 <template>
     <div class="card-body">
         <ul class="list-group list-group-horizontal-md flex-wrap">
-            <li v-for="ing in store.allIngredients" class="list-group-item col-12 col-sm-3 col-lg-2 border-0">
+            <li v-for="ing in store.allIngredients" class="list-group-item col-12 col-sm-6 col-lg-2 border-0">
                 <div class="card p-2">
                     <div class="d-flex"><span class="item">{{ ing.ingredientName }}</span>
                         <XMarkIcon @click="store.pushDeleteIngredient(ing)" class="del ms-auto">

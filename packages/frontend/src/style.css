@@ -25,25 +25,3 @@ details summary>* {
     border-radius: 5px;
     border: 1px solid rgba(0, 0, 0, 0.1)
 }
-
-.modal-mask {
-    position: fixed;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-.modal-container {
-    min-width: 65vw;
-    max-width: 80vw;
-    max-height: 90vh;
-    overflow: scroll;
-    margin: 150px auto;
-    padding: 20px 30px;
-    background-color: rgba(119, 110, 129, 0.95);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-}
