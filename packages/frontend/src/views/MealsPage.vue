@@ -5,7 +5,7 @@ import MealList from '../components/meals/MealList.vue';
 </script>
 
 <template>
-    <div class="page-frame bg-white" style="--bs-bg-opacity: .9;">
+    <div class="page-frame bg-white mx-auto my-2 p-2 p-sm-3 p-md-5" style="--bs-bg-opacity: .9;">
         <h2>Meals and Recipes</h2>
         <div class="card">
             <details class="card-body">
