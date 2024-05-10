@@ -2,8 +2,8 @@
 import { ref } from "vue";
 import { useDataStore } from '../../data/store';
 import { XMarkIcon, PencilSquareIcon, MinusCircleIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
-import ModalComp from "./ModalComp.vue"
-import MealFormEdit from "./meals/MealFormEdit.vue";
+import ModalComp from "../ModalComp.vue"
+import MealFormEdit from "./MealFormEdit.vue";
 import { Ingredient, ValidMeal } from "../../data/types";
 
 const store = useDataStore()
