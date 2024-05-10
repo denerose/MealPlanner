@@ -33,6 +33,7 @@ const props = defineProps<{
 .suggestion>p {
     padding: 0;
     margin: 0;
+    cursor: pointer;
 }
 
 .qual-icon {
