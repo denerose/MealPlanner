@@ -3,13 +3,7 @@ import { useDataStore } from '../../data/store';
 import EditPlanCard from './EditPlanCard.vue'
 
 const store = useDataStore();
-const plans = store.nextMealPlans
-
-if (plans.length < 7) {
-    await store.fetchMealList()
-    await store.fetchMealPlans()
-    await store.createNewWeek()
-}
+// const plans = store.nextMealPlans
 
 </script>
 
