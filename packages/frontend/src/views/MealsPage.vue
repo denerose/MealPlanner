@@ -10,18 +10,18 @@ import MealList from '../components/MealList.vue';
         <div class="card">
             <details class="card-body" open>
                 <summary>
-                    <h4>Manage meals</h4>
+                    <h4>Add new meal</h4>
                 </summary>
-                <MealList />
+                <MealForm />
             </details>
         </div>
         <hr />
         <div class="card">
             <details class="card-body">
                 <summary>
-                    <h4>Add new meal</h4>
+                    <h4>Manage meals</h4>
                 </summary>
-                <MealForm />
+                <MealList />
             </details>
         </div>
         <hr />

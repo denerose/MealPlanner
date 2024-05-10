@@ -37,7 +37,9 @@ const submitForm = async () => {
 };
 
 // tag input options
-store.fetchIngredients()
+if (store.allIngredients.length < 1) {
+    store.fetchIngredients()
+}
 const ingredientNamesArray = store.allIngredients.map(ing => ing.ingredientName)
 const autocompleteItems = ingredientNamesArray
 const tags = ref<string[]>([])
@@ -49,81 +51,69 @@ function addTags() {
 </script>
 
 <template>
-    <div class="page-frame">
+    <div class="">
         <h2>{{ isEditMode ? 'Edit Meal' : 'Create Meal' }}</h2>
-        <form @submit.prevent="submitForm">
-            <div>
-                <label for="mealName">Meal Name:</label>
-                <input v-model="mealData.mealName" type="text" id="mealName" required />
+        <form @submit.prevent="submitForm" class="form">
+            <div class="mb-3">
+                <label for="mealName" class="form-label">Meal Name:</label>
+                <input v-model="mealData.mealName" class="form-control" type="text" id="mealName" required />
             </div>
 
-            <div>
-                <label for="description">Description:</label>
-                <textarea v-model="mealData.description" id="description"></textarea>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <textarea v-model="mealData.description" class="form-control" id="description"></textarea>
             </div>
 
-            <div>
-                <label>Ingredients:</label>
-                <div class="tag-input">
+            <div class="mb-3">
+                <label class="form-label">Ingredients:</label>
+                <div class="tag-input form-control">
                     <tag-input :autocomplete-items="autocompleteItems" v-model="tags" :validator="/\w/"
                         validation-message="must be a word" :customDelimiter="customDelimiter" tagBgColor="#028218" />
                 </div>
             </div>
-            <div>
-                <label>Qualities:</label>
-                <div class="quals-box">
-                    <div>
-                        <label>
-                            <input type="checkbox" id="isHighCarb" v-model="mealData.qualities.isHighCarb" />
-                            High Carb
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <input type="checkbox" id="isHighVeg" v-model="mealData.qualities.isHighVeg" />
-                            High Veg
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <input type="checkbox" id="makesLunch" v-model="mealData.qualities.makesLunch" />
-                            Makes Lunch
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <input type="checkbox" id="isCreamy" v-model="mealData.qualities.isCreamy" />
-                            Creamy
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <input type="checkbox" id="isAcidic" v-model="mealData.qualities.isAcidic" />
-                            Acidic
-                        </label>
-                    </div>
-                    <div>
-                        <label>
-                            <input type="checkbox" id="outdoorCooking" v-model="mealData.qualities.outdoorCooking" />
-                            Outdoor Cooking
-                        </label>
-                    </div>
+
+            <div class="mb-3">
+                <label class="form-label">Qualities:</label><br />
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="makesLunch"
+                        v-model="mealData.qualities.makesLunch">
+                    <label class="form-check-label" for="makesLunch">Makes Lunch</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="highCarb"
+                        v-model="mealData.qualities.isHighCarb">
+                    <label class="form-check-label" for="highCarb">High Carb</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="highVeg"
+                        v-model="mealData.qualities.isHighCarb">
+                    <label class="form-check-label" for="highVeg">High Veg</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="isCreamy" v-model="mealData.qualities.isCreamy">
+                    <label class="form-check-label" for="isCreamy">Creamy</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="checkbox" id="isAcid" v-model="mealData.qualities.isAcidic">
+                    <label class="form-check-label" for="isAcid">Acidic</label>
                 </div>
             </div>
-            <button type="submit">{{ isEditMode ? 'Update Meal' : 'Create Meal' }}</button>
+
+            <hr />
+            <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update Meal' : 'Create Meal' }}</button>
         </form>
     </div>
 </template>
 
 
 <style scoped>
-.tag-input {
+/* .tag-input {
     margin: 2px;
     padding: 3px;
-}
+} */
 
-.quals-box {
+/* .quals-box {
     display: flex;
     justify-content: space-between;
-}
+} */
 </style>

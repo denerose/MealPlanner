@@ -41,17 +41,29 @@ const submitHandler = () => {
 
 <template>
     <div class="container">
-        <div class="list-div">
-            <ul>
-                <li v-for="meal in store.meals">
-                    <div class="item-div">
+        <div class="card-body">
+            <ul class="d-flex">
+                <li v-for="meal in store.meals" class="card m-1">
+                    <div class="item-div card-header">
                         <span class="item">{{ meal.mealName }}</span>
                         <PencilSquareIcon @click="openModal(meal)" class="edit"></PencilSquareIcon>
                         <XMarkIcon @click="store.pushDeleteMeal(Number(meal.id))" class="del">
                         </XMarkIcon>
                     </div>
-                    <ul>
-                        <li v-for="ingredient in meal.ingredients">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">
+                            <span v-if="meal.qualities">
+                                Qualities:
+                                <span v-if="meal.qualities.outdoorCooking" class="qual-icon"
+                                    title="outside cooking">🔥</span>
+                                <span v-if="meal.qualities.isHighVeg" class="qual-icon"
+                                    title="lots of veggies">🥦</span>
+                                <span v-if="meal.qualities.isCreamy" class="qual-icon" title="creamy">🫕</span>
+                                <span v-if="meal.qualities.isHighCarb" class="qual-icon" title="high carb">🥐</span>
+                                <span v-if="meal.qualities.makesLunch" class="qual-icon" title="makes lunch">🥡</span>
+                            </span>
+                        </li>
+                        <li v-for="ingredient in meal.ingredients" class="list-group-item">
                             <div class="item-div"><span class="item">{{ ingredient.ingredientName
                                     }}</span>
                                 <MinusCircleIcon @click="store.removeIngredient(ingredient, meal)" class="del">
@@ -73,11 +85,6 @@ const submitHandler = () => {
 </template>
 
 <style scoped>
-.list-div {
-    min-width: 150px;
-    max-width: 400px;
-}
-
 .item-div {
     display: flex;
 }
