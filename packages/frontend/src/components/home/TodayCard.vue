@@ -8,7 +8,7 @@ const props = defineProps<{
 
 <template>
     <div class="card">
-        <div class="card-header">
+        <div class="card-header bg-success" style="--bs-bg-opacity: .3;">
             <h5>Today</h5>
         </div>
         <div class="card-body d-flex">
