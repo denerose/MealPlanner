@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile
     hostname: backend
     volumes:
+      - type: bind
+        source: ../database/production.sqlite
+        target: /database/production.sqlite
       - type: volume
         target: /app/static
         source: static_files

@@ -2,7 +2,7 @@
 
 # Set the NODE_ENV variable
 export NODE_ENV=production
-export DATABASE_URL="file:/app/database/${NODE_ENV}.sqlite"
+export DATABASE_URL="file:/database/${NODE_ENV}.sqlite"
 
 # Run Prisma migrations
 npx prisma migrate deploy
