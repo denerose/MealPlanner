@@ -49,12 +49,12 @@ const handlePick = (choice: string) => {
     dinnerText.value = choice
 }
 
-// onMounted(() => {
-//     if () {
-//         const prevBtn = document.getElementById('prev') as HTMLButtonElement
-//         prevBtn.disabled = false
-//     }
-// })
+onMounted(() => {
+    if (document.getElementById('prev')) {
+        const prevBtn = document.getElementById('prev') as HTMLButtonElement
+        prevBtn.disabled = false
+    }
+})
 
 </script>
 
