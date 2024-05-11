@@ -5,6 +5,9 @@ services:
       dockerfile: Dockerfile
     hostname: backend
     volumes:
+      - type: bind
+        source: ../database/production.sqlite
+        target: /database/production.sqlite
       - type: volume
         target: /app/static
         source: static_files
@@ -12,14 +15,14 @@ services:
       - 3200
 
   nginx:
-    image: nginx:1.25.5-alpine-slim
+    image: nginx:1.25.5-alpine
     depends_on:
       - app
     volumes:
-      - static_files:/usr/share/nginx/html:ro
+      - static_files:/static_files:ro
+      - ../basic_auth_file:/basic_auth_file:ro
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
-      - "8080:80"
-
+      - "8001:80"
 volumes:
   static_files:

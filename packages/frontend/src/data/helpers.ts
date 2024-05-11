@@ -10,7 +10,7 @@ import {
   ValidMeal,
 } from "./types";
 
-const SOURCE = "http://localhost:3200";
+const SOURCE = '/api'
 const LOG = (msg: any) => {
   console.log(msg);
 };

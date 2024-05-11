@@ -4,4 +4,5 @@ packages/frontend/src/components/IngredientInput.vue
 .DS_Store
 **/*/dist/
 packages/frontend/src/components/archived
+.env
 packages/frontend/components.d.ts

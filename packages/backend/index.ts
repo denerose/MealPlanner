@@ -228,4 +228,6 @@ app.get('/settings/get', async (_, res) => {
 
 // always last
 
-app.listen(3200, () => console.log('Server ready at: http://localhost:3200'))
+const port = process.env.PORT || 3200
+
+app.listen(Number(port), () => console.log(`Server ready at: http://localhost:${port}`))
