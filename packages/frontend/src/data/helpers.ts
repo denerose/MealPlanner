@@ -334,7 +334,13 @@ export async function getSettingsFromServer(): Promise<
     const response = await fetch(`${SOURCE}/settings/get`);
     const data = (await response.json()) as SettingsData;
     if (data === undefined) {
-      throw Error("no settings found");
+      // TODO add better way of handling this, make server side findOrCreate instead of findFirst
+      return {
+        preset: "default",
+        lunchRule: false,
+        carbRule: false,
+        acidRule: false,
+      };
     }
     return data;
   } catch (error) {

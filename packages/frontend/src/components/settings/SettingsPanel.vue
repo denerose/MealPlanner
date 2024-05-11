@@ -5,7 +5,7 @@ import { SettingsData } from '../../data/types';
 import LunchDaysTable from './LunchDaysTable.vue';
 
 const serverSettings = await getSettingsFromServer() || {
-    // preset: "default",
+    preset: "default",
     lunchRule: false,
     carbRule: false,
     acidRule: false
@@ -16,7 +16,6 @@ const settingsData = ref<SettingsData>({
     lunchRule: serverSettings.lunchRule,
     carbRule: serverSettings.carbRule,
     acidRule: serverSettings.acidRule,
-
 })
 
 const submitForm = async () => {

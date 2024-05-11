@@ -58,7 +58,7 @@ export async function getValidOptionsList(
   currentDay: MealPlan
 ): Promise<Meal[]> {
   const settings = await getSettings("default");
-  if (settings === undefined) throw Error("no settings found");
+  if (settings === undefined) return [];
 
   const allMeals = await getAllMeals();
 
