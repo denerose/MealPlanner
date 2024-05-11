@@ -44,8 +44,8 @@ git push --force -v llamaserver ${GIT_DEPLOY_BRANCH}
 run_ssh_command "git --work-tree ${APP_TARGET_FOLDER} --git-dir=${GIT_TARGET_FOLDER}/ checkout -f ${GIT_DEPLOY_BRANCH}"
 
 # tear down the old docker containers
-run_ssh_command "cd ${TARGER_FOLDER} && docker compose down -v"
+run_ssh_command "cd ${APP_TARGET_FOLDER} && docker compose down -v"
 
-run_ssh_command "cd ${TARGER_FOLDER} && docker compose up -d --build"
+run_ssh_command "cd ${APP_TARGET_FOLDER} && docker compose up -d --build"
 
 
