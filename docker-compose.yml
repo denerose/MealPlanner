@@ -17,6 +17,7 @@ services:
       - app
     volumes:
       - static_files:/static_files:ro
+      - ../basic_auth_file:/basic_auth_file:ro
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     ports:
       - "8001:80"
