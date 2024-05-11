@@ -15,7 +15,7 @@ const props = defineProps<{
 const thisMeal = ref(props.meal)
 const isModalOpened = ref(false);
 
-const openModal = (passedProps: ValidMeal) => {
+const openModal = (_passedProps: ValidMeal) => {
     isModalOpened.value = true;
 };
 const closeModal = () => {

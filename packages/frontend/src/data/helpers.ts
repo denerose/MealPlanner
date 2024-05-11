@@ -10,7 +10,7 @@ import {
   ValidMeal,
 } from "./types";
 
-const SOURCE = '/api'
+const SOURCE = "/api";
 const LOG = (msg: any) => {
   console.log(msg);
 };
@@ -68,21 +68,21 @@ export function rawMealToValidMeal(rawMeal: RawMeal): ValidMeal {
   return validMeal;
 }
 
-function flatMeal(newMeal: ValidMeal): RawMeal {
-  const flatMeal: RawMeal = {
-    id: Number(newMeal.id),
-    mealName: newMeal.mealName,
-    description: newMeal.description ? newMeal.description : "",
-    ingredients: newMeal.ingredients,
-    isHighCarb: newMeal.qualities.isHighCarb,
-    isHighVeg: newMeal.qualities.isHighVeg,
-    makesLunch: newMeal.qualities.makesLunch,
-    isCreamy: newMeal.qualities.isCreamy,
-    isAcidic: newMeal.qualities.isAcidic,
-    outdoorCooking: newMeal.qualities.outdoorCooking,
-  };
-  return flatMeal;
-}
+// function flatMeal(newMeal: ValidMeal): RawMeal {
+//   const flatMeal: RawMeal = {
+//     id: Number(newMeal.id),
+//     mealName: newMeal.mealName,
+//     description: newMeal.description ? newMeal.description : "",
+//     ingredients: newMeal.ingredients,
+//     isHighCarb: newMeal.qualities.isHighCarb,
+//     isHighVeg: newMeal.qualities.isHighVeg,
+//     makesLunch: newMeal.qualities.makesLunch,
+//     isCreamy: newMeal.qualities.isCreamy,
+//     isAcidic: newMeal.qualities.isAcidic,
+//     outdoorCooking: newMeal.qualities.outdoorCooking,
+//   };
+//   return flatMeal;
+// }
 
 function rawQualsToObject(
   isHighCarb: boolean,

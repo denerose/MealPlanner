@@ -5,6 +5,7 @@ import { SettingsData } from '../../data/types';
 import LunchDaysTable from './LunchDaysTable.vue';
 
 const serverSettings = await getSettingsFromServer() || {
+    // preset: "default",
     lunchRule: false,
     carbRule: false,
     acidRule: false
