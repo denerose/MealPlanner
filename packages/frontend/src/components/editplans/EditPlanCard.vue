@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import type { MealPlan } from '../../data/types';
-import EditPlanForm from './EditPlanForm.vue';
+import EditPlanFormMini from './EditPlanFormMini.vue';
+import QualsSpan from '../QualsSpan.vue'
 import { onMounted, ref } from 'vue';
 // import { useDataStore } from '../../data/store';
-// import { ref } from 'vue';
 
 // const store = useDataStore()
 const router = useRouter()
@@ -37,13 +37,17 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="card edit-card" :id="`plan-card-${linkID}`" @click="handleClick">
-        <div class="card-header edit-card-header" :id="`plan-card-header-${linkID}`">{{ props.plan.day }}</div>
+    <div class="card edit-card" :id="`plan-card-${linkID}`">
+        <div class="card-header edit-card-header" :id="`plan-card-header-${linkID}`" @click="handleClick">{{
+            props.plan.day }}</div>
         <div class="card-body">
-            <div v-if="props.plan.dinner">{{ props.plan.dinner.mealName }}</div>
-            <div v-else>Add dinner</div>
+            <div v-if="props.plan.dinner" @click="handleClick" class="d-flex">
+                <strong>{{ props.plan.dinner.mealName }}</strong>
+                <QualsSpan v-if="props.plan.dinner.id" :mealID="props.plan.dinner.id" class="ms-auto" />
+            </div>
+            <div v-else @click="handleClick">Add dinner</div>
             <div class="d-sm-none" :id="`div-${linkID}`" hidden>
-                <EditPlanForm v-bind="props.plan"></EditPlanForm>
+                <EditPlanFormMini v-bind="props.plan"></EditPlanFormMini>
             </div>
         </div>
     </div>

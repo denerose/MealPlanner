@@ -18,9 +18,9 @@ const props = defineProps<{
                 <span>{{ props.plan.dinner?.mealName }}</span>
             </div>
             <div class="card-text">
-                <span>Lunch: </span>
-                <span v-if="props.plan.lunch">{{ props.plan.lunch.mealName }}</span>
-                <span v-else>Edit to add</span>
+                <span> </span>
+                <span v-if="props.plan.lunch">Lunch: {{ props.plan.lunch.mealName }}</span>
+                <!-- <span v-else>No lunch</span> -->
             </div>
         </div>
     </div>

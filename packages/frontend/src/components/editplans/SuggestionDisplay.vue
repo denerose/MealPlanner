@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Meal } from '../data/types';
+import { Meal } from '../../data/types';
 
 
 const props = defineProps<{
@@ -33,6 +33,7 @@ const props = defineProps<{
 .suggestion>p {
     padding: 0;
     margin: 0;
+    cursor: pointer;
 }
 
 .qual-icon {

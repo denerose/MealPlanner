@@ -33,6 +33,10 @@ onMounted(() => {
     <br />
     <details>
         <summary>Next Week</summary>
+        <div class="py-2">
+            <router-link class="nav-link" :to="{ path: `/plan/${store.getNextMonday}` }"><button
+                    class="btn btn-success">Edit Next Week</button></router-link>
+        </div>
         <CurrentWeekSummary :plans="nextWeek"></CurrentWeekSummary>
     </details>
 </template>

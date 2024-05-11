@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useDataStore } from '../../data/store';
 import { MealPlan } from '../../data/types';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { getSuggestion, getSuggestedMeals } from '../../data/helpers';
-import SuggestionDisplay from '../SuggestionDisplay.vue'
+import SuggestionDisplay from './SuggestionDisplay.vue'
 
 const store = useDataStore()
 
@@ -49,6 +49,13 @@ const handlePick = (choice: string) => {
     dinnerText.value = choice
 }
 
+onMounted(() => {
+    if (document.getElementById('prev')) {
+        const prevBtn = document.getElementById('prev') as HTMLButtonElement
+        prevBtn.disabled = false
+    }
+})
+
 </script>
 
 <template>
@@ -57,34 +64,35 @@ const handlePick = (choice: string) => {
             <h3>{{ planData.day }} ({{ displayDate }})</h3>
             <hr />
             <div>
-                <form @submit.prevent="submitForm">
+                <form class="form" @submit.prevent="submitForm">
                     <div class="row">
                         <div class="col-sm">
                             <h5>Meal Selection</h5>
-                            <div class="row me-0">
-                                <label for="dinnerSelect" class="col">
-                                    Dinner
+                            <div class="input-group my-2">
+                                <label for="dinnerSelect" class="input-group-text col-12 col-sm-2">
+                                    <span class="text-center">Dinner</span>
                                 </label>
-                                <button class="btn btn-outline-secondary m-1 me-0 col" @click.prevent="handleSuggest">
+                                <select v-model="dinnerText" id="dinnerSelect" class="form-select col" required>
+                                    <option disabled value="">Please select one</option>
+                                    <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
+                                        mealOption.mealName }}</option>
+                                </select>
+                                <button class="btn btn-outline-secondary col-12 col-sm-3"
+                                    @click.prevent="handleSuggest">
                                     Pick For Me</button>
                             </div>
-                            <select v-model="dinnerText" id="dinnerSelect" class="form-select" required>
-                                <option disabled value="">Please select one</option>
-                                <option v-for="mealOption in store.meals" :value="mealOption.mealName">{{
-                mealOption.mealName }}</option>
-                            </select>
-                            <div class="row me-0">
-                                <label class="form-label col">
+                            <div class="input-group my-2">
+                                <label class="input-group-text col-12 col-sm-2">
                                     <span class="align-baseline">Lunch</span>
                                 </label>
-                                <button class="btn btn-outline-secondary m-1 me-0 col" disabled>
+                                <select v-model="lunchText" id="lunchSelect" class="form-select">
+                                    <option disabled value="">Please select one</option>
+                                    <option v-for="mealOption in store.meals" :value="mealOption.mealName">
+                                        {{ mealOption.mealName }}</option>
+                                </select>
+                                <button class="btn btn-outline-secondary col-3" disabled>
                                     Leftovers</button>
                             </div>
-                            <select v-model="lunchText" id="lunchSelect" class="form-select">
-                                <option disabled value="">Please select one</option>
-                                <option v-for="mealOption in store.meals" :value="mealOption.mealName">
-                                    {{ mealOption.mealName }}</option>
-                            </select>
                         </div>
                         <div class="col-sm">
                             <hr class="d-sm-none" />
@@ -96,8 +104,16 @@ const handlePick = (choice: string) => {
                     </div>
                     <div>
                         <hr />
-                        <div class="buttons">
-                            <button class="btn btn-outline-primary" type="submit">Update</button>
+                        <div class="btn-toolbar" role="toolbar">
+                            <div class="btn-group me-2">
+                                <button class="btn btn-outline-primary" type="submit">Save</button>
+                            </div>
+                            <div class="btn-group">
+                                <button class="btn btn-outline-primary" type="submit" id="prev" disabled>
+                                    < Prev</button>
+                                        <button class="btn btn-outline-primary" type="submit" id="next" disabled>Next
+                                            ></button>
+                            </div>
                         </div>
                     </div>
                 </form>

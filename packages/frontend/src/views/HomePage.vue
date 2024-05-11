@@ -7,7 +7,7 @@ import HomeTable from '../components/home/HomeTable.vue';
 </script>
 
 <template>
-    <div class="container page-frame bg-white" style="--bs-bg-opacity: .9;">
+    <div class="container page-frame bg-white mx-auto my-2 p-2 p-sm-3 p-md-5" style="--bs-bg-opacity: .9;">
         <Suspense>
             <HomeTable />
             <template #fallback>
