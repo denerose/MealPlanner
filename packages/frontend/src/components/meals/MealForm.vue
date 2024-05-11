@@ -33,6 +33,20 @@ const submitForm = async () => {
     } else {
         console.log('New meal:', mealData.value);
         await store.pushNewMeal(mealData.value)
+        mealData.value = {
+            mealName: '',
+            description: '',
+            ingredients: [] as Ingredient[],
+            id: undefined,
+            qualities: {
+                isHighCarb: false,
+                isHighVeg: false,
+                makesLunch: false,
+                isCreamy: false,
+                isAcidic: false,
+                outdoorCooking: false,
+            }
+        }
     }
 };
 

@@ -10,9 +10,9 @@ if (store.meals.length == 0) { store.fetchMealList() }
 <template>
     <div class="container">
         <div class="card-body">
-            <ul class="d-flex">
+            <div class="d-flex flex-wrap">
                 <MealDetailsCard v-for="meal in store.meals" :meal="meal" />
-            </ul>
+            </div>
         </div>
     </div>
 </template>

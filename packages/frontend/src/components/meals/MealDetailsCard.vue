@@ -30,8 +30,8 @@ const submitHandler = () => {
 </script>
 
 <template>
-    <li class="card m-1">
-        <div class="item-div card-header d-flex">
+    <div class="card col-sm-2 m-2">
+        <div class="card-header d-flex">
             <span class="item me-auto"><strong>{{ thisMeal.mealName }}</strong></span>
             <PencilSquareIcon @click="openModal(thisMeal)" class="edit"></PencilSquareIcon>
             <XMarkIcon @click="store.pushDeleteMeal(Number(thisMeal.id))" class="del">
@@ -56,7 +56,7 @@ const submitHandler = () => {
                 </div>
             </li>
         </ul>
-    </li>
+    </div>
     <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
         <template #header></template>
         <template #content>
@@ -67,11 +67,6 @@ const submitHandler = () => {
 </template>
 
 <style scoped>
-.item {
-    min-width: 100px;
-    /* flex-grow: 2; */
-}
-
 .edit {
     color: rgb(79, 57, 108);
     width: 1.5rem;
