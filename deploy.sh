@@ -38,7 +38,7 @@ git remote add llamaserver ssh://${SSH_DEPLOY_USERNAME}@${SSH_DEPLOY_HOSTNAME}:/
 run_ssh_command "git init ${TARGER_FOLDER}"
 
 # push the code to the server
-git push -v llamaserver ${GIT_DEPLOY_BRANCH}
+git push --force -v llamaserver ${GIT_DEPLOY_BRANCH}
 
 run_ssh_command "cd ${TARGER_FOLDER} && git checkout ${GIT_DEPLOY_BRANCH}"
 
