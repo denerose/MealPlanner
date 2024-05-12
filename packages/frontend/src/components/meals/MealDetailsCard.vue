@@ -13,6 +13,7 @@ const props = defineProps<{
 }>()
 
 const thisMeal = ref(props.meal)
+
 const isModalOpened = ref(false);
 
 const openModal = (_passedProps: ValidMeal) => {
@@ -30,17 +31,21 @@ const submitHandler = () => {
 </script>
 
 <template>
-    <div class="card col-sm-2 m-2">
-        <div class="card-header d-flex">
-            <span class="item me-auto"><strong>{{ thisMeal.mealName }}</strong></span>
-            <PencilSquareIcon @click="openModal(thisMeal)" class="edit"></PencilSquareIcon>
-            <XMarkIcon @click="store.pushDeleteMeal(Number(thisMeal.id))" class="del">
-            </XMarkIcon>
+    <div class="card h-100">
+        <div class="card-header p-1">
+            <div class="d-flex">
+                <span class="item me-auto flex-grow"><strong>{{ thisMeal.mealName }}</strong></span>
+                <span class="ms-auto">
+                    <PencilSquareIcon @click="openModal(thisMeal)" class="edit"></PencilSquareIcon>
+                    <XMarkIcon @click="store.pushDeleteMeal(Number(thisMeal.id))" class="del">
+                    </XMarkIcon>
+                </span>
+            </div>
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
                 <span v-if="thisMeal.qualities">
-                    Qualities:
+                    <span class="d-none d-lg-inline">Qualities: </span>
                     <span v-if="thisMeal.qualities.outdoorCooking" class="qual-icon" title="outside cooking">🔥</span>
                     <span v-if="thisMeal.qualities.isHighVeg" class="qual-icon" title="lots of veggies">🥦</span>
                     <span v-if="thisMeal.qualities.isCreamy" class="qual-icon" title="creamy">🫕</span>

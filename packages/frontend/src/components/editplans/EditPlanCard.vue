@@ -17,6 +17,8 @@ const props = defineProps<{
 const linkID = String(props.plan.id)
 const routeID = ref(route.params.id)
 
+const shortDay = props.plan.day.substring(0, 3)
+
 function handleClick() {
     const editDiv = document.getElementById(`div-${linkID}`)
     if (editDiv) editDiv.toggleAttribute("hidden")
@@ -38,8 +40,10 @@ onMounted(() => {
 
 <template>
     <div class="card edit-card" :id="`plan-card-${linkID}`">
-        <div class="card-header edit-card-header" :id="`plan-card-header-${linkID}`" @click="handleClick">{{
-            props.plan.day }}</div>
+        <div class="card-header edit-card-header" :id="`plan-card-header-${linkID}`" @click="handleClick">
+            <h6 class="d-block d-sm-none d-lg-block">{{ plan.day }}</h6>
+            <h6 class="d-none d-sm-block d-lg-none">{{ shortDay }}</h6>
+        </div>
         <div class="card-body">
             <div v-if="props.plan.dinner" @click="handleClick" class="d-flex">
                 <strong>{{ props.plan.dinner.mealName }}</strong>

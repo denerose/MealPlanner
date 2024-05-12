@@ -5,12 +5,15 @@ const props = defineProps<{
     plan: MealPlan
 }>();
 
+const shortDay = props.plan.day.substring(0, 3)
+
 </script>
 
 <template>
     <div class="card">
         <div class="card-header">
-            <h6>{{ plan.day }}</h6>
+            <h6 class="d-block d-sm-none d-lg-block">{{ plan.day }}</h6>
+            <h6 class="d-none d-sm-block d-lg-none">{{ shortDay }}</h6>
         </div>
         <div class="card-body d-flex flex-column justify-content-between">
             <div class="card-title">
