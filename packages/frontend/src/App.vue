@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NavBar from './components/NavBar.vue';
+import { ModalsContainer } from 'vue-final-modal'
 
 </script>
 
@@ -17,6 +18,7 @@ import NavBar from './components/NavBar.vue';
             Olsson</a></span>
       </small></footer>
   </div>
+  <ModalsContainer />
 </template>
 
 <style scoped>

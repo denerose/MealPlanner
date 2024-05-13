@@ -3,7 +3,7 @@ import { useRoute, useRouter } from 'vue-router';
 import type { MealPlan } from '../../data/types';
 import EditPlanFormMini from './EditPlanFormMini.vue';
 import QualsSpan from '../QualsSpan.vue'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 // import { useDataStore } from '../../data/store';
 
 // const store = useDataStore()
@@ -29,6 +29,10 @@ function handleClick() {
     activeCard?.classList.add('text-bg-success')
 }
 
+watch(() => route.params.id, (newId, oldId) => {
+    if (newId != oldId) routeID.value = newId
+})
+
 onMounted(() => {
     if (linkID === routeID.value) {
         const activeCard = document.getElementById(`plan-card-header-${linkID}`)
@@ -47,11 +51,12 @@ onMounted(() => {
         <div class="card-body">
             <div v-if="props.plan.dinner" @click="handleClick" class="d-flex">
                 <strong>{{ props.plan.dinner.mealName }}</strong>
+                <br />
                 <QualsSpan v-if="props.plan.dinner.id" :mealID="props.plan.dinner.id" class="ms-auto" />
             </div>
             <div v-else @click="handleClick">Add dinner</div>
             <div class="d-sm-none" :id="`div-${linkID}`" hidden>
-                <EditPlanFormMini v-bind="props.plan"></EditPlanFormMini>
+                <EditPlanFormMini :plan="props.plan"></EditPlanFormMini>
             </div>
         </div>
     </div>

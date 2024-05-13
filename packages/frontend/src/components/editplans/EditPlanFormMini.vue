@@ -7,25 +7,27 @@ import SuggestionDisplay from './SuggestionDisplay.vue'
 
 const store = useDataStore()
 
-const props = defineProps<MealPlan>()
+const props = defineProps<{
+    plan: MealPlan
+}>()
 
 const planData = ref<MealPlan>({
-    id: props.id,
-    date: props.date,
-    day: props.day,
-    dinner: props.dinner,
-    lunch: props.lunch,
+    id: props.plan.id,
+    date: props.plan.date,
+    day: props.plan.day,
+    dinner: props.plan.dinner,
+    lunch: props.plan.lunch,
 })
 
 const dinnerText = ref(
-    props.dinner?.mealName
+    props.plan.dinner?.mealName
 )
 
 const lunchText = ref(
-    props.lunch?.mealName
+    props.plan.lunch?.mealName
 )
 
-const displayDate = new Date(props.date).toLocaleDateString(navigator.language, {
+const displayDate = new Date(props.plan.date).toLocaleDateString(navigator.language, {
     day: 'numeric',
     month: 'short',
 })
@@ -34,16 +36,16 @@ const submitForm = async () => {
     planData.value.dinner = store.meals.find(meal => meal.mealName === dinnerText.value)
     planData.value.lunch = store.meals.find(meal => meal.mealName === lunchText.value)
     await store.pushUpdatedMealPlan(planData.value)
-    const editDiv = document.getElementById(`div-${props.id}`)
+    const editDiv = document.getElementById(`div-${props.plan.id}`)
     if (editDiv) editDiv.toggleAttribute("hidden")
 }
 
 const handleSuggest = async () => {
-    const suggestion = await getSuggestion(props)
+    const suggestion = await getSuggestion(props.plan)
     dinnerText.value = suggestion.mealName
 }
 
-const suggestionList = await getSuggestedMeals(props)
+const suggestionList = await getSuggestedMeals(props.plan)
 
 
 const handlePick = (choice: string) => {
