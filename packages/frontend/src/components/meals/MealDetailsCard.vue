@@ -17,9 +17,11 @@ const thisMeal = ref(props.meal)
 const isModalOpened = ref(false);
 
 const openModal = (_passedProps: ValidMeal) => {
+    document.body.classList.add('modal-open')
     isModalOpened.value = true;
 };
 const closeModal = () => {
+    document.body.classList.remove('modal-open')
     isModalOpened.value = false;
 };
 
@@ -62,7 +64,7 @@ const submitHandler = () => {
             </li>
         </ul>
     </div>
-    <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="first-modal">
+    <ModalComp :isOpen="isModalOpened" @modal-close="closeModal" @submit="submitHandler" name="meal-modal">
         <template #header></template>
         <template #content>
             <MealFormEdit v-bind="meal"></MealFormEdit>
@@ -71,20 +73,4 @@ const submitHandler = () => {
     </ModalComp>
 </template>
 
-<style scoped>
-.edit {
-    color: rgb(79, 57, 108);
-    width: 1.5rem;
-    cursor: pointer;
-}
-
-.del {
-    color: crimson;
-    width: 1.5rem;
-    cursor: pointer;
-}
-
-.qual-icon {
-    padding: 0.2rem;
-}
-</style>
+<style scoped></style>

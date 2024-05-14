@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { Ingredient, MealPlan, ValidMeal } from "./types";
 import {
+  cleanISODate,
   createNextPlansOnServer,
   dayFromDate,
   deleteIngredientFromServer,
@@ -220,6 +221,13 @@ export const useDataStore = defineStore("data", {
         (ing) => ing.id !== ingToDelete.id
       );
       this.$patch({ allIngredients: newArray });
+    },
+
+    getTodayPlan() {
+      const today: string = cleanISODate(new Date());
+      const todayPlan = this.mealPlans.find((i) => i.date === today);
+      if (todayPlan) return todayPlan;
+      else return this.mealPlans[0];
     },
   },
 });

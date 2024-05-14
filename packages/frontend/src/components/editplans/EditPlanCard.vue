@@ -23,10 +23,6 @@ function handleClick() {
     const editDiv = document.getElementById(`div-${linkID}`)
     if (editDiv) editDiv.toggleAttribute("hidden")
     router.push({ path: `/plan/${linkID}` })
-    // const allCards = Array.from(document.getElementsByClassName('edit-card-header'))
-    // allCards.forEach((e) => e.classList.remove('text-bg-success'))
-    // const activeCard = document.getElementById(`plan-card-header-${linkID}`)
-    // activeCard?.classList.add('text-bg-success')
 }
 
 onMounted(() => {
@@ -37,12 +33,11 @@ onMounted(() => {
 })
 
 watch(() => route.params.id, (newId, oldId) => {
-    if (newId !== oldId) routeID.value = newId
     if (newId === linkID) {
         const activeCard = document.getElementById(`plan-card-header-${linkID}`)
         activeCard?.classList.add('text-bg-success')
     }
-    if (newId !== linkID) {
+    else if (oldId === linkID && newId !== linkID) {
         const activeCard = document.getElementById(`plan-card-header-${linkID}`)
         activeCard?.classList.remove('text-bg-success')
     }
