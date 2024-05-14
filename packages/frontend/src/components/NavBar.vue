@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { HomeIcon, BookOpenIcon, Cog6ToothIcon, CalendarDaysIcon } from '@heroicons/vue/24/outline';
 import { useDataStore } from '../data/store';
+import { ref } from 'vue';
 
 const store = useDataStore();
 
@@ -10,7 +11,7 @@ if (store.nextMealPlans.length < 7) {
     await store.createNewWeek()
 }
 
-const mondayID = store.getNextMonday
+const mondayID = ref(store.getNextMonday)
 
 </script>
 
