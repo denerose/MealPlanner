@@ -3,7 +3,7 @@ import { useDataStore } from '../../data/store';
 import MealDetailsCard from './MealDetailsCard.vue';
 
 const store = useDataStore()
-if (store.meals.length == 0) { store.fetchMealList() }
+// if (store.meals.length == 0) { store.fetchMealList() }
 
 </script>
 

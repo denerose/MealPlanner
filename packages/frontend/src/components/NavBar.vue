@@ -5,11 +5,11 @@ import { ref } from 'vue';
 
 const store = useDataStore();
 
-if (store.nextMealPlans.length < 7) {
-    await store.fetchMealList()
-    await store.fetchMealPlans()
-    await store.createNewWeek()
-}
+// if (store.nextMealPlans.length < 7) {
+//     await store.fetchMealList()
+//     await store.fetchMealPlans()
+//     await store.createNewWeek()
+// }
 
 const mondayID = ref(store.getNextMonday)
 

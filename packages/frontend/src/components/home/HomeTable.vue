@@ -5,19 +5,19 @@ import TodayCard from './TodayCard.vue';
 import { MealPlan } from '../../data/types';
 import CurrentWeekSummary from './CurrentWeekSummary.vue';
 import { onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const store = useDataStore()
 
-if (store.mealPlans.length == 0) {
-    await store.fetchMealList()
-    await store.fetchMealPlans()
-}
+// if (store.mealPlans.length == 0) {
+//     await store.fetchMealList()
+//     await store.fetchMealPlans()
+// }
 
-const thisWeek = store.mealPlans
-const nextWeek = store.nextMealPlans
+const { mealPlans, nextMealPlans } = storeToRefs(store)
 
 const today: string = cleanISODate(new Date())
-const todayPlan = thisWeek.find((i) => i.date === today) as MealPlan
+const todayPlan = store.mealPlans.find((i) => i.date === today) as MealPlan
 
 onMounted(() => {
     const todayCard = document.getElementById(today)
@@ -29,7 +29,7 @@ onMounted(() => {
 <template>
     <TodayCard :plan="todayPlan" class="d-none d-sm-block"></TodayCard>
     <br />
-    <CurrentWeekSummary :plans="thisWeek"></CurrentWeekSummary>
+    <CurrentWeekSummary :plans="mealPlans"></CurrentWeekSummary>
     <br />
     <details>
         <summary>Next Week</summary>
@@ -37,6 +37,6 @@ onMounted(() => {
             <router-link class="nav-link" :to="{ path: `/plan/${store.getNextMonday}` }"><button
                     class="btn btn-success">Edit Next Week</button></router-link>
         </div>
-        <CurrentWeekSummary :plans="nextWeek"></CurrentWeekSummary>
+        <CurrentWeekSummary :plans="nextMealPlans"></CurrentWeekSummary>
     </details>
 </template>

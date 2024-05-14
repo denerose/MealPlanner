@@ -10,11 +10,11 @@ import EditPlanForm from '../components/editplans/EditPlanForm.vue';
 const route = useRoute();
 const store = useDataStore();
 
-if (store.nextMealPlans.length < 7) {
-    await store.fetchMealList()
-    await store.fetchMealPlans()
-    await store.createNewWeek()
-}
+// if (store.nextMealPlans.length < 7) {
+//     await store.fetchMealList()
+//     await store.fetchMealPlans()
+//     await store.createNewWeek()
+// }
 
 const props = defineProps<{
     id: string

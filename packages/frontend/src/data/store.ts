@@ -214,6 +214,18 @@ export const useDataStore = defineStore("data", {
       return result;
     },
 
+    findPlanByID(idToFind: number): MealPlan {
+      const isCurrentWeekMeal = this.mealPlans.find(
+        (plan) => plan.id === idToFind
+      );
+      if (isCurrentWeekMeal) return isCurrentWeekMeal;
+      const isNextWeekMeal = this.nextMealPlans.find(
+        (plan) => plan.id === idToFind
+      );
+      if (isNextWeekMeal) return isNextWeekMeal;
+      else return this.mealPlans[0];
+    },
+
     pushDeleteIngredient(ingToDelete: Ingredient) {
       if (ingToDelete.id === undefined) throw Error("no such ing id");
       deleteIngredientFromServer(ingToDelete.id);
