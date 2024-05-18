@@ -4,9 +4,7 @@ import type { MealPlan } from '../../data/types';
 import EditPlanFormMini from './EditPlanFormMini.vue';
 import QualsSpan from '../QualsSpan.vue'
 import { onMounted, ref, watch } from 'vue';
-// import { useDataStore } from '../../data/store';
 
-// const store = useDataStore()
 const router = useRouter()
 const route = useRoute()
 

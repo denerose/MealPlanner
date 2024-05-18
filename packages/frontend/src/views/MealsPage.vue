@@ -7,6 +7,10 @@ import MealList from '../components/meals/MealList.vue';
 <template>
     <div class="page-frame bg-white mx-auto my-2 p-2 p-sm-3 p-md-5" style="--bs-bg-opacity: .9;">
         <h2>Meals and Recipes</h2>
+        <div class="py-2">
+            <router-link class="" :to="{ name: 'bulk' }"><button class="btn btn-success">Bulk
+                    Edit Meals</button></router-link>
+        </div>
         <div class="card">
             <details class="card-body">
                 <summary>

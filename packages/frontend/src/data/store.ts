@@ -35,6 +35,10 @@ export const useDataStore = defineStore("data", {
     getNextMonday: (state) => {
       return state.nextMealPlans[0].id;
     },
+
+    getMeals: (state) => {
+      return state.meals;
+    },
   },
 
   actions: {

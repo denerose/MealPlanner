@@ -9,11 +9,6 @@ import { storeToRefs } from 'pinia';
 
 const store = useDataStore()
 
-// if (store.mealPlans.length == 0) {
-//     await store.fetchMealList()
-//     await store.fetchMealPlans()
-// }
-
 const { mealPlans, nextMealPlans } = storeToRefs(store)
 
 const today: string = cleanISODate(new Date())

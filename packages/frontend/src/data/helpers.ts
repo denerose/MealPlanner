@@ -154,6 +154,17 @@ export async function deleteMealFromServer(idToDelete: number): Promise<void> {
   });
   LOG(`Deleted: ${response.json()}`);
 }
+// generic meal helpers
+
+export function sortedMeals(a: ValidMeal, b: ValidMeal) {
+  if (a.mealName < b.mealName) {
+    return -1;
+  }
+  if (a.mealName > b.mealName) {
+    return 1;
+  }
+  return 0;
+}
 
 // Ingredients - functions to delete or read ingredients
 export async function disconnectIngredientFromMeal(
