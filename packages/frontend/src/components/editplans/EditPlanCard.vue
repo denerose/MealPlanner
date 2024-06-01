@@ -2,7 +2,6 @@
 import { useRoute, useRouter } from 'vue-router';
 import type { MealPlan } from '../../data/types';
 import EditPlanFormMini from './EditPlanFormMini.vue';
-import QualsSpan from '../QualsSpan.vue'
 import { onMounted, ref, watch } from 'vue';
 
 const router = useRouter()
