@@ -23,8 +23,8 @@ export interface MealPlan {
   id?: number;
   date: string | Date;
   day: DayOfWeek;
-  dinner?: Meal;
-  lunch?: Meal;
+  dinner?: RawMeal;
+  lunch?: RawMeal;
 }
 
 export interface Quals {

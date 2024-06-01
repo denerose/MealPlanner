@@ -52,7 +52,13 @@ watch(() => route.params.id, (newId, oldId) => {
         <div class="card-body">
             <div v-if="props.plan.dinner" @click="handleClick" class="d-flex">
                 <strong>{{ props.plan.dinner.mealName }}</strong>
-                <QualsSpan v-if="props.plan.dinner.id" :mealID="props.plan.dinner.id" class="ms-auto" />
+                <span>
+                    <span v-if="props.plan.dinner.outdoorCooking" class="qual-icon p-1" title="outside cooking">🔥</span>
+                    <span v-if="props.plan.dinner.isHighVeg" class="qual-icon p-1" title="lots of veggies">🥦</span>
+                    <span v-if="props.plan.dinner.isCreamy" class="qual-icon p-1" title="creamy">🫕</span>
+                    <span v-if="props.plan.dinner.isHighCarb" class="qual-icon p-1" title="high carb">🥐</span>
+                    <span v-if="props.plan.dinner.makesLunch" class="qual-icon p-1" title="makes lunch">🥡</span>
+                </span>
             </div>
             <div v-else @click="handleClick">Add dinner</div>
             <div class="d-sm-none" :id="`div-${linkID}`" hidden>

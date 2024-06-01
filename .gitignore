@@ -6,3 +6,4 @@ packages/frontend/src/components/IngredientInput.vue
 packages/frontend/src/components/archived
 .env
 packages/frontend/components.d.ts
+node_modules
