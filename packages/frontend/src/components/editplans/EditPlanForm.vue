@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDataStore } from '../../data/store';
-import { MealPlan, RawMeal } from '../../data/types';
+import { Meal, MealPlan, RawMeal } from '../../data/types';
 import { onMounted, ref } from 'vue';
 import { getSuggestion, getSuggestedMeals } from '../../data/helpers';
 import SuggestionDisplay from './SuggestionDisplay.vue'
@@ -49,6 +49,16 @@ const handleSuggest = async () => {
 
 const suggestionList = await getSuggestedMeals(props)
 
+function shuffleList(array: Meal[]) {
+    for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+shuffleList(suggestionList)
 
 const handlePick = (choice: string) => {
     dinnerText.value = choice
@@ -124,7 +134,7 @@ onMounted(() => {
                         <div class="col-sm">
                             <hr class="d-sm-none" />
                             <h5>Suggested Options</h5>
-                            <SuggestionDisplay v-for="meal in suggestionList" :key="meal.id" :meal="meal"
+                            <SuggestionDisplay v-for="meal in suggestionList.slice(0,5)" :key="meal.id" :meal="meal"
                                 @click="handlePick(meal.mealName)">
                             </SuggestionDisplay>
                         </div>
@@ -135,7 +145,7 @@ onMounted(() => {
                             <div class="btn-group me-2 col-1">
                                 <button class="btn btn-outline-primary" type="submit">Save</button>
                             </div>
-                            <div class="btn-group col-2 ms-auto">
+                            <div class="btn-group col-5 col-lg-3 ms-auto">
                                 <button class="btn btn-outline-primary" type="submit" id="prev" @click="handlePrev" disabled><ChevronLeftIcon style="height: 1.4rem;"/><span> Prev</span></button>
                                 <button class="btn btn-outline-primary" type="submit" id="next" @click="handleNext" disabled><span class="">Next </span><ChevronRightIcon style="height: 1.3rem;" /></button>
                             </div>
