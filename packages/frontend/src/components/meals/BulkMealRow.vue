@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import type { ValidMeal } from '../data/types.ts'
+// import type { ValidMeal } from '../data/types.ts'
 
-const rowData = ref<ValidMeal>()
+// const rowData = ref<ValidMeal>()
 
 </script>
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useDataStore } from '../../data/store';
-import { MealPlan } from '../../data/types';
+import { MealPlan, RawMeal } from '../../data/types';
 import { onMounted, ref } from 'vue';
 import { getSuggestion, getSuggestedMeals } from '../../data/helpers';
 import SuggestionDisplay from './SuggestionDisplay.vue'
@@ -32,8 +32,8 @@ const displayDate = new Date(props.date).toLocaleDateString(navigator.language, 
 })
 
 const submitForm = async () => {
-    planData.value.dinner = store.meals.find(meal => meal.mealName === dinnerText.value)
-    planData.value.lunch = store.meals.find(meal => meal.mealName === lunchText.value)
+    planData.value.dinner = store.meals.find(meal => meal.mealName === dinnerText.value) as unknown as RawMeal
+    planData.value.lunch = store.meals.find(meal => meal.mealName === lunchText.value) as unknown as RawMeal
     await store.pushUpdatedMealPlan(planData.value)
 }
 
