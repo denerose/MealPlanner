@@ -86,7 +86,7 @@ const handlePick = (choice: string) => {
                             aria-expanded="false">
                         </button>
                         <ul class="dropdown-menu">
-                            <li v-for="meal in suggestionList">
+                            <li v-for="meal in suggestionList.slice(0,5)">
                                 <SuggestionDisplay :key="meal.id" :meal="meal" @click="handlePick(meal.mealName)">
                                 </SuggestionDisplay>
                             </li>

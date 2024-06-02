@@ -9,7 +9,7 @@ const props = defineProps<{
 </script>
 
 <template>
-    <div class="suggestion">
+    <div class="suggestion my-1">
         <p>{{ meal.mealName }}
             <span v-if="props.meal.qualities">
                 <span v-if="props.meal.qualities.outdoorCooking" class="qual-icon" title="outside cooking">🔥</span>
@@ -26,7 +26,6 @@ const props = defineProps<{
 .suggestion {
     border: 1px solid rgb(184, 154, 205);
     border-radius: 12px;
-    margin: 0.5rem 1rem;
     padding: 0.5rem;
 }
 

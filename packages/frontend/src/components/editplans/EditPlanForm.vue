@@ -4,7 +4,7 @@ import { Meal, MealPlan, RawMeal } from '../../data/types';
 import { onMounted, ref } from 'vue';
 import { getSuggestion, getSuggestedMeals } from '../../data/helpers';
 import SuggestionDisplay from './SuggestionDisplay.vue'
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
+import { ChevronLeftIcon, ChevronRightIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 import { useRouter } from 'vue-router';
 
 
@@ -47,7 +47,7 @@ const handleSuggest = async () => {
     dinnerText.value = suggestion.mealName
 }
 
-const suggestionList = await getSuggestedMeals(props)
+const suggestionList = ref(await getSuggestedMeals(props))
 
 function shuffleList(array: Meal[]) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -58,7 +58,11 @@ function shuffleList(array: Meal[]) {
     }
 }
 
-shuffleList(suggestionList)
+shuffleList(suggestionList.value)
+
+function handleRefresh() {
+    shuffleList(suggestionList.value)
+}
 
 const handlePick = (choice: string) => {
     dinnerText.value = choice
@@ -133,7 +137,10 @@ onMounted(() => {
                         </div>
                         <div class="col-sm">
                             <hr class="d-sm-none" />
-                            <h5>Suggested Options</h5>
+                            <div class="d-flex">
+                                <h5>Suggested Options</h5>
+                                <ArrowPathIcon v-if="suggestionList.length > 5" @click="handleRefresh" class="edit ms-auto" />
+                            </div>
                             <SuggestionDisplay v-for="meal in suggestionList.slice(0,5)" :key="meal.id" :meal="meal"
                                 @click="handlePick(meal.mealName)">
                             </SuggestionDisplay>
