@@ -4,8 +4,13 @@ import { MealPlan, RawMeal } from '../../data/types';
 import { onMounted, ref } from 'vue';
 import { getSuggestion, getSuggestedMeals } from '../../data/helpers';
 import SuggestionDisplay from './SuggestionDisplay.vue'
+import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
+import { useRouter } from 'vue-router';
+
 
 const store = useDataStore()
+const router = useRouter()
+
 
 const props = defineProps<MealPlan>()
 
@@ -49,10 +54,30 @@ const handlePick = (choice: string) => {
     dinnerText.value = choice
 }
 
+const handleNext = async () => {
+    if (props.id) {
+        await submitForm()
+        router.push({ path: `/plan/${props.id + 1}` })}
+}
+
+const handlePrev = async () => {
+    if (props.id) {
+        await submitForm()
+        router.push({ path: `/plan/${props.id - 1}` })}
+}
+
 onMounted(() => {
     if (document.getElementById('prev')) {
+        if (props.day != 'Monday') {
         const prevBtn = document.getElementById('prev') as HTMLButtonElement
         prevBtn.disabled = false
+        }
+    }
+    if (document.getElementById('next')) {
+        if (props.day != 'Sunday') {
+        const prevBtn = document.getElementById('next') as HTMLButtonElement
+        prevBtn.disabled = false
+        }
     }
 })
 
@@ -61,7 +86,9 @@ onMounted(() => {
 <template>
     <div>
         <div>
-            <h3>{{ planData.day }} ({{ displayDate }})</h3>
+            <div>
+                <h3>{{ planData.day }} ({{ displayDate }})</h3>
+            </div>
             <hr />
             <div>
                 <form class="form" @submit.prevent="submitForm">
@@ -105,14 +132,12 @@ onMounted(() => {
                     <div>
                         <hr />
                         <div class="btn-toolbar" role="toolbar">
-                            <div class="btn-group me-2">
+                            <div class="btn-group me-2 col-1">
                                 <button class="btn btn-outline-primary" type="submit">Save</button>
                             </div>
-                            <div class="btn-group">
-                                <button class="btn btn-outline-primary" type="submit" id="prev" disabled>
-                                    < Prev</button>
-                                        <button class="btn btn-outline-primary" type="submit" id="next" disabled>Next
-                                            ></button>
+                            <div class="btn-group col-2 ms-auto">
+                                <button class="btn btn-outline-primary" type="submit" id="prev" @click="handlePrev" disabled><ChevronLeftIcon style="height: 1.4rem;"/><span> Prev</span></button>
+                                <button class="btn btn-outline-primary" type="submit" id="next" @click="handleNext" disabled><span class="">Next </span><ChevronRightIcon style="height: 1.3rem;" /></button>
                             </div>
                         </div>
                     </div>
