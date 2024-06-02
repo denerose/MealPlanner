@@ -106,7 +106,7 @@ export async function getMealsFromServer(): Promise<Meal[]> {
   const response = await fetch(`${SOURCE}/meal/all`);
   const data = (await response.json()) as RawMeal[];
   LOG(`All meals: ${data.length}`);
-  const mealList: Meal[] = [];
+  const mealList: ValidMeal[] = [];
   data.map((result) =>
     mealList.push({
       id: result.id,
@@ -123,7 +123,7 @@ export async function getMealsFromServer(): Promise<Meal[]> {
       ),
     })
   );
-  return mealList;
+  return mealList.sort(sortedMeals);
 }
 
 export async function getMealByIdFromServer(mealID: number): Promise<Meal> {
